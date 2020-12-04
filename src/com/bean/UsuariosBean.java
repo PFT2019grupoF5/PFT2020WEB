@@ -31,9 +31,6 @@ public class UsuariosBean {
 	private tipoPerfil tipoPerfil;
 	
 	
-
-
-	
 	private List<SelectItem> availablePerfiles;
 	
 	private static tipoPerfil perfilLogeado;
@@ -95,11 +92,8 @@ public class UsuariosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ", "Seleccione un Usuario a borrar!");
 			}else if(!confirmarBorrado){
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ", "Seleccione la casilla de confirmación!");
-			}else if(usuariosEJBBean.hasGuacheras(selectedUsuario.getUsuario())!=0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Borrar: ", "El usuario seleccionado, administra Guacheras. "
-						+ "Desvincular guachera/s antes de borrar");
 			}else {
-				usuariosEJBBean.delete(selectedUsuario.getUsuario());
+				usuariosEJBBean.delete(selectedUsuario.getId());
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -110,7 +104,7 @@ public class UsuariosBean {
 	
 	public Usuario get(){
 		try {
-			return usuariosEJBBean.get(usuario);
+			return usuariosEJBBean.getNA(nomAcceso);
 		}catch (Exception e) {
 			return null;
 		}		
@@ -124,41 +118,27 @@ public class UsuariosBean {
 		}	
 	}
 	
-	private boolean checkPwd(String userTyped, String typedPwd){
+	private boolean ValidarContrasena(String userTyped, String typedPwd){
 		try {
-			return usuariosEJBBean.checkPwd(userTyped, typedPwd);
+			return usuariosEJBBean.ValidarContrasena(userTyped, typedPwd);
 		}catch (Exception e) {
 			return false;
 		}
 	}
 	
-	public Object[][] getAllByApellidoOrUsuario(){
-		try {
-			return usuariosEJBBean.getAllByApellidoOrUsuario(apellido, usuario);
-		}catch (Exception e) {
-			return null;
-		}
-	}
 	
-	public int hasGuacheras() throws serviciosException{
-		try {
-			return usuariosEJBBean.hasGuacheras(usuario);
-		} catch (Exception e) {
-			throw new serviciosException(e.getMessage());
-		}
-	}
 	
 	/***********************************************************************************************************************************/
 	
 	public String login() {
         FacesMessage message = null;
         try {
-        	Usuario loginUser = usuariosEJBBean.get(usuario);
+        	Usuario loginUser = usuariosEJBBean.getNA(nomAcceso);
             
-            if(usuario!=null && loginUser!=null && password !=null && checkPwd(usuario, DigestUtils.md5Hex(password))) {
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
+            if(nomAcceso!=null && loginUser!=null && contrasena !=null && ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nomAcceso);
                 FacesContext.getCurrentInstance().addMessage(null, message);
-                perfilLogeado = loginUser.getPerfil();
+                perfilLogeado = loginUser.getTipoPerfil();
                 return "mainPage?faces-redirect=true";
             } else {
                 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en Inicio de Sesión", 
@@ -166,7 +146,7 @@ public class UsuariosBean {
                 FacesContext.getCurrentInstance().addMessage(null, message);
                 return "index";
             }
-		} catch (serviciosException e) {
+		} catch (ServiciosException e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en Inicio de Sesión", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index";
@@ -178,38 +158,6 @@ public class UsuariosBean {
 		return "index?faces-redirect=true";
 	}
 	
-	/**
-	 * Metodo para carga cuadro en la tabla luego de realizar la busqueda
-	 */
-	public void loadTable() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Exito al Buscar: ",
-				"Registros Recuperados!");
-
-		try {
-			if (filtroBusqueda.isEmpty()) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Buscar: ",
-						"Debe ingresar un Nombre de Usuario o Apellido");
-			} else if (radioFindBy==null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Buscar: ",
-						"Debe elegir un tipo de buqueda: Nombre de Usuario o Apellido");
-			} else {
-				if (radioFindBy.equals("username")) {
-					usuariosList = usuariosEJBBean.getAllByApellidoOrUsuarioAsList("", filtroBusqueda);
-				}else{
-					usuariosList = usuariosEJBBean.getAllByApellidoOrUsuarioAsList(filtroBusqueda,"");
-				}
-				
-				if (usuariosList.size()==0) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Actualizar: ","No existen registros para el usuario deseado");
-				}
-			}
-		} catch (serviciosException e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Actualizar: ",e.getMessage());
-		} finally {
-			FacesContext.getCurrentInstance().addMessage(null, message);	
-		}
-	}
-		
 
 	
 	/**
@@ -229,43 +177,6 @@ public class UsuariosBean {
 		}
 	}
 	
-	/**
-	 * Metodo para editar una fila de una tabla
-	 * @param event
-	 */
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage message = null;
-
-		try {
-			if(!PerfilUsuario.ADMINISTRADOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ", "Debe ser un Usuario ADMINISTRADOR para poder acceder");
-			}else if (((Usuario) event.getObject()).getPassword().length()==0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Actualizar: ",
-						"Campo Contraseña no puede ser vacío");
-			} else if (((Usuario) event.getObject()).getPassword().length()<8 || ((Usuario) event.getObject()).getPassword().length()>16) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Actualizar: ",
-						"Campo debe tener un largo entre 8 y 16 caracteres");
-			} else {
-				usuariosEJBBean.update(((Usuario) event.getObject()).getUsuario(), DigestUtils.md5Hex(((Usuario) event.getObject()).getPassword()));
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al Actualizar: ",
-						"Usuario Actualizado");
-			}
-		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Actualizar: ", e.getMessage());
-		} finally {
-			FacesContext.getCurrentInstance().addMessage(null, message);	
-		}
-	}
-
-	/**
-	 * Metodo para cancelar la edicion de una fila de una tabla
-	 * @param event
-	 */
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage message = new FacesMessage("Edición Cancelada",
-				Long.toString(((Usuario) event.getObject()).getIdUsuario()));
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
 	
 	public String checkRoles(){
 		try {
