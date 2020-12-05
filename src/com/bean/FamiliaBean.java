@@ -29,7 +29,7 @@ public class FamiliaBean {
 	
 	private boolean confirmarBorrado = false;
 
-	//Familia
+
 	@EJB
 	private FamiliaBeanRemote familiasEJBBean;
 	
@@ -79,7 +79,7 @@ public class FamiliaBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				familiasEJBBean.delete(selectedFamilia.getId());
+				familiasEJBBean.update(id, nombre, descrip, incompat);
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
