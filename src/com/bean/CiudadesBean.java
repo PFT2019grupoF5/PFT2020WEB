@@ -26,6 +26,7 @@ public class CiudadesBean {
 	private Ciudad selectedCiudad;
 
 	private boolean confirmarBorrado = false;
+	private boolean confirmarModificar = false;
 
 	@EJB
 	private CiudadBeanRemote ciudadesEJBBean;
@@ -67,6 +68,9 @@ public class CiudadesBean {
 			} else if (nombre.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+			} else if (!confirmarModificar) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+						"Seleccione la casilla de confirmación!");
 			} else {
 				if (get() != null) {
 					ciudadesEJBBean.update(id, nombre);
