@@ -29,7 +29,7 @@ public class FamiliaBean {
 	
 	private boolean confirmarBorrado = false;
 
-	
+	//Familia
 	@EJB
 	private FamiliaBeanRemote familiasEJBBean;
 	
