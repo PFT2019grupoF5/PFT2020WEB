@@ -17,7 +17,7 @@ import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.UsuarioBeanRemote;
 
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 @ManagedBean(name = "usuario")
 @ViewScoped
 public class UsuariosBean {
@@ -54,35 +54,31 @@ public class UsuariosBean {
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR para poder acceder");
-			} else if (nombre.isEmpty() || nombre.length() > 50) {
+						"No tiene permisos suficientes para ingresar un nuevo usuario");
+			} else if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (apellido.isEmpty() || apellido.length() > 50) {
+						"Es necesario ingresar todos los datos requeridos");
+			} else if (nombre.length() > 50 || apellido.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Apellido no puede ser vacío o mayor a 50 caracteres");
-			} else if (tipoPerfil == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Debe Seleccionar un tipo de Perfil");
-			} else if (contrasena.length() == 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Contraseña no puede ser vacío");
+						"Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
 			} else if (contrasena.length() < 8 || contrasena.length() > 16) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Contraseña debe tener un largo entre 8 y 16 caracteres");
-			} else if (nomAcceso.isEmpty() || nomAcceso.length() > 50) {
+						"La contraseña debe tener por lo menos 8 dígitos y no superar los 16.  Por favor revise el dato ingresado");
+			} else if (nomAcceso.length() > 30) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo nomAcceso no puede ser vacío o mayor a 50 caracteres");
+						"Campo nomAcceso no puede ser mayor a 30 caracteres");
+			} else if (correo.length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Correo no puede ser mayor a 50 caracteres");
 			} else if (!correo.contains("@")) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Correo debe ser del formato : nombre @ dominio");
 			} else {
 				if (get() == null) {
-					usuariosEJBBean.add(nombre, apellido, nomAcceso, DigestUtils.md5Hex(contrasena), correo,
-							tipoPerfil);
+					usuariosEJBBean.add(nombre, apellido, nomAcceso, DigestUtils.md5Hex(contrasena), correo, tipoPerfil);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El nombre de usuario provisto ya existe");
+							"Usuario ya existente, por favor revise sus datos.");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
