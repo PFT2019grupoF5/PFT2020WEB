@@ -28,6 +28,7 @@ public class FamiliaBean {
 	private Familia selectedFamilia;
 	
 	private boolean confirmarBorrado = false;
+	private boolean confirmarModificar = false;
 
 
 	public Long getId() {
@@ -101,15 +102,25 @@ public class FamiliaBean {
 				"Familia Modificada exitosamente!");
 		String retPage = "modificarFamiliaPage";
 		try {
+		
 			if(!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			}else if(selectedFamilia == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione un Usuario a borrar!");
-			}else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+						"Seleccione una Familia a Modificar!");
+			}else if (!confirmarModificar) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
+			}else if (nombre.isEmpty() || nombre.length() > 50){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
+						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+			}else if(descrip.isEmpty() || descrip.length() > 100) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
+						"Campo Descripcion no puede ser vacío o mayor a 100 caracteres");
+			}else if(incompat.isEmpty() || incompat.length() > 60) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
+						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
 			} else {
 				familiasEJBBean.update(id, nombre, descrip, incompat);
 			}
