@@ -172,22 +172,6 @@ public class UsuariosBean {
 		return "index?faces-redirect=true";
 	}
 
-	/**
-	 * Metodo para armar los combos
-	 */
-	@PostConstruct
-	public void init() {
-		FacesMessage message = null;
-		try {
-			ArrayList<SelectItem> perfiles = new ArrayList<>();
-			perfiles.add(new SelectItem(tipoPerfil.SUPERVISOR, tipoPerfil.SUPERVISOR.toString()));
-			perfiles.add(new SelectItem(tipoPerfil.OPERARIO, tipoPerfil.OPERARIO.toString()));
-			availablePerfiles = perfiles;
-		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en SetUp: ", e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-	}
 
 	public String checkRoles() {
 		try {
