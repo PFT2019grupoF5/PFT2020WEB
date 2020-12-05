@@ -20,6 +20,7 @@ import com.services.AlmacenamientoBeanRemote;
 @ManagedBean(name = "producto")
 @ViewScoped
 
+
 public class ProductosBean {
 		
 		private Long id;
