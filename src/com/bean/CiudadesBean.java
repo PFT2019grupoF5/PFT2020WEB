@@ -2,19 +2,13 @@ package com.bean;
 
 
 import java.util.LinkedList;
-
-
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-
 import com.entities.Ciudad;
 import com.enumerated.tipoPerfil;
-
 import com.services.CiudadBeanRemote;
 
 
