@@ -33,7 +33,7 @@
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10" width="100%">
 				<p:row>
-					<p:commandButton id="loginButton" action="#{usuario.login}"
+					<p:commandButton id="loginButton" action="#{usuario.login()}"
 						value="Login" update="loginForm" ajax="true" style="float: left;">
 					</p:commandButton>
 					<p:commandButton id="cancelButton" action="#{usuario.cancelLogin()}"
