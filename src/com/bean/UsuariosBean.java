@@ -158,18 +158,18 @@ public class UsuariosBean {
 						loginUser != null ? "Credenciales Inválidas"
 								: "No existe un Usuario que con coincida con los datos ingresados");
 				FacesContext.getCurrentInstance().addMessage(null, message);
-				return "index";
+				return "Login";
 			}
 		} catch (ServiciosException e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en Inicio de Sesión", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return "index";
+			return "Login";
 		}
 
 	}
 
 	public String cancelLogin() {
-		return "index?faces-redirect=true";
+		return "Login?faces-redirect=true";
 	}
 
 
