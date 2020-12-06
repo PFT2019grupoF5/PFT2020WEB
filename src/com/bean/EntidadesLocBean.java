@@ -16,7 +16,7 @@ import com.services.EntidadLocBeanRemote;
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "entidadLoc")
 @ViewScoped
-public class EntidadLocBean {
+public class EntidadesLocBean {
 	
 	private Long id;
 	private int codigo;

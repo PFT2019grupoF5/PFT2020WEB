@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<p:panel>
+		<h1>Logistica</h1>
+	</p:panel>
+	<h:panelGroup layout="block">
+		<br />
+	</h:panelGroup>
+
+	<h:form id="loginForm">
+		<p:growl id="msg" showDetail="true" life="4000" />
+		<p:panel id="loginPnl" header="Login"
+			style="width: 350px; margin: 0 auto;">
+			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
+				<h:outputText value="Username" />
+				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" label="usuario" styleClass="form-control" minlength="1" maxlength="20" placeholder="Usuario"></p:inputText>
+				<p:spacer />
+				<p:spacer />
+				<h:outputText value="Password" />
+				<p:password id="contrasena" value="#{usuario.contrasena}"
+					feedback="false" required="true" label="contraseña" styleClass="form-control" minlength="8" maxlength="16" pattern="[a-zA-Z0-9]\s"></p:password>
+				<p:message for="password"></p:message>
+			</h:panelGrid>
+			<h:panelGrid columns="1" cellpadding="10" width="100%">
+				<p:row>
+					<p:commandButton id="loginButton" action="#{usuario.login()}"
+						value="Login" update="loginForm" ajax="true" style="float: left;">
+					</p:commandButton>
+					<p:commandButton id="cancelButton" action="#{usuario.cancelLogin()}"
+						value="Cancelar" ajax="true" style="float: right;">
+					</p:commandButton>
+				</p:row>
+			</h:panelGrid>
+		</p:panel>
+		<p:blockUI block="loginPnl" trigger="loginButton" style="float:right;">
+			<p:graphicImage value="resources/img/loader.gif" />
+		</p:blockUI>
+	</h:form>
+</h:body>
+
+
+</html>
