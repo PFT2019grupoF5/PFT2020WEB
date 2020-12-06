@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
+<h:body>
+	<p:panel>
+		<h1>Logistica</h1>
+	</p:panel>
+	<h:panelGroup layout="block">
+		<br />
+	</h:panelGroup>
+	<p:panelGrid columns="3" style="vertical-align: top;">
+		<h:form>
+			<p:menu toggleable="true" style="width: 300px">
+			<p:submenu label="Navegación">
+				<p:menuitem value="Página Principal"
+					action="Home?faces-redirect=true"
+					icon="fa fa-home" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Productos">
+				<p:menuitem value="Alta de Productos"
+					action="registroEnfermedadPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Actualización de Enfermedades"
+					action="actualizacionEnfermedadPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Enfermedades">
+				<p:menuitem value="Alta de Enfermedad"
+					action="altaEnfermedadPage?faces-redirect=true" icon="fa fa-plus"
+					style="width: 300px !important;" />
+				<p:menuitem value="  Baja de Enfermedad"
+					action="bajaEnfermedadPage?faces-redirect=true" icon="fa fa-close"
+					style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Reportes">
+				<p:menuitem value="Eventos Clínicos"
+					action="reporteEventosPage?faces-redirect=true"
+					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
+				<p:menuitem value="Ganancia de Peso Por Gauchera"
+					action="reportePesajesPage?faces-redirect=true"
+					icon="fa fa-area-chart" style="width: 350px !important;" />
+			</p:submenu>
+			<p:submenu label="Usuarios">
+				<p:menuitem value="Alta de Usuarios"
+					action="altaUsuarioPage?faces-redirect=true" icon="fa fa-user-plus"
+					style="width: 300px !important;" />
+				<p:menuitem value="Actualización de Usuarios"
+					action="actualizacionUsuarioPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Usuarios"
+					action="bajaUsuarioPage?faces-redirect=true"
+					icon="fa fa-user-times" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Sesión">
+				<p:menuitem value="Cerrar Sesión"
+					action="#{usuario.logout()}"
+					icon="fa fa-sign-out" style="width: 300px !important;" />
+			</p:submenu>
+		</p:menu>
+		</h:form>
+		<p:spacer width="10px"></p:spacer>
+		<p:panel style="vertical-align: top;">
+			<h3>Alta de Producto</h3>
+			<p:spacer height="10px" />
+			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
+				<h:form>
+					<p:growl id="msg" showDetail="true" life="4000" />
+					<p:row>
+						<p:column colspan="1">
+							<p:importEnum type="com.enumerados.NombreEnfermedad" var="nombreEnfermedad" allSuffix="ALL_ENUM_VALUES" />  
+							<h:outputText value="Enfermedad: " />
+							<p:selectOneMenu id="enfermedad"
+								value="#{enfermedad.nombre}" effect="fold"
+								editable="false">
+								<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
+								<f:selectItems value="#{nombreEnfermedad.ALL_ENUM_VALUES}" />
+							</p:selectOneMenu>
+							<p:spacer width="5px"></p:spacer>
+
+						</p:column>
+						<p:column>
+							<p:spacer width="5px"></p:spacer>
+							<h:outputText value="Gravedad: " />
+							<p:selectOneMenu id="gravedad" converter="javax.faces.Integer"
+								value="#{enfermedad.gravedad}" effect="fold"
+								editable="false">
+								<f:selectItem itemValue="0" itemLabel="-- Seleccionar --" />
+								<f:selectItem itemValue="1" itemLabel="1" />
+								<f:selectItem itemValue="2" itemLabel="2" />
+								<f:selectItem itemValue="3" itemLabel="3" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:spacer height="20px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row style="text-align: center;">
+						<p:column colspan="1" style="text-align: center;">
+							<h:commandButton ajax="false" value="Confirmar"
+								action="#{enfermedad.add()}" />
+						</p:column>
+						<p:column colspan="1" style="text-align: center;">
+							<h:commandButton ajax="false" value="Cancelar" action="mainPage" />
+						</p:column>
+					</p:row>
+				</h:form>
+			</p:panelGrid>
+		</p:panel>
+	</p:panelGrid>
+</h:body>
+
+
+</html>

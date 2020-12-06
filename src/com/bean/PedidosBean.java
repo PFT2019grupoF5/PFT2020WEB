@@ -127,8 +127,6 @@ public class PedidosBean {
 	}
 
 	
-
-	
 	public LinkedList<Pedido> getPedidosFechas(String fechaDesde, String fechaHasta) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
 		try {
