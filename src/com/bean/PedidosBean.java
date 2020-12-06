@@ -2,13 +2,11 @@ package com.bean;
 
 import java.util.Date;
 import java.util.LinkedList;
-
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import com.entities.Pedido;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
@@ -72,7 +70,6 @@ public class PedidosBean {
 				"Pedido Modificado exitosamente!");
 		String retPage = "modificarPedidoPage";
 		try {
-		
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
@@ -132,13 +129,42 @@ public class PedidosBean {
 	
 
 	
-	public LinkedList<Pedido> getAll() {
+	public LinkedList<Pedido> getPedidosFechas() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
 		try {
-			return pedidosEJBBean.getAll();
+			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fecha);
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
+			}else {
+			return listaPedidos;
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
 			return null;
 		}
+		return null;
+		
 	}
+	
+	public LinkedList<Pedido> getAll() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
+		try {
+			LinkedList<Pedido> listaPedidos = pedidosEJBBean.getAll(); 
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
+			}else {
+			return listaPedidos;
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+
+		} catch (Exception e) {
+			return null;
+		}
+		return null;
+	}
+	
 	
 
 	/***********************************************************************************************************************************/
