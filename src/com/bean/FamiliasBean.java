@@ -12,7 +12,7 @@ import com.entities.Familia;
 import com.enumerated.tipoPerfil;
 import com.services.FamiliaBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "familia")
 @ViewScoped
 
@@ -137,17 +137,7 @@ public class FamiliasBean {
 
 	
 	
-	public String checkRoles() {
-		try {
-			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return "index?faces-redirect=true";
-		}
-	}
+
 	
 	public LinkedList<Familia> getAll() {
 		try {
@@ -157,11 +147,29 @@ public class FamiliasBean {
 		}
 	}
 	
+
+	/***********************************************************************************************************************************/
+
+
+
+	public String chequearPerfil() {
+		try {
+			if (perfilLogeado == null) {
+				return "Login?faces-redirect=true";
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return "Login?faces-redirect=true";
+		}
+	}
+
 	public String logout() {
 		perfilLogeado = null;
-		return "index?faces-redirect=true";
+		return "Login?faces-redirect=true";
 	}
 	
+	/***********************************************************************************************************************************/
 
 	
 	public Long getId() {

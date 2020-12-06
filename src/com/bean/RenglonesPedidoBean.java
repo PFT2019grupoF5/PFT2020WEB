@@ -1,29 +1,20 @@
 package com.bean;
 
-import java.util.Date;
-import java.util.LinkedList;
 
+import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
-import com.entities.Almacenamiento;
 import com.entities.Movimiento;
 import com.entities.Pedido;
 import com.entities.Producto;
 import com.entities.RenglonPedido;
-import com.enumerated.tipoMovimiento;
 import com.enumerated.tipoPerfil;
-import com.services.MovimientoBeanRemote;
 import com.services.RenglonPedidoBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "renglonPedido")
 @ViewScoped
 
@@ -132,17 +123,7 @@ public class RenglonesPedidoBean {
 
 	
 	
-	public String checkRoles() {
-		try {
-			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return "index?faces-redirect=true";
-		}
-	}
+
 	
 	public LinkedList<RenglonPedido> getAll() {
 		try {
@@ -152,12 +133,28 @@ public class RenglonesPedidoBean {
 		}
 	}
 	
-	public String logout() {
-		perfilLogeado = null;
-		return "index?faces-redirect=true";
+
+	/***********************************************************************************************************************************/
+
+
+
+	public String chequearPerfil() {
+		try {
+			if (perfilLogeado == null) {
+				return "Login?faces-redirect=true";
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return "Login?faces-redirect=true";
+		}
 	}
 
-
+	public String logout() {
+		perfilLogeado = null;
+		return "Login?faces-redirect=true";
+	}
+	
 	/***********************************************************************************************************************************/
 
 	// Getters and Setters

@@ -13,7 +13,7 @@ import com.enumerated.tipoLoc;
 import com.enumerated.tipoPerfil;
 import com.services.EntidadLocBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "entidadLoc")
 @ViewScoped
 public class EntidadesLocBean {
@@ -70,7 +70,7 @@ public class EntidadesLocBean {
 	public String update(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Local modificado exitosamente!");
-		String retPage = "updateLocalPage";
+		String retPage = "modificarLocalPage";
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
@@ -142,20 +142,75 @@ public class EntidadesLocBean {
 
 
 
-	public String checkRoles() {
+	public String chequearPerfil() {
 		try {
 			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
+				return "Login?faces-redirect=true";
 			} else {
 				return null;
 			}
 		} catch (Exception e) {
-			return "index?faces-redirect=true";
+			return "Login?faces-redirect=true";
 		}
 	}
 
 	public String logout() {
 		perfilLogeado = null;
-		return "index?faces-redirect=true";
+		return "Login?faces-redirect=true";
 	}
+	
+	
+	/***********************************************************************************************************************************/
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public tipoLoc getTipoLoc() {
+		return tipoLoc;
+	}
+
+	public void setTipoLoc(tipoLoc tipoLoc) {
+		this.tipoLoc = tipoLoc;
+	}
+
+	public Ciudad getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
+	}
+	
+	
+	
 }

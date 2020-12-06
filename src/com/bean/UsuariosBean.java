@@ -1,9 +1,8 @@
 package com.bean;
 
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,13 +10,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.primefaces.event.RowEditEvent;
 import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.UsuarioBeanRemote;
 
-//@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "usuario")
 @ViewScoped
 public class UsuariosBean {
@@ -52,7 +50,7 @@ public class UsuariosBean {
 				"Usuario ingresado exitosamente!");
 		String retPage = "altaUsuarioPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
+			if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"No tiene permisos suficientes para ingresar un nuevo usuario");
 			} else if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
@@ -88,12 +86,55 @@ public class UsuariosBean {
 		}
 	}
 
+	
+	public String update(Long id, String nombre, String apellido, String nomAcceso, String contrasena, String correo, tipoPerfil tipoPerfil) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+				"Usuario modificado exitosamente!");
+		String retPage = "modificarUsuarioPage";
+		try {
+				if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+							"No tiene permisos suficientes para ingresar un nuevo usuario");
+				} else if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"Es necesario ingresar todos los datos requeridos");
+				} else if (nombre.length() > 50 || apellido.length() > 50) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
+				} else if (contrasena.length() < 8 || contrasena.length() > 16) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"La contraseña debe tener por lo menos 8 dígitos y no superar los 16.  Por favor revise el dato ingresado");
+				} else if (nomAcceso.length() > 30) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"Campo nomAcceso no puede ser mayor a 30 caracteres");
+				} else if (correo.length() > 50) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"Campo Correo no puede ser mayor a 50 caracteres");
+				} else if (!correo.contains("@")) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"Campo Correo debe ser del formato : nombre @ dominio");
+			} else {
+				if (get() != null) {
+					usuariosEJBBean.update(id, nombre, apellido, nomAcceso, DigestUtils.md5Hex(contrasena), correo, tipoPerfil);
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+							"Usuario no existe");
+				}
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return retPage;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
 	public String delete() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Usuario borrado exitosamente!");
 		String retPage = "bajaUsuarioPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
+			if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR para poder acceder");
 			} else if (selectedUsuario == null) {
@@ -148,7 +189,7 @@ public class UsuariosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nomAcceso);
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				perfilLogeado = loginUser.getTipoPerfil();
-				return "mainPage?faces-redirect=true";
+				return "Home";
 			} else {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en Inicio de Sesión",
 						loginUser != null ? "Credenciales Inválidas"
@@ -169,23 +210,27 @@ public class UsuariosBean {
 	}
 
 
-	public String checkRoles() {
+	/***********************************************************************************************************************************/
+
+
+
+	public String chequearPerfil() {
 		try {
 			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
+				return "Login?faces-redirect=true";
 			} else {
 				return null;
 			}
 		} catch (Exception e) {
-			return "index?faces-redirect=true";
+			return "Login?faces-redirect=true";
 		}
 	}
 
 	public String logout() {
 		perfilLogeado = null;
-		return "index?faces-redirect=true";
+		return "Login?faces-redirect=true";
 	}
-
+	
 	/***********************************************************************************************************************************/
 
 	// Getters and Setters

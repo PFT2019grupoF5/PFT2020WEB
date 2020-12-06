@@ -16,7 +16,7 @@ import com.enumerated.tipoPerfil;
 import com.services.ProductoBeanRemote;
 import com.services.AlmacenamientoBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "producto")
 @ViewScoped
 
@@ -86,7 +86,7 @@ public class ProductosBean {
 		public String update(Long id, String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario, Familia familia) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 					"Producto modificado exitosamente!");
-			String retPage = "updateProductoPage";
+			String retPage = "modificarProductoPage";
 			try {
 				if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
@@ -163,26 +163,27 @@ public class ProductosBean {
 
 
 
+
 		/***********************************************************************************************************************************/
 
 
-		public String checkRoles() {
+
+		public String chequearPerfil() {
 			try {
 				if (perfilLogeado == null) {
-					return "index?faces-redirect=true";
+					return "Login?faces-redirect=true";
 				} else {
 					return null;
 				}
 			} catch (Exception e) {
-				return "index?faces-redirect=true";
+				return "Login?faces-redirect=true";
 			}
 		}
 
 		public String logout() {
 			perfilLogeado = null;
-			return "index?faces-redirect=true";
+			return "Login?faces-redirect=true";
 		}
-
 		
 		/***********************************************************************************************************************************/
 

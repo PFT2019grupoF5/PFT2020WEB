@@ -15,7 +15,7 @@ import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
 import com.services.PedidoBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "pedido")
 @ViewScoped
 
@@ -70,7 +70,7 @@ public class PedidosBean {
 	public String update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha, String pedreccomentario, estadoPedido pedestado, Usuario usuario) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Pedido Modificado exitosamente!");
-		String retPage = "modificarMovimientoPage";
+		String retPage = "modificarPedidoPage";
 		try {
 		
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
@@ -98,7 +98,7 @@ public class PedidosBean {
 	public String delete(Long id) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Pedido borrado exitosamente!");
-		String retPage = "bajaMovimientoPage";
+		String retPage = "bajaPedidoPage";
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
@@ -131,17 +131,7 @@ public class PedidosBean {
 
 	
 	
-	public String checkRoles() {
-		try {
-			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return "index?faces-redirect=true";
-		}
-	}
+
 	
 	public LinkedList<Pedido> getAll() {
 		try {
@@ -151,13 +141,28 @@ public class PedidosBean {
 		}
 	}
 	
-	public String logout() {
-		perfilLogeado = null;
-		return "index?faces-redirect=true";
+
+	/***********************************************************************************************************************************/
+
+
+
+	public String chequearPerfil() {
+		try {
+			if (perfilLogeado == null) {
+				return "Login?faces-redirect=true";
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return "Login?faces-redirect=true";
+		}
 	}
 
-
-
+	public String logout() {
+		perfilLogeado = null;
+		return "Login?faces-redirect=true";
+	}
+	
 	/***********************************************************************************************************************************/
 
 	// Getters and Setters

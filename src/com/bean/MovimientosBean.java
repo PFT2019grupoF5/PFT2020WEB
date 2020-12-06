@@ -15,7 +15,7 @@ import com.enumerated.tipoMovimiento;
 import com.enumerated.tipoPerfil;
 import com.services.MovimientoBeanRemote;
 
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "movimiento")
 @ViewScoped
 
@@ -133,17 +133,7 @@ public class MovimientosBean {
 
 	
 	
-	public String checkRoles() {
-		try {
-			if (perfilLogeado == null) {
-				return "index?faces-redirect=true";
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return "index?faces-redirect=true";
-		}
-	}
+
 	
 	public LinkedList<Movimiento> getAll() {
 		try {
@@ -153,10 +143,29 @@ public class MovimientosBean {
 		}
 	}
 	
+
+	/***********************************************************************************************************************************/
+
+
+
+	public String chequearPerfil() {
+		try {
+			if (perfilLogeado == null) {
+				return "Login?faces-redirect=true";
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return "Login?faces-redirect=true";
+		}
+	}
+
 	public String logout() {
 		perfilLogeado = null;
-		return "index?faces-redirect=true";
+		return "Login?faces-redirect=true";
 	}
+	
+	/***********************************************************************************************************************************/
 
 	public Long getId() {
 		return id;
