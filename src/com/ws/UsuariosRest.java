@@ -19,6 +19,9 @@ import com.exception.ServiciosException;
 
 @Path("/usuarios")
 @Produces("text/plain")
+/////////////////////////////////////////////////////////////////////////////// 
+// OJO todos los metodos tienen anotacion @Produces(MediaType.APPLICATION_JSON)
+/////////////////////////////////////////////////////////////////////////////
 public interface UsuariosRest {
 	
 	@GET
@@ -33,7 +36,7 @@ public interface UsuariosRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("nombre") String nombre, @FormParam("apellido") String apellido, @FormParam("usuario") String nomAcceso, @FormParam("contrasena") String contrasena, @FormParam("correo") String correo, @FormParam("tipoPerfil") String tipoPerfil) throws ServiciosException;
+	void add(@FormParam("nombre") String nombre, @FormParam("apellido") String apellido, @FormParam("nomAcceso") String nomAcceso, @FormParam("contrasena") String contrasena, @FormParam("correo") String correo, @FormParam("tipoPerfil") String tipoPerfil) throws ServiciosException;
 	
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
