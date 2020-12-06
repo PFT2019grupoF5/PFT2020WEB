@@ -18,10 +18,7 @@ import com.exception.ServiciosException;
 
 
 @Path("/usuarios")
-@Produces("text/plain")
-/////////////////////////////////////////////////////////////////////////////// 
-// OJO todos los metodos tienen anotacion @Produces(MediaType.APPLICATION_JSON)
-/////////////////////////////////////////////////////////////////////////////
+//@Produces("text/plain")
 public interface UsuariosRest {
 	
 	@GET
