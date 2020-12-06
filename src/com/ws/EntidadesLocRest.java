@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
 import com.exception.ServiciosException;
@@ -35,12 +34,12 @@ public interface EntidadesLocRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("codigo") int codigo, @FormParam("nombre") String nombre, @FormParam("direccion") String direccion, @FormParam("tipoLoc") tipoLoc tipoLoc, @FormParam("ciudad") Ciudad ciudad) throws ServiciosException;
+	void add(@FormParam("codigo") int codigo, @FormParam("nombre") String nombre, @FormParam("direccion") String direccion, @FormParam("tipoLoc") tipoLoc tipoLoc, @FormParam("idCiudad") Long idCiudad) throws ServiciosException;
 	
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("codigo") int codigo, @FormParam("nombre") String nombre, @FormParam("direccion") String direccion, @FormParam("tipoLoc") tipoLoc tipoLoc, @FormParam("ciudad") Ciudad ciudad) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("codigo") int codigo, @FormParam("nombre") String nombre, @FormParam("direccion") String direccion, @FormParam("tipoLoc") tipoLoc tipoLoc, @FormParam("idCiudad") Long idCiudad) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")

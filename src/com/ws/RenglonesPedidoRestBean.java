@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.services.PedidoBeanRemote;
+import com.services.ProductoBeanRemote;
 import com.services.RenglonPedidoBeanRemote;
-import com.entities.Pedido;
-import com.entities.Producto;
 import com.entities.RenglonPedido;
 import com.exception.ServiciosException;
 
@@ -15,11 +15,16 @@ public class RenglonesPedidoRestBean implements RenglonesPedidoRest {
 
 	@EJB
 	private RenglonPedidoBeanRemote renglonPedidoEJBBean;
+	@EJB
+	private PedidoBeanRemote pedidoEJBBean;
+	@EJB
+	private ProductoBeanRemote productoEJBBean;
 	
 	@Override
-    public void add(int rennro, int rencant, Producto producto, Pedido pedido) throws ServiciosException {
+//    public void add(int rennro, int rencant, Producto producto, Pedido pedido) throws ServiciosException {
+    public void add(int rennro, int rencant, Long idProducto, Long idPedido) throws ServiciosException {
         try{
-            renglonPedidoEJBBean.add(rennro, rencant, producto, pedido);
+            renglonPedidoEJBBean.add(rennro, rencant, productoEJBBean.getId(idProducto), pedidoEJBBean.getId(idPedido));
         }catch(Exception e){
             throw new ServiciosException("No se pudo agregar renglonPedido" + e.getMessage());
         }
@@ -27,9 +32,11 @@ public class RenglonesPedidoRestBean implements RenglonesPedidoRest {
 
 	
 	@Override
-    public void update(Long id, int rennro, int rencant, Producto producto, Pedido pedido) throws ServiciosException {
+//    public void update(Long id, int rennro, int rencant, Producto producto, Pedido pedido) throws ServiciosException {
+    public void update(Long id, int rennro, int rencant, Long idProducto, Long idPedido) throws ServiciosException {
         try{
-            renglonPedidoEJBBean.update(id, rennro, rencant, producto, pedido);
+//            renglonPedidoEJBBean.update(id, rennro, rencant, producto, pedido);
+            renglonPedidoEJBBean.update(id, rennro, rencant,  productoEJBBean.getId(idProducto), pedidoEJBBean.getId(idPedido));
         }catch(Exception e){
             throw new ServiciosException("No se pudo modificar renglonPedido" + e.getMessage());
         }

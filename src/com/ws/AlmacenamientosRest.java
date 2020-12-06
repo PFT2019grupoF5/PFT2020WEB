@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.entities.Almacenamiento;
-import com.entities.EntidadLoc;
 import com.exception.ServiciosException;
 
 
@@ -34,12 +33,12 @@ public interface AlmacenamientosRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("volumen") int volumen, @FormParam("nombre") String nombre, @FormParam("costoop") double costoop, @FormParam("capestiba") double capestiba, @FormParam("cappeso") double cappeso, @FormParam("entidadLoc") EntidadLoc entidadLoc)
+	void add(@FormParam("volumen") int volumen, @FormParam("nombre") String nombre, @FormParam("costoop") double costoop, @FormParam("capestiba") double capestiba, @FormParam("cappeso") double cappeso, @FormParam("idEntidadLoc") Long idEntidadLoc)
 			throws ServiciosException;
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("volumen") int volumen, @FormParam("nombre") String nombre, @FormParam("costoop") double costoop, @FormParam("capestiba") double capestiba, @FormParam("cappeso") double cappeso, @FormParam("entidadLoc") EntidadLoc entidadLoc) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("volumen") int volumen, @FormParam("nombre") String nombre, @FormParam("costoop") double costoop, @FormParam("capestiba") double capestiba, @FormParam("cappeso") double cappeso, @FormParam("idEntidadLoc") Long idEntidadLoc) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")

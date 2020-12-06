@@ -14,9 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.entities.Almacenamiento;
 import com.entities.Movimiento;
-import com.entities.Producto;
 import com.enumerated.tipoMovimiento;
 import com.exception.ServiciosException;
 
@@ -37,12 +35,12 @@ public interface MovimientosRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("fecha") Date fecha, @FormParam("cantidad") int cantidad, @FormParam("descripcion") String descripcion, @FormParam("costo") double costo, @FormParam("tipoMov") tipoMovimiento tipoMov, @FormParam("producto") Producto producto, @FormParam("almacenamiento") Almacenamiento almacenamiento) throws ServiciosException;
+	void add(@FormParam("fecha") Date fecha, @FormParam("cantidad") int cantidad, @FormParam("descripcion") String descripcion, @FormParam("costo") double costo, @FormParam("tipoMov") tipoMovimiento tipoMov, @FormParam("idProducto") Long idProducto, @FormParam("idAlmacenamiento") Long idAlmacenamiento) throws ServiciosException;
 	
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("fecha") Date fecha, @FormParam("cantidad") int cantidad, @FormParam("descripcion") String descripcion, @FormParam("costo") double costo, @FormParam("tipoMov") tipoMovimiento tipoMov, @FormParam("producto") Producto producto, @FormParam("almacenamiento") Almacenamiento almacenamiento) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("fecha") Date fecha, @FormParam("cantidad") int cantidad, @FormParam("descripcion") String descripcion, @FormParam("costo") double costo, @FormParam("tipoMov") tipoMovimiento tipoMov, @FormParam("idProducto") Long idProducto, @FormParam("idAlmacenamiento") Long idAlmacenamiento) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")

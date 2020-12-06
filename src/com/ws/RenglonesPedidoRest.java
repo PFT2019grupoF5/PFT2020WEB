@@ -35,12 +35,14 @@ public interface RenglonesPedidoRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("producto") Producto producto, @FormParam("pedido") Pedido pedido) throws ServiciosException;
+//	void add(@FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("producto") Producto producto, @FormParam("pedido") Pedido pedido) throws ServiciosException;
+	void add(@FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("idProducto") Long idProducto, @FormParam("idPedido") Long idPedido) throws ServiciosException;
 		
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("producto") Producto producto, @FormParam("pedido") Pedido pedido) throws ServiciosException;
+//	void update(@FormParam("id") Long id, @FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("producto") Producto producto, @FormParam("pedido") Pedido pedido) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("rennro") int rennro, @FormParam("rencant") int rencant, @FormParam("idProducto") Long idProducto, @FormParam("idPedido") Long idPedido) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")

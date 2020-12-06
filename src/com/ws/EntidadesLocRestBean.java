@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.services.CiudadBeanRemote;
 import com.services.EntidadLocBeanRemote;
-import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
 import com.exception.ServiciosException;
@@ -15,11 +15,13 @@ public class EntidadesLocRestBean implements EntidadesLocRest {
 
 	@EJB
 	private EntidadLocBeanRemote entidadLocEJBBean;
+	@EJB
+	private CiudadBeanRemote ciudadEJBBean;
 	
 	@Override
-    public void add(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad) throws ServiciosException {
+    public void add(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Long idCiudad) throws ServiciosException {
         try{
-            entidadLocEJBBean.add(codigo, nombre, direccion, tipoLoc, ciudad);
+            entidadLocEJBBean.add(codigo, nombre, direccion, tipoLoc, ciudadEJBBean.getId(idCiudad));
         }catch(Exception e){
             throw new ServiciosException("No se pudo agregar entidadLoc" + e.getMessage());
         }
@@ -27,9 +29,9 @@ public class EntidadesLocRestBean implements EntidadesLocRest {
 
 	
 	@Override
-    public void update(Long id, int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad) throws ServiciosException {
+    public void update(Long id, int codigo, String nombre, String direccion, tipoLoc tipoLoc, Long idCiudad) throws ServiciosException {
         try{
-            entidadLocEJBBean.update(id, codigo, nombre, direccion, tipoLoc, ciudad);
+            entidadLocEJBBean.update(id, codigo, nombre, direccion, tipoLoc, ciudadEJBBean.getId(idCiudad));
         }catch(Exception e){
             throw new ServiciosException("No se pudo modificar entidadLoc" + e.getMessage());
         }

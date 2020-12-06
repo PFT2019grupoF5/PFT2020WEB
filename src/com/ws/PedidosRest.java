@@ -15,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.entities.Pedido;
-import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.exception.ServiciosException;
 
@@ -36,12 +35,12 @@ public interface PedidosRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("pedfecestim") Date pedfecestim, @FormParam("fecha") Date fecha, @FormParam("pedreccodigo") int pedreccodigo, @FormParam("pedrecfecha") Date pedrecfecha, @FormParam("pedreccomentario") String pedreccomentario, @FormParam("pedestado") estadoPedido pedestado, @FormParam("usuario") Usuario usuario) throws ServiciosException;
+	void add(@FormParam("pedfecestim") Date pedfecestim, @FormParam("fecha") Date fecha, @FormParam("pedreccodigo") int pedreccodigo, @FormParam("pedrecfecha") Date pedrecfecha, @FormParam("pedreccomentario") String pedreccomentario, @FormParam("pedestado") estadoPedido pedestado, @FormParam("idUsuario") Long idUsuario) throws ServiciosException;
 	
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("pedfecestim") Date pedfecestim, @FormParam("fecha") Date fecha, @FormParam("pedreccodigo") int pedreccodigo, @FormParam("pedrecfecha") Date pedrecfecha, @FormParam("pedreccomentario") String pedreccomentario, @FormParam("pedestado") estadoPedido pedestado, @FormParam("usuario") Usuario usuario) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("pedfecestim") Date pedfecestim, @FormParam("fecha") Date fecha, @FormParam("pedreccodigo") int pedreccodigo, @FormParam("pedrecfecha") Date pedrecfecha, @FormParam("pedreccomentario") String pedreccomentario, @FormParam("pedestado") estadoPedido pedestado, @FormParam("idUsuario") Long idUsuario) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")

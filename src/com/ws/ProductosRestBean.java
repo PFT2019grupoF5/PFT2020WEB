@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.services.FamiliaBeanRemote;
 import com.services.ProductoBeanRemote;
-import com.entities.Familia;
+import com.services.UsuarioBeanRemote;
 import com.entities.Producto;
-import com.entities.Usuario;
 import com.enumerated.Segmentacion;
 import com.exception.ServiciosException;
 
@@ -17,11 +17,15 @@ public class ProductosRestBean implements ProductosRest {
 
 	@EJB
 	private ProductoBeanRemote productoEJBBean;
+	@EJB
+	private UsuarioBeanRemote usuarioEJBBean;
+	@EJB
+	private FamiliaBeanRemote familiaEJBBean;
 	
 	@Override
-    public void add(String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario, Familia familia) throws ServiciosException {
+    public void add(String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Long idUsuario, Long idFamilia) throws ServiciosException {
         try{
-            productoEJBBean.add(nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuario, familia);
+            productoEJBBean.add(nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuarioEJBBean.getId(idUsuario), familiaEJBBean.getId(idFamilia));
         }catch(Exception e){
             throw new ServiciosException("No se pudo agregar producto" + e.getMessage());
         }
@@ -29,9 +33,9 @@ public class ProductosRestBean implements ProductosRest {
 
 	
 	@Override
-    public void update(Long id, String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario, Familia familia) throws ServiciosException {
+    public void update(Long id, String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Long idUsuario, Long idFamilia) throws ServiciosException {
         try{
-            productoEJBBean.update(id, nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuario, familia);
+            productoEJBBean.update(id, nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuarioEJBBean.getId(idUsuario), familiaEJBBean.getId(idFamilia));
         }catch(Exception e){
             throw new ServiciosException("No se pudo modificar producto" + e.getMessage());
         }

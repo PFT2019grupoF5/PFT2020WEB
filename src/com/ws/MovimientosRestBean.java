@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.services.AlmacenamientoBeanRemote;
 import com.services.MovimientoBeanRemote;
-import com.entities.Almacenamiento;
+import com.services.ProductoBeanRemote;
 import com.entities.Movimiento;
-import com.entities.Producto;
 import com.enumerated.tipoMovimiento;
 import com.exception.ServiciosException;
 
@@ -17,11 +17,15 @@ public class MovimientosRestBean implements MovimientosRest {
 
 	@EJB
 	private MovimientoBeanRemote movimientoEJBBean;
+	@EJB
+	private ProductoBeanRemote productoEJBBean;
+	@EJB
+	private AlmacenamientoBeanRemote almacenamientoEJBBean;
 	
 	@Override
-    public void add(Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Producto producto, Almacenamiento almacenamiento) throws ServiciosException {
+    public void add(Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Long idProducto, Long idAlmacenamiento) throws ServiciosException {
         try{
-            movimientoEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamiento);
+            movimientoEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, productoEJBBean.getId(idProducto), almacenamientoEJBBean.getId(idAlmacenamiento));
         }catch(Exception e){
             throw new ServiciosException("No se pudo agregar movimiento" + e.getMessage());
         }
@@ -29,9 +33,9 @@ public class MovimientosRestBean implements MovimientosRest {
 
 	
 	@Override
-    public void update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Producto producto, Almacenamiento almacenamiento) throws ServiciosException {
+    public void update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Long idProducto, Long idAlmacenamiento) throws ServiciosException {
         try{
-            movimientoEJBBean.update(id, fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamiento);
+            movimientoEJBBean.update(id, fecha, cantidad, descripcion, costo, tipoMov, productoEJBBean.getId(idProducto), almacenamientoEJBBean.getId(idAlmacenamiento));
         }catch(Exception e){
             throw new ServiciosException("No se pudo modificar movimiento" + e.getMessage());
         }

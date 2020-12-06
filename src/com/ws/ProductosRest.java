@@ -37,12 +37,12 @@ public interface ProductosRest {
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-	void add(@FormParam("nombre") String nombre, @FormParam("lote") String lote, @FormParam("precio") double precio, @FormParam("felab") Date felab, @FormParam("fven") Date fven, @FormParam("peso") double peso, @FormParam("volumen") double volumen, @FormParam("estiba") int estiba, @FormParam("stkMin") double stkMin, @FormParam("stkTotal") double stkTotal, @FormParam("segmentac") Segmentacion segmentac, @FormParam("usuario") Usuario usuario, @FormParam("familia") Familia familia) throws ServiciosException;
+	void add(@FormParam("nombre") String nombre, @FormParam("lote") String lote, @FormParam("precio") double precio, @FormParam("felab") Date felab, @FormParam("fven") Date fven, @FormParam("peso") double peso, @FormParam("volumen") double volumen, @FormParam("estiba") int estiba, @FormParam("stkMin") double stkMin, @FormParam("stkTotal") double stkTotal, @FormParam("segmentac") Segmentacion segmentac, @FormParam("idUsuario") Long idUuario, @FormParam("idFamilia") Long idFamilia) throws ServiciosException;
 	
 	@PUT
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	void update(@FormParam("id") Long id, @FormParam("nombre") String nombre, @FormParam("lote") String lote, @FormParam("precio") double precio, @FormParam("felab") Date felab, @FormParam("fven") Date fven, @FormParam("peso") double peso, @FormParam("volumen") double volumen, @FormParam("estiba") int estiba, @FormParam("stkMin") double stkMin, @FormParam("stkTotal") double stkTotal, @FormParam("segmentac") Segmentacion segmentac, @FormParam("usuario") Usuario usuario, @FormParam("familia") Familia familia) throws ServiciosException;
+	void update(@FormParam("id") Long id, @FormParam("nombre") String nombre, @FormParam("lote") String lote, @FormParam("precio") double precio, @FormParam("felab") Date felab, @FormParam("fven") Date fven, @FormParam("peso") double peso, @FormParam("volumen") double volumen, @FormParam("estiba") int estiba, @FormParam("stkMin") double stkMin, @FormParam("stkTotal") double stkTotal, @FormParam("segmentac") Segmentacion segmentac, @FormParam("idUsuario") Long idUuario, @FormParam("idFamilia") Long idFamilia) throws ServiciosException;
 	
 	@DELETE
 	@Path("/{id}")
