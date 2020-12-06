@@ -147,7 +147,6 @@ public class MovimientosBean {
 	/***********************************************************************************************************************************/
 
 
-
 	public String chequearPerfil() {
 		try {
 			if (perfilLogeado == null) {

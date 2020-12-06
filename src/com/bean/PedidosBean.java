@@ -130,7 +130,6 @@ public class PedidosBean {
 	}
 
 	
-	
 
 	
 	public LinkedList<Pedido> getAll() {

@@ -137,8 +137,6 @@ public class FamiliasBean {
 
 	
 	
-
-	
 	public LinkedList<Familia> getAll() {
 		try {
 			return familiasEJBBean.getAll();

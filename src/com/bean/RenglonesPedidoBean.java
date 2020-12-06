@@ -137,7 +137,6 @@ public class RenglonesPedidoBean {
 	/***********************************************************************************************************************************/
 
 
-
 	public String chequearPerfil() {
 		try {
 			if (perfilLogeado == null) {
