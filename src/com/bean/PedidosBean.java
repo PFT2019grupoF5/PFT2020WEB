@@ -129,14 +129,14 @@ public class PedidosBean {
 	
 
 	
-	public LinkedList<Pedido> getPedidosFechas(Date fecha) {
+	public LinkedList<Pedido> getPedidosFechas(String fechaDesde, String fechaHasta) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			}else {
-			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fecha);
+			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fechaHasta, fechaHasta);
 			return listaPedidos;
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
