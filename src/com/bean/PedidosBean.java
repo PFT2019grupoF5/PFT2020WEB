@@ -132,11 +132,12 @@ public class PedidosBean {
 	public LinkedList<Pedido> getPedidosFechas() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
 		try {
-			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fecha);
+			
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			}else {
+			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fecha);
 			return listaPedidos;
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -150,11 +151,12 @@ public class PedidosBean {
 	public LinkedList<Pedido> getAll() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
 		try {
-			LinkedList<Pedido> listaPedidos = pedidosEJBBean.getAll(); 
+			
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			}else {
+			LinkedList<Pedido> listaPedidos = pedidosEJBBean.getAll(); 
 			return listaPedidos;
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
