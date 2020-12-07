@@ -1,13 +1,16 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
+import javax.faces.model.SelectItem;
 import com.entities.Familia;
 import com.entities.Producto;
 import com.entities.Usuario;
@@ -15,6 +18,7 @@ import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.services.ProductoBeanRemote;
 import com.services.AlmacenamientoBeanRemote;
+
 
 
 @ManagedBean(name = "producto")
@@ -39,6 +43,8 @@ public class ProductosBean {
 		private Familia familia;
 
 		private static tipoPerfil perfilLogeado;
+		private List<SelectItem> segmentaciones;
+
 
 		private Producto selectedProducto;
 
@@ -161,7 +167,19 @@ public class ProductosBean {
 			}
 		}
 
+		@PostConstruct
+		public void Seg() {
+			try {
+				ArrayList<SelectItem> segm = new ArrayList<>();
+				segm.add(new SelectItem(Segmentacion.S, Segmentacion.S.toString()));
+				segm.add(new SelectItem(Segmentacion.N, Segmentacion.N.toString()));
+				segmentaciones =  segm;
+			} catch (Exception e) {
+			}
+		}
 
+		
+		
 
 		/***********************************************************************************************************************************/
 
@@ -186,10 +204,19 @@ public class ProductosBean {
 		
 		/***********************************************************************************************************************************/
 
-		// Getters and Setters
-
+	
+		
+		
 		public Long getId() {
 			return id;
+		}
+
+		public List<SelectItem> getSegmentacion() {
+			return segmentaciones;
+		}
+
+		public void setSegmentacion(List<SelectItem> segmentaciones) {
+			this.segmentaciones = segmentaciones;
 		}
 
 		public void setId(Long id) {

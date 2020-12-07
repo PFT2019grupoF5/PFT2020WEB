@@ -22,49 +22,118 @@
 	</h:panelGroup>
 	<p:panelGrid columns="3" style="vertical-align: top;">
 		<h:form>
-			<p:menu toggleable="true" style="width: 300px">
+<p:menu toggleable="true" style="width: 300px">
 			<p:submenu label="Navegación">
 				<p:menuitem value="Página Principal"
 					action="Home?faces-redirect=true"
 					icon="fa fa-home" style="width: 300px !important;" />
 			</p:submenu>
-			<p:submenu label="Productos">
-				<p:menuitem value="Alta de Productos"
-					action="registroEnfermedadPage?faces-redirect=true"
+			<p:submenu label="Almacenamiento">
+				<p:menuitem value="Alta de Almacenamiento"
+					action="altaAlmacenamientoPage?faces-redirect=true"
 					icon="fa fa-plus" style="width: 300px !important;" />
-				<p:menuitem value="Actualización de Enfermedades"
-					action="actualizacionEnfermedadPage?faces-redirect=true"
+				<p:menuitem value="Modificacion de Almacenamiento"
+					action="modificarAlmacenamientoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Almacenamiento"
+					action="bajaAlmacenamientoPage?faces-redirect=true"
 					icon="fa fa-refresh" style="width: 300px !important;" />
 			</p:submenu>
-			<p:submenu label="Enfermedades">
-				<p:menuitem value="Alta de Enfermedad"
-					action="altaEnfermedadPage?faces-redirect=true" icon="fa fa-plus"
-					style="width: 300px !important;" />
-				<p:menuitem value="  Baja de Enfermedad"
-					action="bajaEnfermedadPage?faces-redirect=true" icon="fa fa-close"
-					style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Reportes">
-				<p:menuitem value="Eventos Clínicos"
-					action="reporteEventosPage?faces-redirect=true"
-					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
-				<p:menuitem value="Ganancia de Peso Por Gauchera"
-					action="reportePesajesPage?faces-redirect=true"
-					icon="fa fa-area-chart" style="width: 350px !important;" />
-			</p:submenu>
-			<p:submenu label="Usuarios">
-				<p:menuitem value="Alta de Usuarios"
-					action="altaUsuarioPage?faces-redirect=true" icon="fa fa-user-plus"
-					style="width: 300px !important;" />
-				<p:menuitem value="Actualización de Usuarios"
-					action="actualizacionUsuarioPage?faces-redirect=true"
+			<p:submenu label="Ciudad">
+				<p:menuitem value="Alta de Ciudad"
+					action="altaCiudadPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Ciudad"
+					action="modificarCiudadPage?faces-redirect=true"
 					icon="fa fa-refresh" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Usuarios"
+				<p:menuitem value="Baja de Ciudad"
+					action="bajaCiudadPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Locales">
+				<p:menuitem value="Alta de Local"
+					action="altaLocalPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Local"
+					action="modificarLocalPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Local"
+					action="bajaLocalPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Familia">
+				<p:menuitem value="Alta de Familia"
+					action="altaFamiliaPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Familia"
+					action="modificarFamiliaPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Familia"
+					action="bajaFamiliaPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Movimiento">
+				<p:menuitem value="Alta de Movimiento"
+					action="altaMovimientoPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Movimiento"
+					action="modificarMovimientoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Movimiento"
+					action="bajaMovimientoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Pedido">
+				<p:menuitem value="Alta de Pedido"
+					action="altaPedidoPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Pedido"
+					action="modificarPedidoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Pedido"
+					action="bajaPedidoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Producto">
+				<p:menuitem value="Alta de Producto"
+					action="altaProductoPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Producto"
+					action="modificarProductoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Producto"
+					action="bajaProductoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Renglon de Pedido">
+				<p:menuitem value="Alta de Renglon de Pedido"
+					action="altaRenglonesPedidoPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Renglon de Pedido"
+					action="modificarRenglonPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Renglon de Pedido"
+					action="bajaRenglonPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Usuario">
+				<p:menuitem value="Alta de Usuario"
+					action="altaUsuarioPage?faces-redirect=true"
+					icon="fa fa-plus" style="width: 300px !important;" />
+				<p:menuitem value="Modificacion de Usuario"
+					action="modificarProductoPage?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Usuario"
 					action="bajaUsuarioPage?faces-redirect=true"
-					icon="fa fa-user-times" style="width: 300px !important;" />
+					icon="fa fa-refresh" style="width: 300px !important;" />
 			</p:submenu>
-			<p:submenu label="Sesión">
-				<p:menuitem value="Cerrar Sesión"
+			<p:submenu label="Reportes de Pedidos">
+				<p:menuitem value="Pedidos entre fechas"
+					action="reportePedidosFechasPage?faces-redirect=true"
+					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Salir">
+				<p:menuitem value="Logout"
 					action="#{usuario.logout()}"
 					icon="fa fa-sign-out" style="width: 300px !important;" />
 			</p:submenu>
@@ -78,43 +147,128 @@
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
 					<p:row>
-						<p:column colspan="1">
-							<p:importEnum type="com.enumerados.NombreEnfermedad" var="nombreEnfermedad" allSuffix="ALL_ENUM_VALUES" />  
-							<h:outputText value="Enfermedad: " />
-							<p:selectOneMenu id="enfermedad"
-								value="#{enfermedad.nombre}" effect="fold"
-								editable="false">
-								<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
-								<f:selectItems value="#{nombreEnfermedad.ALL_ENUM_VALUES}" />
-							</p:selectOneMenu>
+						<p:column colspan="1">  
+							<h:outputText value="Nombre:" />
+							<p:inputText id="nombre"
+								value="#{producto.nombre}"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
-
-						</p:column>
-						<p:column>
-							<p:spacer width="5px"></p:spacer>
-							<h:outputText value="Gravedad: " />
-							<p:selectOneMenu id="gravedad" converter="javax.faces.Integer"
-								value="#{enfermedad.gravedad}" effect="fold"
-								editable="false">
-								<f:selectItem itemValue="0" itemLabel="-- Seleccionar --" />
-								<f:selectItem itemValue="1" itemLabel="1" />
-								<f:selectItem itemValue="2" itemLabel="2" />
-								<f:selectItem itemValue="3" itemLabel="3" />
-							</p:selectOneMenu>
 						</p:column>
 					</p:row>
 					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Lote:" />
+							<p:inputText id="lote"
+								value="#{producto.lote}"></p:inputText>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Precio:" />
+							<p:inputNumber id="precio"
+								value="#{producto.precio}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Fecha Elaborado:" />
+							<p:inputText id="felab"
+								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"></p:inputText>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Fecha Vencimiento:" />
+							<p:inputText id="fven"
+								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"></p:inputText>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Peso:" />
+							<p:inputNumber id="peso"
+								value="#{producto.peso}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Volumen:" />
+							<p:inputNumber id="volumen"
+								value="#{producto.volumen}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Estiba:" />
+							<p:inputNumber id="estiba"
+								value="#{producto.estiba}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Stock Minimo:" />
+							<p:inputNumber id="stkMin"
+								value="#{producto.stkMin}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Stock Total:" />
+							<p:inputNumber id="stkTotal"
+								value="#{producto.stkTotal}"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Segmentacion:" />
+							<p:selectOneMenu id="segmentac"
+								value="#{producto.segmentac}" effect="fold" editable="false">
+							<f:selectItem itemValue="#{null}"/>
+    						<f:selectItems value="#{Producto.segmentaciones}" /></p:selectOneMenu>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Usuario:" />
+							<p:selectOneMenu id="usuario"
+								value="#{producto.segmentac}" effect="fold" editable="false">
+							<f:selectItem itemValue="#{null}"/>
+    						<f:selectItems value="#{Producto.usuarios}" /></p:selectOneMenu>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Familia:" />
+							<p:selectOneMenu id="familia"
+								value="#{producto.familia}" effect="fold" editable="false">
+							<f:selectItem itemValue="#{null}"/>
+    						<f:selectItems value="#{Producto.familias}" /></p:selectOneMenu>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					
+					<p:row>
 						<p:column colspan="2">
-							<p:spacer height="20px"></p:spacer>
+							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
 					<p:row style="text-align: center;">
 						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton ajax="false" value="Confirmar"
-								action="#{enfermedad.add()}" />
+							<h:commandButton value="Confirmar" ajax="false"
+								action="#{ciudad.add()}" />
 						</p:column>
 						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton ajax="false" value="Cancelar" action="mainPage" />
+							<h:commandButton value="Cancelar" action="Home" />
 						</p:column>
 					</p:row>
 				</h:form>
