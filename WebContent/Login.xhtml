@@ -19,7 +19,7 @@
 
 	<h:form id="loginForm">
 		<p:growl id="msg" showDetail="true" life="4000" />
-		<p:panel id="loginPnl" header="Login"
+		<p:panel id="loginPan" header="Login"
 			style="width: 350px; margin: 0 auto;">
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
 				<h:outputText value="Username" />
@@ -42,8 +42,7 @@
 				</p:row>
 			</h:panelGrid>
 		</p:panel>
-		<p:blockUI block="loginPnl" trigger="loginButton" style="float:right;">
-			<p:graphicImage value="resources/img/loader.gif" />
+		<p:blockUI block="loginPan" trigger="loginButton" style="float:right;">
 		</p:blockUI>
 	</h:form>
 </h:body>
