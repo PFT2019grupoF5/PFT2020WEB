@@ -141,94 +141,16 @@
 		</h:form>
 		<p:spacer width="10px"></p:spacer>
 		<p:panel style="vertical-align: top;">
-			<h3>Alta de Producto</h3>
+			<h3>Alta de Almacenamiento</h3>
 			<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Nombre:" />
-							<p:inputText id="nombre"
-								value="#{producto.nombre}" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Lote:" />
-							<p:inputText id="lote"
-								value="#{producto.lote}" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Precio:" />
-							<p:inputNumber id="precio"
-								value="#{producto.precio}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Fecha Elaborado:" />
-							<p:inputText id="felab"
-								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Fecha Vencimiento:" />
-							<p:inputText id="fven"
-								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Peso:" />
-							<p:inputNumber id="peso"
-								value="#{producto.peso}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{producto.volumen}" required="true"></p:inputNumber>
+								value="#{almacenamiento.volumen}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -239,9 +161,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Estiba:" />
-							<p:inputNumber id="estiba"
-								value="#{producto.estiba}" required="true"></p:inputNumber>
+							<h:outputText value="Descripcion:" />
+							<p:inputText id="nombre"
+								value="#{almacenamiento.nombre}"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -252,9 +174,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Stock Minimo:" />
-							<p:inputNumber id="stkMin"
-								value="#{producto.stkMin}" required="true"></p:inputNumber>
+							<h:outputText value="Costo Operativo:" />
+							<p:inputNumber id="costoop"
+								value="#{almacenamiento.costoop}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -265,9 +187,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Stock Total:" />
-							<p:inputNumber id="stkTotal"
-								value="#{producto.stkTotal}" required="true"></p:inputNumber>
+							<h:outputText value="Capacidad de Estiba:" />
+							<p:inputNumber id="capestiba"
+								value="#{almacenamiento.capestiba}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -278,11 +200,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Segmentacion:" />
-							<p:selectOneMenu id="segmentac"
-								value="#{producto.segmentac}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
-    						<f:selectItems value="#{producto.segmentacion}" /></p:selectOneMenu>
+							<h:outputText value="Capacidad de Peso:" />
+							<p:inputNumber id="cappeso"
+								value="#{almacenamiento.cappeso}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -293,22 +213,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Id de Usuario:" />
-							<p:inputNumber id="usuario"
-								value="#{producto.usuario}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Familia:" />
-							<p:inputNumber id="familia"
-								value="#{producto.familia}" required="true"></p:inputNumber>
+							<h:outputText value="Id del Local:" />
+							<p:inputNumber id="entidadLoc"
+								value="#{almacenamiento.entidadLoc}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -320,7 +227,7 @@
 					<p:row style="text-align: center;">
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Confirmar" ajax="false"
-								action="#{producto.add()}" />
+								action="#{almacenamiento.add()}" />
 						</p:column>
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Cancelar" action="Home" />
@@ -331,6 +238,5 @@
 		</p:panel>
 	</p:panelGrid>
 </h:body>
-
 
 </html>

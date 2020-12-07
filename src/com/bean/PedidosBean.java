@@ -1,12 +1,18 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import com.entities.Pedido;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
@@ -32,6 +38,7 @@ public class PedidosBean {
 	private static tipoPerfil perfilLogeado;
 	
 	private Pedido selectedPedido;
+	private List<SelectItem> estadoDelPedido;
 	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
@@ -163,6 +170,20 @@ public class PedidosBean {
 		return null;
 	}
 	
+	@PostConstruct
+	public void esP() {
+		try {
+			ArrayList<SelectItem> esP = new ArrayList<>();
+			esP.add(new SelectItem(estadoPedido.G, estadoPedido.G.toString()));
+			esP.add(new SelectItem(estadoPedido.C, estadoPedido.C.toString()));
+			esP.add(new SelectItem(estadoPedido.P, estadoPedido.P.toString()));
+			esP.add(new SelectItem(estadoPedido.E, estadoPedido.E.toString()));
+			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
+			estadoDelPedido =  esP;
+		} catch (Exception e) {
+		}
+	}
+	
 	
 
 	/***********************************************************************************************************************************/
@@ -188,10 +209,18 @@ public class PedidosBean {
 	
 	/***********************************************************************************************************************************/
 
-	// Getters and Setters
+	
 
 	public Long getId() {
 		return id;
+	}
+
+	public List<SelectItem> getEstadoDelPedido() {
+		return estadoDelPedido;
+	}
+
+	public void setEstadoDelPedido(List<SelectItem> estadoDelPedido) {
+		this.estadoDelPedido = estadoDelPedido;
 	}
 
 	public void setId(Long id) {

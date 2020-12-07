@@ -1,13 +1,17 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import com.entities.Almacenamiento;
 import com.entities.Movimiento;
 import com.entities.Producto;
@@ -34,6 +38,7 @@ public class MovimientosBean {
 	private static tipoPerfil perfilLogeado;
 	
 	private Movimiento selectedMovimiento;
+	private List<SelectItem> tiposDeMov;
 	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
@@ -143,6 +148,18 @@ public class MovimientosBean {
 		}
 	}
 	
+	@PostConstruct
+	public void tiM() {
+		try {
+			ArrayList<SelectItem> tiM = new ArrayList<>();
+			tiM.add(new SelectItem(tipoMovimiento.M, tipoMovimiento.M.toString()));
+			tiM.add(new SelectItem(tipoMovimiento.C, tipoMovimiento.C.toString()));
+			tiM.add(new SelectItem(tipoMovimiento.P, tipoMovimiento.P.toString()));
+			tiposDeMov =  tiM;
+		} catch (Exception e) {
+		}
+	}
+	
 
 	/***********************************************************************************************************************************/
 
@@ -166,8 +183,19 @@ public class MovimientosBean {
 	
 	/***********************************************************************************************************************************/
 
+	
+	
+	
 	public Long getId() {
 		return id;
+	}
+
+	public List<SelectItem> getTiposDeMov() {
+		return tiposDeMov;
+	}
+
+	public void setTiposDeMov(List<SelectItem> tiposDeMov) {
+		this.tiposDeMov = tiposDeMov;
 	}
 
 	public void setId(Long id) {

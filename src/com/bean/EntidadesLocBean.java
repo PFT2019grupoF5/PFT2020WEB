@@ -1,12 +1,17 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
@@ -27,6 +32,8 @@ public class EntidadesLocBean {
 	
 	private EntidadLoc selectedEntidadLoc;
 	private static tipoPerfil perfilLogeado;
+	private List<SelectItem> tiposDeLocal;
+	
 	private boolean confirmarBorrado = false;
 	
 	@EJB
@@ -136,6 +143,19 @@ public class EntidadesLocBean {
 		}
 	}
 
+	@PostConstruct
+	public void tipL() {
+		try {
+			ArrayList<SelectItem> tipL = new ArrayList<>();
+			tipL.add(new SelectItem(com.enumerated.tipoLoc.REGIONAL, com.enumerated.tipoLoc.REGIONAL.toString()));
+			tipL.add(new SelectItem(com.enumerated.tipoLoc.LOCAL, com.enumerated.tipoLoc.LOCAL.toString()));
+			tipL.add(new SelectItem(com.enumerated.tipoLoc.PUNTODEVENTA, com.enumerated.tipoLoc.PUNTODEVENTA.toString()));
+			tipL.add(new SelectItem(com.enumerated.tipoLoc.OTRO, com.enumerated.tipoLoc.OTRO.toString()));
+			tiposDeLocal =  tipL;
+		} catch (Exception e) {
+		}
+	}
+	
 
 	/***********************************************************************************************************************************/
 
@@ -161,9 +181,19 @@ public class EntidadesLocBean {
 	
 	/***********************************************************************************************************************************/
 	
+	
+	
 
 	public Long getId() {
 		return id;
+	}
+
+	public List<SelectItem> getTiposDeLocal() {
+		return tiposDeLocal;
+	}
+
+	public void setTiposDeLocal(List<SelectItem> tiposDeLocal) {
+		this.tiposDeLocal = tiposDeLocal;
 	}
 
 	public void setId(Long id) {

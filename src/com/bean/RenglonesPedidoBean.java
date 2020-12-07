@@ -173,6 +173,16 @@ public class RenglonesPedidoBean {
 	public void setRennro(int rennro) {
 		this.rennro = rennro;
 	}
+	
+	
+
+	public int getRencant() {
+		return rencant;
+	}
+
+	public void setRencant(int rencant) {
+		this.rencant = rencant;
+	}
 
 	public Producto getProducto() {
 		return producto;

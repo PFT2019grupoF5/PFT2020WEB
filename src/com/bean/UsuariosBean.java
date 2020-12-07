@@ -182,7 +182,7 @@ public class UsuariosBean {
 	}
 	
 	@PostConstruct
-	public void Seg() {
+	public void perf() {
 		try {
 			ArrayList<SelectItem> perf = new ArrayList<>();
 			perf.add(new SelectItem(com.enumerated.tipoPerfil.ADMINISTRADOR, com.enumerated.tipoPerfil.ADMINISTRADOR.toString()));

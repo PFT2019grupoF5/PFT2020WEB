@@ -167,7 +167,7 @@ public class ProductosBean {
 		}
 
 		@PostConstruct
-		public void Seg() {
+		public void segm() {
 			try {
 				ArrayList<SelectItem> segm = new ArrayList<>();
 				segm.add(new SelectItem(Segmentacion.S, Segmentacion.S.toString()));
