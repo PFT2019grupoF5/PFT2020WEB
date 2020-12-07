@@ -238,15 +238,20 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Familia:" />
-							<p:selectOneMenu id="familia"
-								value="#{producto.familia}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
-    						<f:selectItems value="#{Producto.familias}" /></p:selectOneMenu>
+							<h:outputText value="Id de Usuario:" />
+							<p:inputNumber id="usuario"
+								value="#{producto.usuario}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
-					
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Id de Familia:" />
+							<p:inputNumber id="familia"
+								value="#{producto.familia}" required="true"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
