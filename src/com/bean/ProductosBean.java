@@ -44,7 +44,6 @@ public class ProductosBean {
 
 		private static tipoPerfil perfilLogeado;
 		private List<SelectItem> segmentaciones;
-		
 
 		private Producto selectedProducto;
 

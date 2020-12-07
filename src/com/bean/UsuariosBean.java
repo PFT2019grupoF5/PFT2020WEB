@@ -1,8 +1,11 @@
 package com.bean;
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -37,6 +40,7 @@ public class UsuariosBean {
 	private String filtroBusqueda;
 
 	private List<Usuario> usuariosList;
+	private List<SelectItem> perfiles;
 
 	private Usuario selectedUsuario;
 
@@ -176,6 +180,20 @@ public class UsuariosBean {
 			return false;
 		}
 	}
+	
+	@PostConstruct
+	public void Seg() {
+		try {
+			ArrayList<SelectItem> perf = new ArrayList<>();
+			perf.add(new SelectItem(com.enumerated.tipoPerfil.ADMINISTRADOR, com.enumerated.tipoPerfil.ADMINISTRADOR.toString()));
+			perf.add(new SelectItem(com.enumerated.tipoPerfil.SUPERVISOR, com.enumerated.tipoPerfil.SUPERVISOR.toString()));
+			perf.add(new SelectItem(com.enumerated.tipoPerfil.OPERARIO, com.enumerated.tipoPerfil.OPERARIO.toString()));
+			perfiles =  perf;
+		} catch (Exception e) {
+		}
+	}
+
+	
 
 	/***********************************************************************************************************************************/
 
@@ -232,11 +250,21 @@ public class UsuariosBean {
 	
 	/***********************************************************************************************************************************/
 
-	// Getters and Setters
+	
 
 	public Long getId() {
 		return id;
 	}
+
+	public List<SelectItem> getPerfiles() {
+		return perfiles;
+	}
+
+
+	public void setPerfiles(List<SelectItem> perfiles) {
+		this.perfiles = perfiles;
+	}
+
 
 	public void setId(Long id) {
 		this.id = id;
