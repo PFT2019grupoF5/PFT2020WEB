@@ -150,7 +150,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{producto.nombre}"></p:inputText>
+								value="#{producto.nombre}" required="true"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -158,7 +158,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
-								value="#{producto.lote}"></p:inputText>
+								value="#{producto.lote}" required="true"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -166,7 +166,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Precio:" />
 							<p:inputNumber id="precio"
-								value="#{producto.precio}"></p:inputNumber>
+								value="#{producto.precio}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -174,7 +174,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Elaborado:" />
 							<p:inputText id="felab"
-								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"></p:inputText>
+								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -182,7 +182,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Vencimiento:" />
 							<p:inputText id="fven"
-								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"></p:inputText>
+								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -190,7 +190,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Peso:" />
 							<p:inputNumber id="peso"
-								value="#{producto.peso}"></p:inputNumber>
+								value="#{producto.peso}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -198,7 +198,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{producto.volumen}"></p:inputNumber>
+								value="#{producto.volumen}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -206,7 +206,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Estiba:" />
 							<p:inputNumber id="estiba"
-								value="#{producto.estiba}"></p:inputNumber>
+								value="#{producto.estiba}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -214,7 +214,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Minimo:" />
 							<p:inputNumber id="stkMin"
-								value="#{producto.stkMin}"></p:inputNumber>
+								value="#{producto.stkMin}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -222,7 +222,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Total:" />
 							<p:inputNumber id="stkTotal"
-								value="#{producto.stkTotal}"></p:inputNumber>
+								value="#{producto.stkTotal}" required="true"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -231,18 +231,8 @@
 							<h:outputText value="Segmentacion:" />
 							<p:selectOneMenu id="segmentac"
 								value="#{producto.segmentac}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}"/>
+							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{Producto.segmentaciones}" /></p:selectOneMenu>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Usuario:" />
-							<p:selectOneMenu id="usuario"
-								value="#{producto.segmentac}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}"/>
-    						<f:selectItems value="#{Producto.usuarios}" /></p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -251,7 +241,7 @@
 							<h:outputText value="Familia:" />
 							<p:selectOneMenu id="familia"
 								value="#{producto.familia}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}"/>
+							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{Producto.familias}" /></p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
