@@ -19,7 +19,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>/sevencow/*</url-pattern>
+		<url-pattern>/F5/*</url-pattern>
 	</servlet-mapping>
 	<context-param>
 		<param-name>primefaces.FONT_AWESOME</param-name>
