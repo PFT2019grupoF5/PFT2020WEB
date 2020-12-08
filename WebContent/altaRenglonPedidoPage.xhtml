@@ -191,7 +191,7 @@
 						<p:column colspan="1">  
 							<p:selectOneMenu  id="pedido" value="#{renglonPedido.idPedido}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.nombre}" itemValue="${r.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 				 				<p:message for="pedido" style="color:red" />
 							</p:selectOneMenu> 
 							<p:spacer width="5px"></p:spacer>
