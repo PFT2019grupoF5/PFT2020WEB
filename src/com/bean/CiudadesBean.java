@@ -1,6 +1,6 @@
 package com.bean;
 
-
+import java.util.Date;
 import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -11,17 +11,14 @@ import com.entities.Ciudad;
 import com.enumerated.tipoPerfil;
 import com.services.CiudadBeanRemote;
 
-
-
 @ManagedBean(name = "ciudad")
 @ViewScoped
 public class CiudadesBean {
-	
+
 	private Long id;
 	private String nombre;
-	
+
 	private static tipoPerfil perfilLogeado;
-	
 
 	private Ciudad selectedCiudad;
 
@@ -32,37 +29,41 @@ public class CiudadesBean {
 	private CiudadBeanRemote ciudadesEJBBean;
 
 	public String add() {
+
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
 				"Ciudad ingresada exitosamente!");
 		String retPage = "altaCiudadPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (nombre.isEmpty() || nombre.length() > 50) {
+			if (nombre.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+				System.out.println("esta vacio o muy largo no funca");
 			} else {
-				if (get() == null) {
+				if (get2() == null) {
+					System.out.println("llega acá");
+					System.out.println(nombre);
 					ciudadesEJBBean.add(nombre);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre de ciudad provisto ya existe");
+					System.out.println("falló todito");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
 			return null;
+
 		}
+
 	}
-	
+
 	public String update(Long id, String nombre) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Ciudad modificada exitosamente!");
 		String retPage = "modificarCiudadPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"No tiene permisos suficientes para realizar esta acción");
 			} else if (nombre.isEmpty() || nombre.length() > 50) {
@@ -75,8 +76,7 @@ public class CiudadesBean {
 				if (get() != null) {
 					ciudadesEJBBean.update(id, nombre);
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-							"Ciudad no existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ", "Ciudad no existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -91,7 +91,7 @@ public class CiudadesBean {
 				"Ciudad borrada exitosamente!");
 		String retPage = "bajaCiudadPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)||!tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"No tiene permisos suficientes para realizar esta acción");
 			} else if (selectedCiudad == null) {
@@ -118,6 +118,14 @@ public class CiudadesBean {
 		}
 	}
 
+	public Ciudad get2() {
+		try {
+			return ciudadesEJBBean.getNombre(nombre);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	public LinkedList<Ciudad> getAll() {
 		try {
 			return ciudadesEJBBean.getAll();
@@ -126,10 +134,7 @@ public class CiudadesBean {
 		}
 	}
 
-
 	/***********************************************************************************************************************************/
-
-
 
 	public String chequearPerfil() {
 		try {
@@ -168,5 +173,4 @@ public class CiudadesBean {
 		this.nombre = nombre;
 	}
 
-	
 }

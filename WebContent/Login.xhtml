@@ -19,17 +19,17 @@
 
 	<h:form id="loginForm">
 		<p:growl id="msg" showDetail="true" life="4000" />
-		<p:panel id="loginPnl" header="Login"
+		<p:panel id="loginPan" header="Login"
 			style="width: 350px; margin: 0 auto;">
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
 				<h:outputText value="Username" />
 				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" label="usuario" styleClass="form-control" minlength="1" maxlength="20" placeholder="Usuario"></p:inputText>
 				<p:spacer />
 				<p:spacer />
-				<h:outputText value="Password" />
+				<h:outputText value="contrasena" />
 				<p:password id="contrasena" value="#{usuario.contrasena}"
 					feedback="false" required="true" label="contraseña" styleClass="form-control" minlength="8" maxlength="16" pattern="[a-zA-Z0-9]\s"></p:password>
-				<p:message for="password"></p:message>
+				<p:message for="contrasena"></p:message>
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10" width="100%">
 				<p:row>
@@ -42,8 +42,7 @@
 				</p:row>
 			</h:panelGrid>
 		</p:panel>
-		<p:blockUI block="loginPnl" trigger="loginButton" style="float:right;">
-			<p:graphicImage value="resources/img/loader.gif" />
+		<p:blockUI block="loginPan" trigger="loginButton" style="float:right;">
 		</p:blockUI>
 	</h:form>
 </h:body>
