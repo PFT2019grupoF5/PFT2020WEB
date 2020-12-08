@@ -11,13 +11,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import com.services.FamiliaBeanRemote;
+import com.services.UsuarioBeanRemote;
 import com.entities.Familia;
 import com.entities.Producto;
 import com.entities.Usuario;
 import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.services.ProductoBeanRemote;
+import com.services.UsuarioBeanRemote;
 import com.services.AlmacenamientoBeanRemote;
+import com.services.FamiliaBeanRemote;
 
 
 
@@ -49,25 +54,31 @@ public class ProductosBean {
 
 		private boolean confirmarBorrado = false;
 		private boolean confirmarModificar = false;
+		
+		// Para buscar Familia y Usuario en el add
+		private long idUsuario;
+		private long idFamilia;
+		private List<Familia> listaFamilia;
+		private List<Usuario> listaUsuario;
 
 		@EJB
 		private ProductoBeanRemote productosEJBBean;
 
 		@EJB
 		private AlmacenamientoBeanRemote almacenamientoEJBBean;
+		
+		@EJB
+		private FamiliaBeanRemote familiasEJBBean;
+		
+		@EJB
+		private UsuarioBeanRemote usuariosEJBBean;
 
 		public String add() {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
 					"Producto ingresado exitosamente!");
 			String retPage = "altaProductoPage";
 			try {
-				if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-							"No tiene permisos suficientes para realizar esta acción");
-				} else if (nombre.isEmpty() || lote.isEmpty() || precio == 0 || felab == null || fven == null || peso == 0 || volumen == 0 || estiba == 0 || stkMin == 0 || stkTotal == 0 || segmentac == null || usuario == null || familia == null) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-							"Es necesario ingresar todos los datos requeridos");
-				} else if (nombre.length() > 50) {
+				if (nombre.length() > 50) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
 				} else if (felab.compareTo(fven)>0) {
@@ -75,7 +86,7 @@ public class ProductosBean {
 							"La fecha de fabricación no puede ser posterior a la de vencimiento");
 				} else {
 					if (get() == null) {
-						productosEJBBean.add(nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuario, familia);
+						productosEJBBean.add(nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac,usuariosEJBBean.getUsuario(idUsuario) , familiasEJBBean.getFamilia(idFamilia));
 					} else {
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 								"El Producto ya existe. Por favor revise sus datos.");
@@ -172,10 +183,21 @@ public class ProductosBean {
 				ArrayList<SelectItem> segm = new ArrayList<>();
 				segm.add(new SelectItem(Segmentacion.S, Segmentacion.S.toString()));
 				segm.add(new SelectItem(Segmentacion.N, Segmentacion.N.toString()));
+				listaUsuario = usuariosEJBBean.getAllUsuarios();
+				listaFamilia = familiasEJBBean.getAllFamilias();
 				segmentaciones =  segm;
 			} catch (Exception e) {
 			}
 		}
+		
+		/*public void init() {
+			try {
+				
+			} catch (ServiciosException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 
 		
 		
@@ -325,4 +347,38 @@ public class ProductosBean {
 		public void setFamilia(Familia familia) {
 			this.familia = familia;
 		}
+
+		public long getIdUsuario() {
+			return idUsuario;
+		}
+
+		public void setIdUsuario(long idUsuario) {
+			this.idUsuario = idUsuario;
+		}
+
+		public long getIdFamilia() {
+			return idFamilia;
+		}
+
+		public void setIdFamilia(long idFamilia) {
+			this.idFamilia = idFamilia;
+		}
+
+		public List<Familia> getListaFamilia() {
+			return listaFamilia;
+		}
+
+		public void setListaFamilia(List<Familia> listaFamilia) {
+			this.listaFamilia = listaFamilia;
+		}
+
+		public List<Usuario> getListaUsuario() {
+			return listaUsuario;
+		}
+
+		public void setListaUsuario(List<Usuario> listaUsuario) {
+			this.listaUsuario = listaUsuario;
+		}
+		
+		
 }

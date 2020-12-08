@@ -188,8 +188,8 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Elaborado:" />
-							<p:inputText id="felab"
-								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="felab"
+								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -201,8 +201,8 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Vencimiento:" />
-							<p:inputText id="fven"
-								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="fven"
+								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -292,12 +292,11 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Usuario:" />
-							<p:inputNumber id="usuario"
-								value="#{producto.usuario}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
+						<p:selectOneMenu id="usu" value="#{producto.idUsuario}">
+							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+			 				<f:selectItems var="u" value="#{producto.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<p:message for="stkTotal" style="color:red" />
+						</p:selectOneMenu>
 					</p:row>
 					<p:row>
 						<p:column colspan="2">
@@ -305,12 +304,11 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Familia:" />
-							<p:inputNumber id="familia"
-								value="#{producto.familia}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
+						<p:selectOneMenu  id="fam" value="#{producto.idFamilia}">
+							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+			 				<f:selectItems var="f" value="#{producto.listaFamilia}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<p:message for="stkTotal" style="color:red" />
+						</p:selectOneMenu>
 					</p:row>
 					<p:row>
 						<p:column colspan="2">
