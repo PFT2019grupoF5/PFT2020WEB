@@ -80,6 +80,7 @@ public class UsuariosRestBean implements UsuariosRest {
     }
 
 /*
+ * 
 	@Override
 	public Usuario ValidarContrasena(String nomAcceso, String contrasena) throws ServiciosException {
 		// TODO Auto-generated method stub

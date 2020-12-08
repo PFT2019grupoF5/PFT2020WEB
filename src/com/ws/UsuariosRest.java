@@ -55,6 +55,7 @@ public interface UsuariosRest {
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
 	Usuario ValidarContrasena(@FormParam("nomAcceso") String nomAcceso, @FormParam("contrasena") String contrasena) throws ServiciosException;
+
 */
 	
 	@GET
