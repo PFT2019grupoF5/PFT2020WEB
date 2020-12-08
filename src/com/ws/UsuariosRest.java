@@ -30,6 +30,11 @@ public interface UsuariosRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	Usuario get(@PathParam("id") Long id) throws ServiciosException;
 	
+	@GET
+	@Path("/byNomAcceso/{nomAcceso}")
+	@Produces(MediaType.APPLICATION_JSON)
+	Usuario getNA(@PathParam("nomAcceso") String nomAcceso) throws ServiciosException;
+	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,10 +50,17 @@ public interface UsuariosRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	void delete(@PathParam("id") Long id) throws ServiciosException;
 	
-	@POST
+/*	@POST
 	@Path("/validarContrasena")
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	boolean ValidarContrasena(@FormParam("nomAcceso")String nomAcceso, @FormParam("contrasena") String contrasena) throws ServiciosException;
+	Usuario ValidarContrasena(@FormParam("nomAcceso") String nomAcceso, @FormParam("contrasena") String contrasena) throws ServiciosException;
+*/
+	
+	@GET
+    @Path("/validarContrasena/{nomAcceso}/{contrasena}")
+    @Produces(MediaType.APPLICATION_JSON)
+    Usuario ValidarContrasena(@PathParam("nomAcceso") String nomAcceso, @PathParam("contrasena") String contrasena) throws ServiciosException;
 
+	
 }
