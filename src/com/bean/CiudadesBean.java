@@ -1,6 +1,7 @@
 package com.bean;
 
 
+import java.util.Date;
 import java.util.LinkedList;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -30,8 +31,18 @@ public class CiudadesBean {
 
 	@EJB
 	private CiudadBeanRemote ciudadesEJBBean;
+	
+	public String add(){
+		try {
+			ciudadesEJBBean.add(nombre);
+			System.out.println(nombre);
+			return null;
+		}catch (Exception e) {
+			return null;
+		}
+	}
 
-	public String add() {
+	/*public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
 				"Ciudad ingresada exitosamente!");
 		String retPage = "altaCiudadPage";
@@ -44,6 +55,7 @@ public class CiudadesBean {
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 			} else {
 				if (get() == null) {
+					System.out.println("llega acá");
 					ciudadesEJBBean.add(nombre);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
@@ -55,7 +67,7 @@ public class CiudadesBean {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}*/
 	
 	public String update(Long id, String nombre) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
