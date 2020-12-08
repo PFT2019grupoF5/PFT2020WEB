@@ -3,14 +3,16 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
 
 <f:metadata>
-    <f:viewAction action="#{usuario.chequearPerfil()}" />
+    <f:viewAction action="#{usuario.chequearPerfil()}"/>
+     <c:if check="#{usuario.chequearPerfil() eq OPERARIO}"></c:if>
 </f:metadata>
 
 <h:body>

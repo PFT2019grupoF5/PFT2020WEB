@@ -58,10 +58,7 @@ public class RenglonesPedidoBean {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear el Renglón:","El Renglón se creo correctamente");
 		String retPage = "altaRenglonesPedidoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-		}else if (rennro <= 0 || rencant <=0 || producto == null|| pedido == null){
+			if (rennro <= 0 || rencant <=0 || producto == null|| pedido == null){
 			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 					"Es necesario ingresar todos los datos requeridos");
 		}else {

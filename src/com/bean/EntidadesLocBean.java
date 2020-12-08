@@ -52,10 +52,7 @@ public class EntidadesLocBean {
 				"Local ingresada exitosamente!");
 		String retPage = "altaLocalPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (nombre.isEmpty() || nombre.length() > 50) {
+			if (nombre.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 			} else if (direccion.isEmpty() || nombre.length() > 50) {

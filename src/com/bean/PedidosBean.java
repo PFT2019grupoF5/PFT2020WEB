@@ -58,10 +58,7 @@ public class PedidosBean {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:","El Pedido se creo correctamente");
 		String retPage = "altaPedidoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			}else if (pedfecestim == null || fecha == null || pedreccodigo<=0 || pedreccomentario.isEmpty() || pedestado == null || usuario == null){
+			if (pedfecestim == null || fecha == null || pedreccodigo<=0 || pedreccomentario.isEmpty() || pedestado == null || usuario == null){
 			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 					"Es necesario ingresar todos los datos requeridos");
 		}else {

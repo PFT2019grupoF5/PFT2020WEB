@@ -54,10 +54,7 @@ public class UsuariosBean {
 				"Usuario ingresado exitosamente!");
 		String retPage = "altaUsuarioPage";
 		try {
-			if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para ingresar un nuevo usuario");
-			} else if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
+			if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else if (nombre.length() > 50 || apellido.length() > 50) {
@@ -173,9 +170,9 @@ public class UsuariosBean {
 		}
 	}
 
-	private boolean ValidarContrasena(String userTyped, String typedPwd) {
+	private boolean ValidarContrasena(String nomAcceso, String contrasena) {
 		try {
-			return usuariosEJBBean.ValidarContrasena(userTyped, typedPwd);
+			return usuariosEJBBean.ValidarContrasena(nomAcceso, contrasena);
 		} catch (Exception e) {
 			return false;
 		}
