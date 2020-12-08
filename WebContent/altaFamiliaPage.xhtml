@@ -14,7 +14,7 @@
 </f:metadata>
 
 <h:body>
-		<p:panel>
+		<p:panel collapsed="true">
 		<h1>Logistica</h1>
 	</p:panel>
 	<h:panelGroup layout="block">
@@ -27,7 +27,6 @@
 				<p:menuitem value="Página Principal"
 					action="Home?faces-redirect=true"
 					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
 			<p:submenu label="Almacenamiento">
 				<p:menuitem value="Alta de Almacenamiento"
 					action="altaAlmacenamientoPage?faces-redirect=true"
@@ -136,6 +135,7 @@
 				<p:menuitem value="Logout"
 					action="#{usuario.logout()}"
 					icon="Poner icono aca*" style="width: 300px !important;" />
+			</p:submenu>
 			</p:submenu>
 		</p:menu>
 		</h:form>

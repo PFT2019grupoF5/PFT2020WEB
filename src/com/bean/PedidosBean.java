@@ -18,6 +18,7 @@ import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
 import com.services.PedidoBeanRemote;
+import com.services.UsuarioBeanRemote;
 
 
 @ManagedBean(name = "pedido")
@@ -40,11 +41,17 @@ public class PedidosBean {
 	private Pedido selectedPedido;
 	private List<SelectItem> estadoDelPedido;
 	
+	private Long idUsuario;
+	private List<Usuario> listaUsuario;
+	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 	
 	@EJB
 	private PedidoBeanRemote pedidosEJBBean;
+	
+	@EJB
+	private UsuarioBeanRemote usuariosEJBBean;
 	
 	
 	public String add() {
@@ -59,7 +66,7 @@ public class PedidosBean {
 					"Es necesario ingresar todos los datos requeridos");
 		}else {
 			if(get() == null) {
-				pedidosEJBBean.add(pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado, usuario);
+				pedidosEJBBean.add(pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado, usuariosEJBBean.getUsuario(idUsuario));
 			}else {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 						"El Pedido ya existe");
@@ -282,6 +289,23 @@ public class PedidosBean {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public List<Usuario> getListaUsuario() {
+		return listaUsuario;
+	}
+
+	public void setListaUsuario(List<Usuario> listaUsuario) {
+		this.listaUsuario = listaUsuario;
+	}
+	
 	
 	
 }

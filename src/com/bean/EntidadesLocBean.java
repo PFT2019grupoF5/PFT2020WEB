@@ -16,6 +16,7 @@ import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
 import com.enumerated.tipoPerfil;
+import com.services.CiudadBeanRemote;
 import com.services.EntidadLocBeanRemote;
 
 
@@ -34,10 +35,17 @@ public class EntidadesLocBean {
 	private static tipoPerfil perfilLogeado;
 	private List<SelectItem> tiposDeLocal;
 	
+	private Long idCiudad;
+	private List <Ciudad> listaCiudad;
+	
+	
 	private boolean confirmarBorrado = false;
 	
 	@EJB
 	private EntidadLocBeanRemote entidadLocEJBBean;
+	
+	@EJB
+	private CiudadBeanRemote ciudadEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
@@ -61,7 +69,7 @@ public class EntidadesLocBean {
 						"Campo ciudad no puede ser vacío");
 			} else {
 				if (get() == null) {
-					entidadLocEJBBean.add(codigo, nombre, direccion, tipoLoc, ciudad);
+					entidadLocEJBBean.add(codigo, nombre, direccion, tipoLoc, ciudadEJBBean.getCiudad(idCiudad));
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre del local provisto ya existe");
@@ -239,6 +247,31 @@ public class EntidadesLocBean {
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
+
+	public Long getIdCiudad() {
+		return idCiudad;
+	}
+
+	public void setIdCiudad(Long idCiudad) {
+		this.idCiudad = idCiudad;
+	}
+
+	public List<Ciudad> getListaCiudad() {
+		return listaCiudad;
+	}
+
+	public void setListaCiudad(List<Ciudad> listaCiudad) {
+		this.listaCiudad = listaCiudad;
+	}
+
+	public EntidadLocBeanRemote getEntidadLocEJBBean() {
+		return entidadLocEJBBean;
+	}
+
+	public void setEntidadLocEJBBean(EntidadLocBeanRemote entidadLocEJBBean) {
+		this.entidadLocEJBBean = entidadLocEJBBean;
+	}
+
 	
 	
 	

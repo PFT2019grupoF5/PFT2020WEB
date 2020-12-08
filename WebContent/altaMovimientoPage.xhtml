@@ -14,7 +14,7 @@
 </f:metadata>
 
 <h:body>
-		<p:panel>
+		<p:panel collapsed="true">
 		<h1>Logistica</h1>
 	</p:panel>
 	<h:panelGroup layout="block">
@@ -27,7 +27,6 @@
 				<p:menuitem value="Página Principal"
 					action="Home?faces-redirect=true"
 					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
 			<p:submenu label="Almacenamiento">
 				<p:menuitem value="Alta de Almacenamiento"
 					action="altaAlmacenamientoPage?faces-redirect=true"
@@ -137,6 +136,7 @@
 					action="#{usuario.logout()}"
 					icon="Poner icono aca*" style="width: 300px !important;" />
 			</p:submenu>
+			</p:submenu>
 		</p:menu>
 		</h:form>
 		<p:spacer width="10px"></p:spacer>
@@ -214,10 +214,12 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Producto:" />
-							<p:inputNumber id="producto"
-								value="#{movimiento.producto}" required="true"></p:inputNumber>
+						<p:column colspan="1">
+							<p:selectOneMenu  id="producto" value="#{movimiento.idProducto}">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+				 				<f:selectItems var="p" value="#{movimiento.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<p:message for="producto" style="color:red" />
+							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -227,10 +229,12 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Almacenamiento:" />
-							<p:inputNumber id="almacenamiento"
-								value="#{movimiento.almacenamiento}" required="true"></p:inputNumber>
+						<p:column colspan="1">
+							<p:selectOneMenu  id="almacenamiento" value="#{movimiento.idAlmacenamiento}">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+				 				<f:selectItems var="a" value="#{movimiento.listaAlmacenamiento}" itemLabel="#{a.nombre}" itemValue="${a.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<p:message for="almacenamiento" style="color:red" />
+							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

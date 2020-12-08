@@ -2,6 +2,8 @@ package com.bean;
 
 
 import java.util.LinkedList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -12,6 +14,8 @@ import com.entities.Pedido;
 import com.entities.Producto;
 import com.entities.RenglonPedido;
 import com.enumerated.tipoPerfil;
+import com.services.PedidoBeanRemote;
+import com.services.ProductoBeanRemote;
 import com.services.RenglonPedidoBeanRemote;
 
 
@@ -31,11 +35,24 @@ public class RenglonesPedidoBean {
 	
 	private Movimiento selectedRenglonPedido;
 	
+	
+	private Long idProducto;
+	private Long idPedido;
+	
+	private List<Producto> listaProducto;
+	private List<Pedido> listaPedido;
+	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 	
 	@EJB
 	private RenglonPedidoBeanRemote renglonesPedidoEJBBean;
+	
+	@EJB
+	private ProductoBeanRemote productoEJBBean;
+	
+	@EJB
+	private PedidoBeanRemote pedidoEJBBean;
 	
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear el Renglón:","El Renglón se creo correctamente");
@@ -49,7 +66,7 @@ public class RenglonesPedidoBean {
 					"Es necesario ingresar todos los datos requeridos");
 		}else {
 			if(get() == null) {
-				renglonesPedidoEJBBean.add(rennro, rencant, producto, pedido);
+				renglonesPedidoEJBBean.add(rennro, rencant, productoEJBBean.getProducto(idProducto), pedidoEJBBean.getPedido(idPedido));
 			}else {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 						"El Renglon ya existe");
@@ -199,5 +216,39 @@ public class RenglonesPedidoBean {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+
+	public Long getIdProducto() {
+		return idProducto;
+	}
+
+	public void setIdProducto(Long idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public Long getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(Long idPedido) {
+		this.idPedido = idPedido;
+	}
+
+	public List<Producto> getListaProducto() {
+		return listaProducto;
+	}
+
+	public void setListaProducto(List<Producto> listaProducto) {
+		this.listaProducto = listaProducto;
+	}
+
+	public List<Pedido> getListaPedido() {
+		return listaPedido;
+	}
+
+	public void setListaPedido(List<Pedido> listaPedido) {
+		this.listaPedido = listaPedido;
+	}
+	
+	
 	
 }

@@ -17,6 +17,7 @@ import com.entities.Movimiento;
 import com.entities.Producto;
 import com.enumerated.tipoMovimiento;
 import com.enumerated.tipoPerfil;
+import com.services.AlmacenamientoBeanRemote;
 import com.services.MovimientoBeanRemote;
 
 
@@ -40,11 +41,20 @@ public class MovimientosBean {
 	private Movimiento selectedMovimiento;
 	private List<SelectItem> tiposDeMov;
 	
+	private Long idProducto;
+	private Long idAlmacenamiento;
+	
+	private List<Producto> listaProducto;
+	private List<Almacenamiento> listaAlmacenamiento;
+	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 	
 	@EJB
 	private MovimientoBeanRemote movimientosEJBBean;
+	
+	@EJB
+	private AlmacenamientoBeanRemote almacenamientoEJBBean;
 	
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:","El Movimiento se creo correctamente");
@@ -61,7 +71,7 @@ public class MovimientosBean {
 					"Campo Descripcion no puede ser mayor a 250 caracteres");
 		}else {
 			if(get() == null) {
-				movimientosEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamiento);
+				movimientosEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
 			}else {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 						"El Movimiento ya existe");
@@ -256,6 +266,38 @@ public class MovimientosBean {
 
 	public void setAlmacenamiento(Almacenamiento almacenamiento) {
 		this.almacenamiento = almacenamiento;
+	}
+
+	public Long getIdProducto() {
+		return idProducto;
+	}
+
+	public void setIdProducto(Long idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public Long getIdAlmacenamiento() {
+		return idAlmacenamiento;
+	}
+
+	public void setIdAlmacenamiento(Long idAlmacenamiento) {
+		this.idAlmacenamiento = idAlmacenamiento;
+	}
+
+	public List<Producto> getListaProducto() {
+		return listaProducto;
+	}
+
+	public void setListaProducto(List<Producto> listaProducto) {
+		this.listaProducto = listaProducto;
+	}
+
+	public List<Almacenamiento> getListaAlmacenamiento() {
+		return listaAlmacenamiento;
+	}
+
+	public void setListaAlmacenamiento(List<Almacenamiento> listaAlmacenamiento) {
+		this.listaAlmacenamiento = listaAlmacenamiento;
 	}
 
 	

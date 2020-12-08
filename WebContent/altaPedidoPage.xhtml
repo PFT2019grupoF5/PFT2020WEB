@@ -14,7 +14,7 @@
 </f:metadata>
 
 <h:body>
-		<p:panel>
+		<p:panel collapsed="true">
 		<h1>Logistica</h1>
 	</p:panel>
 	<h:panelGroup layout="block">
@@ -27,7 +27,6 @@
 				<p:menuitem value="Página Principal"
 					action="Home?faces-redirect=true"
 					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
 			<p:submenu label="Almacenamiento">
 				<p:menuitem value="Alta de Almacenamiento"
 					action="altaAlmacenamientoPage?faces-redirect=true"
@@ -137,6 +136,7 @@
 					action="#{usuario.logout()}"
 					icon="Poner icono aca*" style="width: 300px !important;" />
 			</p:submenu>
+			</p:submenu>
 		</p:menu>
 		</h:form>
 		<p:spacer width="10px"></p:spacer>
@@ -227,10 +227,12 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Id de Usuario:" />
-							<p:inputNumber id="usuario"
-								value="#{pedido.usuario}" required="true"></p:inputNumber>
+						<p:column colspan="1"> 
+							 <p:selectOneMenu  id="usuario" value="#{pedido.idUsuario}">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+				 				<f:selectItems var="u" value="#{pedido.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<p:message for="usuario" style="color:red" />
+							</p:selectOneMenu> 
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

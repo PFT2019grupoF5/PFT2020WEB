@@ -1,6 +1,7 @@
 package com.bean;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -12,6 +13,7 @@ import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoPerfil;
 import com.services.AlmacenamientoBeanRemote;
+import com.services.EntidadLocBeanRemote;
 
 
 
@@ -34,8 +36,14 @@ public class AlmacenamientosBean {
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 	
+	private Long idEntidadLoc;
+	private List <EntidadLoc> listaEntidadLoc;
+	
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
+	
+	@EJB
+	private EntidadLocBeanRemote entidadLocEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
@@ -65,7 +73,7 @@ public class AlmacenamientosBean {
 						"Campo entidadLoc no puede ser vacío");
 			} else {
 				if (get() == null) {
-					almacenamientosEJBBean.add(volumen, nombre, costoop, capestiba, cappeso, entidadLoc);
+					almacenamientosEJBBean.add(volumen, nombre, costoop, capestiba, cappeso, entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre de ciudad provisto ya existe");
@@ -243,6 +251,23 @@ public class AlmacenamientosBean {
 	public void setEntidadLoc(EntidadLoc entidadLoc) {
 		this.entidadLoc = entidadLoc;
 	}
+
+	public long getIdEntidadLoc() {
+		return idEntidadLoc;
+	}
+
+	public void setIdEntidadLoc(long idEntidadLoc) {
+		this.idEntidadLoc = idEntidadLoc;
+	}
+
+	public List<EntidadLoc> getListaEntidadLoc() {
+		return listaEntidadLoc;
+	}
+
+	public void setListaEntidadLoc(List<EntidadLoc> listaEntidadLoc) {
+		this.listaEntidadLoc = listaEntidadLoc;
+	}
+	
 	
 	
 }

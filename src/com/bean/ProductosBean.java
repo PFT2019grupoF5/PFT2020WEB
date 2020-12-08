@@ -20,9 +20,7 @@ import com.entities.Usuario;
 import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.services.ProductoBeanRemote;
-import com.services.UsuarioBeanRemote;
-import com.services.AlmacenamientoBeanRemote;
-import com.services.FamiliaBeanRemote;
+
 
 
 
@@ -56,17 +54,15 @@ public class ProductosBean {
 		private boolean confirmarModificar = false;
 		
 		// Para buscar Familia y Usuario en el add
-		private long idUsuario;
-		private long idFamilia;
+		private Long idUsuario;
+		private Long idFamilia;
 		private List<Familia> listaFamilia;
 		private List<Usuario> listaUsuario;
 
 		@EJB
 		private ProductoBeanRemote productosEJBBean;
 
-		@EJB
-		private AlmacenamientoBeanRemote almacenamientoEJBBean;
-		
+	
 		@EJB
 		private FamiliaBeanRemote familiasEJBBean;
 		
@@ -348,19 +344,19 @@ public class ProductosBean {
 			this.familia = familia;
 		}
 
-		public long getIdUsuario() {
+		public Long getIdUsuario() {
 			return idUsuario;
 		}
 
-		public void setIdUsuario(long idUsuario) {
+		public void setIdUsuario(Long idUsuario) {
 			this.idUsuario = idUsuario;
 		}
 
-		public long getIdFamilia() {
+		public Long getIdFamilia() {
 			return idFamilia;
 		}
 
-		public void setIdFamilia(long idFamilia) {
+		public void setIdFamilia(Long idFamilia) {
 			this.idFamilia = idFamilia;
 		}
 

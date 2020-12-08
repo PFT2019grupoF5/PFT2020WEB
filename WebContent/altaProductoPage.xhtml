@@ -14,7 +14,7 @@
 </f:metadata>
 
 <h:body>
-		<p:panel>
+		<p:panel collapsed="true">
 		<h1>Logistica</h1>
 	</p:panel>
 	<h:panelGroup layout="block">
@@ -27,7 +27,6 @@
 				<p:menuitem value="Página Principal"
 					action="Home?faces-redirect=true"
 					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
 			<p:submenu label="Almacenamiento">
 				<p:menuitem value="Alta de Almacenamiento"
 					action="altaAlmacenamientoPage?faces-redirect=true"
@@ -136,6 +135,7 @@
 				<p:menuitem value="Logout"
 					action="#{usuario.logout()}"
 					icon="Poner icono aca*" style="width: 300px !important;" />
+			</p:submenu>
 			</p:submenu>
 		</p:menu>
 		</h:form>
@@ -292,11 +292,14 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:selectOneMenu id="usu" value="#{producto.idUsuario}">
+					<p:column colspan="1">
+						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="u" value="#{producto.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
-			 				<p:message for="stkTotal" style="color:red" />
+			 				<p:message for="usuario" style="color:red" />
 						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+						</p:column>
 					</p:row>
 					<p:row>
 						<p:column colspan="2">
@@ -304,11 +307,14 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:selectOneMenu  id="fam" value="#{producto.idFamilia}">
+					<p:column colspan="1">
+						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="f" value="#{producto.listaFamilia}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-			 				<p:message for="stkTotal" style="color:red" />
+			 				<p:message for="familia" style="color:red" />
 						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+						</p:column>
 					</p:row>
 					<p:row>
 						<p:column colspan="2">
