@@ -176,7 +176,6 @@ public class FamiliasBean {
 		try {
 			//Carga la lista de Familias
 			familiasList = this.getAll();
-			
 		} catch (Exception e) {
 		}
 	}

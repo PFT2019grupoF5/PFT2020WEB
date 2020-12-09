@@ -72,7 +72,6 @@ public class ProductosBean {
 		@EJB
 		private ProductoBeanRemote productosEJBBean;
 
-	
 		@EJB
 		private FamiliaBeanRemote familiasEJBBean;
 		
@@ -199,6 +198,9 @@ public class ProductosBean {
 				produc.setStkMin(stkMin);
 				produc.setStkTotal(stkTotal);
 				produc.setSegmentac(segmentac);
+				produc.setUsuario(usuario);
+				produc.setFamilia(familia);
+				
 				productosEJBBean.modificarProducto(produc);
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("éxito"));
@@ -213,16 +215,6 @@ public class ProductosBean {
 		public void onRowEdit(RowEditEvent event) throws ServiciosException {
 			Producto p = (Producto) event.getObject();
 
-			System.out.println("--");
-			System.out.println("--");
-			System.out.println("--");
-
-			System.out.println(p.getUsuario().getNombre());
-
-			System.out.println("--");
-			System.out.println("--");
-			System.out.println("--");
-
 			produc.setId(p.getId());
 			produc.setNombre(p.getNombre());
 			produc.setLote(p.getLote());
@@ -235,9 +227,14 @@ public class ProductosBean {
 			produc.setStkMin(p.getStkMin());
 			produc.setStkTotal(p.getStkTotal());
 			produc.setSegmentac(p.getSegmentac());
-			produc.setUsuario(p.getUsuario());
-			produc.setFamilia(p.getFamilia());
-
+			
+			Usuario u = usuariosEJBBean.getUsuario(p.getUsuario().getId());
+			produc.setUsuario(u);
+			
+			Familia f = familiasEJBBean.getFamilia(p.getFamilia().getId());
+			produc.setFamilia(f);
+			
+			
 			try {
 				productosEJBBean.modificarProducto(produc);
 			} catch (Exception e) {
