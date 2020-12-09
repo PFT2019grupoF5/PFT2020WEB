@@ -32,6 +32,8 @@ import com.services.ProductoBeanRemote;
 
 
 public class ProductosBean {
+	
+	//Comentario para Luis
 		
 		private Long id;
 		private String nombre;
