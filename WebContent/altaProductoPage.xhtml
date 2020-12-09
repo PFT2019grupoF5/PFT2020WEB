@@ -296,7 +296,7 @@
 					<h:outputText value="Usuario:" />
 						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="u" value="#{producto.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				<p:message for="usuario" style="color:red" />
 						</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>
@@ -312,7 +312,7 @@
 					<h:outputText value="Familia:" />
 						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}" filter="true" filterMatchMode="startsWith">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="f" value="#{producto.listaFamilia}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				<p:message for="familia" style="color:red" />
 						</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>
