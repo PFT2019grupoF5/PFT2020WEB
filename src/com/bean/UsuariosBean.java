@@ -43,9 +43,10 @@ public class UsuariosBean {
 	private List<SelectItem> perfiles;
 
 	private Usuario selectedUsuario;
-
+	
 	private boolean confirmarBorrado = false;
 
+	
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
 
@@ -186,6 +187,10 @@ public class UsuariosBean {
 			perf.add(new SelectItem(com.enumerated.tipoPerfil.SUPERVISOR, com.enumerated.tipoPerfil.SUPERVISOR.toString()));
 			perf.add(new SelectItem(com.enumerated.tipoPerfil.OPERARIO, com.enumerated.tipoPerfil.OPERARIO.toString()));
 			perfiles =  perf;
+			
+			//Carga la lista de Usuarios
+			usuariosList = this.getAll();
+			
 		} catch (Exception e) {
 		}
 	}
@@ -199,6 +204,20 @@ public class UsuariosBean {
 		try {
 			Usuario loginUser = usuariosEJBBean.getNA(nomAcceso);
 
+			
+
+			System.out.println("+++++");
+			System.out.println("+++++");
+			System.out.println("+++++");
+			System.out.println("+++++");
+			System.out.println(loginUser);
+			System.out.println("+++++");
+			
+			System.out.println(ValidarContrasena(nomAcceso, contrasena));
+			System.out.println("contrasena con digest: " + DigestUtils.md5Hex(contrasena));
+			System.out.println("nomAcceso:  " + nomAcceso);
+			
+			
 			if (nomAcceso != null && loginUser != null && contrasena != null
 					&& ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nomAcceso);
@@ -381,4 +400,6 @@ public class UsuariosBean {
 		this.usuariosEJBBean = usuariosEJBBean;
 	}
 
+
+	
 }

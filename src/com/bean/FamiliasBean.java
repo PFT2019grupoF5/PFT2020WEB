@@ -1,14 +1,19 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import com.entities.Familia;
+import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.services.FamiliaBeanRemote;
 
@@ -24,6 +29,7 @@ public class FamiliasBean {
 
 	private static tipoPerfil perfilLogeado;
 
+	private List<Familia> familiasList;
 	private Familia selectedFamilia;
 
 	private boolean confirmarBorrado = false;
@@ -164,6 +170,19 @@ public class FamiliasBean {
 
 	/***********************************************************************************************************************************/
 
+	
+	@PostConstruct
+	public void cargoLista() {
+		try {
+			//Carga la lista de Familias
+			familiasList = this.getAll();
+			
+		} catch (Exception e) {
+		}
+	}
+
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -196,4 +215,13 @@ public class FamiliasBean {
 		this.incompat = incompat;
 	}
 
+	public List<Familia> getFamiliasList() {
+		return familiasList;
+	}
+
+	public void setFamiliasList(List<Familia> usuariosList) {
+		this.familiasList = familiasList;
+	}
+
+	
 }

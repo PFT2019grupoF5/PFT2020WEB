@@ -184,18 +184,18 @@
 		</p:column>
 
 		<p:column headerText="Usuario">
-			<p:selectOneMenu  id="fam" value="#{produc.usuario.id}">
+			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="u" value="#{producto.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}" />
+ 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}" />
 			</p:selectOneMenu>
         </p:column> -->
 
-		<!--<p:column headerText="Familia">
+		<p:column headerText="Familia">
 			<p:selectOneMenu  id="fam" value="#{produc.familia.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="f" value="#{productoB.listaFamilia}" itemLabel="#{f.nombre}" itemValue="${f.id}" />
+ 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" />
 			</p:selectOneMenu>
-        </p:column> -->
+        </p:column> 
 
 		<p:column style="width:35px">
 			<p:rowEditor />

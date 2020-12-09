@@ -61,8 +61,8 @@ public class ProductosBean {
 		// Para buscar Familia y Usuario en el add y en edit
 		private Long idUsuario;
 		private Long idFamilia;
-		private List<Familia> listaFamilia;
-		private List<Usuario> listaUsuario;
+		//private List<Familia> listaFamilia;
+		//private List<Usuario> listaUsuario;
 		private Usuario idUsu;
 		
 		//edit
@@ -256,8 +256,7 @@ public class ProductosBean {
 				ArrayList<SelectItem> segm = new ArrayList<>();
 				segm.add(new SelectItem(Segmentacion.S, Segmentacion.S.toString()));
 				segm.add(new SelectItem(Segmentacion.N, Segmentacion.N.toString()));
-				listaUsuario = usuariosEJBBean.getAllUsuarios();
-				listaFamilia = familiasEJBBean.getAllFamilias();
+				
 				//rowEdit
 				produc = new Producto();
 				productos = obtenerTodosProductos();
@@ -427,22 +426,6 @@ public class ProductosBean {
 
 		public void setIdFamilia(Long idFamilia) {
 			this.idFamilia = idFamilia;
-		}
-
-		public List<Familia> getListaFamilia() {
-			return listaFamilia;
-		}
-
-		public void setListaFamilia(List<Familia> listaFamilia) {
-			this.listaFamilia = listaFamilia;
-		}
-
-		public List<Usuario> getListaUsuario() {
-			return listaUsuario;
-		}
-
-		public void setListaUsuario(List<Usuario> listaUsuario) {
-			this.listaUsuario = listaUsuario;
 		}
 
 		public Producto getProduc() {
