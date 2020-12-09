@@ -118,11 +118,18 @@ public class ProductosBean {
 				} else if (felab.compareTo(fven)>0) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"La fecha de fabricación no puede ser posterior a la de vencimiento");
-				} else if (!confirmarModificar) {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-							"Seleccione la casilla de confirmación!");
+				//} else if (!confirmarModificar) {
+				//	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+				//			"Seleccione la casilla de confirmación!");
 				} else {
-					if (get() != null) {
+					if (productosEJBBean.getProducto(id) != null) {
+						
+						
+						//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
+						usuario = usuariosEJBBean.getUsuario(usuario.getId());
+						
+						familia = familiasEJBBean.getFamilia(familia.getId());
+						
 						productosEJBBean.update(id, nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal, segmentac, usuario, familia);
 					} else {
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
@@ -184,68 +191,6 @@ public class ProductosBean {
 
 		}
 		
-		public void modificarProducto() throws Exception {
-
-			try {
-				produc.setNombre(nombre);
-				produc.setLote(lote);
-				produc.setFelab(felab);
-				produc.setFven(fven);
-				produc.setPrecio(precio);
-				produc.setPeso(peso);
-				produc.setVolumen(volumen);
-				produc.setEstiba(estiba);
-				produc.setStkMin(stkMin);
-				produc.setStkTotal(stkTotal);
-				produc.setSegmentac(segmentac);
-				produc.setUsuario(usuario);
-				produc.setFamilia(familia);
-				
-				productosEJBBean.modificarProducto(produc);
-
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("éxito"));
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
-		
-		// rowEdit
-		public void onRowEdit(RowEditEvent event) throws ServiciosException {
-			Producto p = (Producto) event.getObject();
-
-			produc.setId(p.getId());
-			produc.setNombre(p.getNombre());
-			produc.setLote(p.getLote());
-			produc.setFelab(p.getFelab());
-			produc.setFven(p.getFven());
-			produc.setPrecio(p.getPrecio());
-			produc.setPeso(p.getPeso());
-			produc.setVolumen(p.getVolumen());
-			produc.setEstiba(p.getEstiba());
-			produc.setStkMin(p.getStkMin());
-			produc.setStkTotal(p.getStkTotal());
-			produc.setSegmentac(p.getSegmentac());
-			
-			Usuario u = usuariosEJBBean.getUsuario(p.getUsuario().getId());
-			produc.setUsuario(u);
-			
-			Familia f = familiasEJBBean.getFamilia(p.getFamilia().getId());
-			produc.setFamilia(f);
-			
-			
-			try {
-				productosEJBBean.modificarProducto(produc);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			FacesMessage msg = new FacesMessage("Producto editado", String.valueOf(p.getId()));
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-		}
 
 		@PostConstruct
 		public void segm() {

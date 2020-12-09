@@ -26,7 +26,7 @@
             Editar producto
         </f:facet>
 
-		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}"
+		<p:ajax event="rowEdit" listener="#{producto.update(produc.id, produc.nombre, produc.lote, produc.precio, produc.felab, produc.fven, produc.peso, produc.volumen, produc.estiba, produc.stkMin, produc.stkTotal, produc.segmentac, produc.usuario, produc.familia)}"
 			update=":form:msgs" />
 
 		<p:column headerText="Id">
