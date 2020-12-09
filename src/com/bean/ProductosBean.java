@@ -24,7 +24,6 @@ import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.ProductoBeanRemote;
 
-
 @ManagedBean(name = "producto")
 @ViewScoped
 
