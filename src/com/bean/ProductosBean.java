@@ -12,6 +12,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
 import com.services.FamiliaBeanRemote;
 import com.services.UsuarioBeanRemote;
 import com.entities.Familia;
@@ -19,6 +21,7 @@ import com.entities.Producto;
 import com.entities.Usuario;
 import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.ProductoBeanRemote;
 
 
@@ -53,11 +56,16 @@ public class ProductosBean {
 		private boolean confirmarBorrado = false;
 		private boolean confirmarModificar = false;
 		
-		// Para buscar Familia y Usuario en el add
+		// Para buscar Familia y Usuario en el add y en edit
 		private Long idUsuario;
 		private Long idFamilia;
 		private List<Familia> listaFamilia;
 		private List<Usuario> listaUsuario;
+		private Usuario idUsu;
+		
+		//edit
+		private Producto produc;
+		private List<Producto> productos;
 
 		@EJB
 		private ProductoBeanRemote productosEJBBean;
@@ -100,10 +108,7 @@ public class ProductosBean {
 					"Producto modificado exitosamente!");
 			String retPage = "modificarProductoPage";
 			try {
-				if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-							"No tiene permisos suficientes para realizar esta acción");
-				} else if (nombre.isEmpty() || lote.isEmpty() || precio == 0 || felab == null || fven == null || peso == 0 || volumen == 0 || estiba == 0 || stkMin == 0 || stkTotal == 0 || segmentac == null || usuario == null || familia == null) {
+				if (nombre.isEmpty() || lote.isEmpty() || precio == 0 || felab == null || fven == null || peso == 0 || volumen == 0 || estiba == 0 || stkMin == 0 || stkTotal == 0 || segmentac == null || usuario == null || familia == null) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Es necesario ingresar todos los datos requeridos");
 				} else if (nombre.length() > 50) {
@@ -172,6 +177,76 @@ public class ProductosBean {
 				return null;
 			}
 		}
+		
+		public List<Producto> obtenerTodosProductos() throws ServiciosException {
+			return productos = productosEJBBean.obtenerProductos();
+
+		}
+		
+		public void modificarProducto() throws Exception {
+
+			try {
+				produc.setNombre(nombre);
+				produc.setLote(lote);
+				produc.setFelab(felab);
+				produc.setFven(fven);
+				produc.setPrecio(precio);
+				produc.setPeso(peso);
+				produc.setVolumen(volumen);
+				produc.setEstiba(estiba);
+				produc.setStkMin(stkMin);
+				produc.setStkTotal(stkTotal);
+				produc.setSegmentac(segmentac);
+				productosEJBBean.modificarProducto(produc);
+
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("éxito"));
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+		}
+		
+		// rowEdit
+		public void onRowEdit(RowEditEvent event) throws ServiciosException {
+			Producto p = (Producto) event.getObject();
+
+			System.out.println("--");
+			System.out.println("--");
+			System.out.println("--");
+
+			System.out.println(p.getUsuario().getNombre());
+
+			System.out.println("--");
+			System.out.println("--");
+			System.out.println("--");
+
+			produc.setId(p.getId());
+			produc.setNombre(p.getNombre());
+			produc.setLote(p.getLote());
+			produc.setFelab(p.getFelab());
+			produc.setFven(p.getFven());
+			produc.setPrecio(p.getPrecio());
+			produc.setPeso(p.getPeso());
+			produc.setVolumen(p.getVolumen());
+			produc.setEstiba(p.getEstiba());
+			produc.setStkMin(p.getStkMin());
+			produc.setStkTotal(p.getStkTotal());
+			produc.setSegmentac(p.getSegmentac());
+			produc.setUsuario(p.getUsuario());
+			produc.setFamilia(p.getFamilia());
+
+			try {
+				productosEJBBean.modificarProducto(produc);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			FacesMessage msg = new FacesMessage("Producto editado", String.valueOf(p.getId()));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		}
 
 		@PostConstruct
 		public void segm() {
@@ -181,22 +256,14 @@ public class ProductosBean {
 				segm.add(new SelectItem(Segmentacion.N, Segmentacion.N.toString()));
 				listaUsuario = usuariosEJBBean.getAllUsuarios();
 				listaFamilia = familiasEJBBean.getAllFamilias();
+				//rowEdit
+				produc = new Producto();
+				productos = obtenerTodosProductos();
+				idUsu = usuariosEJBBean.getId(id);
 				segmentaciones =  segm;
 			} catch (Exception e) {
 			}
 		}
-		
-		/*public void init() {
-			try {
-				
-			} catch (ServiciosException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-
-		
-		
 
 		/***********************************************************************************************************************************/
 
@@ -375,6 +442,23 @@ public class ProductosBean {
 		public void setListaUsuario(List<Usuario> listaUsuario) {
 			this.listaUsuario = listaUsuario;
 		}
+
+		public Producto getProduc() {
+			return produc;
+		}
+
+		public void setProduc(Producto produc) {
+			this.produc = produc;
+		}
+
+		public List<Producto> getProductos() {
+			return productos;
+		}
+
+		public void setProductos(List<Producto> productos) {
+			this.productos = productos;
+		}
+		
 		
 		
 }
