@@ -58,7 +58,7 @@ public class UsuariosRest {
         try{
             System.out.println("addUsuario-nombre " + usuario.getNombre());
             //add(String nombre, String apellido, String nomAcceso, String contrasena, String correo, tipoPerfil tipoPerfil)
-            usuariosBeans.add(usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), usuario.getContrasena(), usuario.getCorreo(), usuario.getTipoPerfil());
+            usuariosBeans.add(usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), DigestUtils.md5Hex(usuario.getContrasena()), usuario.getCorreo(), usuario.getTipoPerfil());
 			return usuario;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class UsuariosRest {
             System.out.println("updateUsuario-nombre " + usuario.getNombre());
             usuario.setId(id);
             //update(Long id, String nombre, String apellido, String nomAcceso, String contrasena, String correo, tipoPerfil tipoPerfil)
-            usuariosBeans.update(id, usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), usuario.getContrasena(), usuario.getCorreo(), usuario.getTipoPerfil());
+            usuariosBeans.update(id, usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), DigestUtils.md5Hex(usuario.getContrasena()), usuario.getCorreo(), usuario.getTipoPerfil());
             return usuario;
         }catch(ServiciosException e){
             e.printStackTrace();
