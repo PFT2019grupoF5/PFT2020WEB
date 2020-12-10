@@ -40,13 +40,13 @@
     </context-param>
     <listener>
         <listener-class>
-            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+            <param-name>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</param-name>
         </listener-class>
     </listener>    
     <servlet>
         <servlet-name>resteasy-servlet</servlet-name>
         <servlet-class>
-            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+           <param-name> org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</param-name>
         </servlet-class>
     </servlet>     
     <servlet-mapping>
