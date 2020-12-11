@@ -2,9 +2,7 @@ package com.bean;
 
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -163,9 +161,9 @@ public class UsuariosBean {
 		}
 	}
 
-	public LinkedList<Usuario> getAll() {
+	public List<Usuario> getAll() {
 		try {
-			return usuariosEJBBean.getAll();
+			return usuariosEJBBean.getAllUsuarios();
 		} catch (Exception e) {
 			return null;
 		}

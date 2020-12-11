@@ -2,7 +2,6 @@ package com.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,9 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
-import org.primefaces.event.RowEditEvent;
-
 import com.services.FamiliaBeanRemote;
 import com.services.UsuarioBeanRemote;
 import com.entities.Familia;
@@ -148,10 +144,7 @@ public class ProductosBean {
 					"Producto borrado exitosamente!");
 			String retPage = "bajaProductoPage";
 			try {
-				if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)||!tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-							"No tiene permisos suficientes para realizar esta acción");
-				} else if (selectedProducto == null) {
+				if (selectedProducto == null) {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 							"Seleccione Un Producto a borrar!");
 				} else if (productosEJBBean.validoBajaProductos(producto)) {
@@ -178,16 +171,16 @@ public class ProductosBean {
 			}
 		}
 
-		public LinkedList<Producto> getAll() {
+		public List<Producto> getAll() {
 			try {
-				return productosEJBBean.getAll();
+				return productosEJBBean.getAllProductos();
 			} catch (Exception e) {
 				return null;
 			}
 		}
 		
 		public List<Producto> obtenerTodosProductos() throws ServiciosException {
-			return productos = productosEJBBean.obtenerProductos();
+			return productos = productosEJBBean.getAllProductos();
 
 		}
 		
