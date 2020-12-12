@@ -49,11 +49,11 @@ public class ProductosRest {
     }
 		
 	@GET
-    @Path("/getByNombre/{nombre}")
+    @Path("/getNombre/{nombre}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Producto getProductoByNombre(@PathParam("nombre") String nombre) throws ServiciosException {
+    public Producto getNombre(@PathParam("nombre") String nombre) throws ServiciosException {
 		try{
-			Producto producto = productosBeans.getProductoByNombre(nombre);
+			Producto producto = productosBeans.getNombre(nombre);
 			return producto;
 		}catch(ServiciosException e){
 			throw new ServiciosException("No se pudo obtener producto con nombre " + nombre);
