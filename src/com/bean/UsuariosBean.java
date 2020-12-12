@@ -73,7 +73,14 @@ public class UsuariosBean {
 						"Campo Correo debe ser del formato : nombre @ dominio");
 			} else {
 				if (get() == null) {
-					usuariosEJBBean.add(nombre, apellido, nomAcceso, DigestUtils.md5Hex(contrasena), correo, tipoPerfil);
+					Usuario u = new Usuario();
+					u.setNombre(nombre);
+					u.setApellido(apellido);
+					u.setNomAcceso(nomAcceso);
+					u.setContrasena(DigestUtils.md5Hex(contrasena));
+					u.setCorreo(correo);
+					u.setTipoPerfil(tipoPerfil);
+					usuariosEJBBean.add(u);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"Usuario ya existente, por favor revise sus datos.");
@@ -115,7 +122,15 @@ public class UsuariosBean {
 							"Campo Correo debe ser del formato : nombre @ dominio");
 			} else {
 				if (get() != null) {
-					usuariosEJBBean.update(id, nombre, apellido, nomAcceso, DigestUtils.md5Hex(contrasena), correo, tipoPerfil);
+					Usuario u = new Usuario();
+					u.setId(id);
+					u.setNombre(nombre);
+					u.setApellido(apellido);
+					u.setNomAcceso(nomAcceso);
+					u.setContrasena(DigestUtils.md5Hex(contrasena));
+					u.setCorreo(correo);
+					u.setTipoPerfil(tipoPerfil);
+					usuariosEJBBean.update(u);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 							"Usuario no existe");

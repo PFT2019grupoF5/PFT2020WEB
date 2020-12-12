@@ -39,9 +39,9 @@ public class CiudadesBean {
 				System.out.println("esta vacio o muy largo no funca");
 			} else {
 				if (get2() == null) {
-					System.out.println("llega acá");
-					System.out.println(nombre);
-					ciudadesEJBBean.add(nombre);
+					Ciudad c = new Ciudad();
+					c.setNombre(nombre);
+					ciudadesEJBBean.add(c);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre de ciudad provisto ya existe");
@@ -73,7 +73,10 @@ public class CiudadesBean {
 						"Seleccione la casilla de confirmación!");
 			} else {
 				if (get() != null) {
-					ciudadesEJBBean.update(id, nombre);
+					Ciudad c = new Ciudad();
+					c.setId(id);
+					c.setNombre(nombre);
+					ciudadesEJBBean.update(c);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ", "Ciudad no existe");
 				}

@@ -41,7 +41,6 @@ public class MovimientosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Movimiento getMovimiento(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("getByIdMovimiento-id " + id.toString() ); 
 			Movimiento movimiento = movimientosBeans.getMovimiento(id);
 			return movimiento;
 		}catch(ServiciosException e){
@@ -54,10 +53,7 @@ public class MovimientosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Movimiento addMovimiento(Movimiento movimiento) throws ServiciosException{
         try{
-            System.out.println("addMovimiento-id " + movimiento.getDescripcion() );    
-            System.out.println("addMovimiento-Fecha  " + movimiento.getFecha().toString());
-            //add(Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Producto producto, Almacenamiento almacenamiento)
-            movimientosBeans.add(movimiento.getFecha(), movimiento.getCantidad(), movimiento.getDescripcion(), movimiento.getCosto(), movimiento.getTipoMov(), movimiento.getProducto(), movimiento.getAlmacenamiento());
+            movimientosBeans.add(movimiento);
 			return movimiento;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -70,10 +66,8 @@ public class MovimientosRest {
     @Produces(MediaType.APPLICATION_JSON)
       public Movimiento updateMovimiento(@PathParam("id") Long id, Movimiento movimiento) throws ServiciosException{
         try{
-            System.out.println("updateMovimiento-id " + movimiento.getId().toString() );
-            movimiento.setId(id);
-            //update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Producto producto,  Almacenamiento almacenamiento)
-            movimientosBeans.update(id, movimiento.getFecha(), movimiento.getCantidad(), movimiento.getDescripcion(), movimiento.getCosto(), movimiento.getTipoMov(), movimiento.getProducto(), movimiento.getAlmacenamiento());
+        	movimiento.setId(id);
+            movimientosBeans.update(movimiento);
             return movimiento;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -87,7 +81,6 @@ public class MovimientosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Movimiento deleteMovimiento(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("deleteMovimiento-id " + id.toString());
 			Movimiento movimiento = movimientosBeans.getMovimiento(id);
 			movimientosBeans.delete(id);
 			return movimiento;

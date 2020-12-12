@@ -56,9 +56,7 @@ public class UsuariosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario addUsuario(Usuario usuario) throws ServiciosException{
         try{
-            System.out.println("addUsuario-nombre " + usuario.getNombre());
-            //add(String nombre, String apellido, String nomAcceso, String contrasena, String correo, tipoPerfil tipoPerfil)
-            usuariosBeans.add(usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), DigestUtils.md5Hex(usuario.getContrasena()), usuario.getCorreo(), usuario.getTipoPerfil());
+            usuariosBeans.add(usuario);
 			return usuario;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -71,10 +69,8 @@ public class UsuariosRest {
     @Produces(MediaType.APPLICATION_JSON)
       public Usuario updateUsuario(@PathParam("id") Long id, Usuario usuario) throws ServiciosException{
         try{
-            System.out.println("updateUsuario-nombre " + usuario.getNombre());
             usuario.setId(id);
-            //update(Long id, String nombre, String apellido, String nomAcceso, String contrasena, String correo, tipoPerfil tipoPerfil)
-            usuariosBeans.update(id, usuario.getNombre(), usuario.getApellido(), usuario.getNomAcceso(), DigestUtils.md5Hex(usuario.getContrasena()), usuario.getCorreo(), usuario.getTipoPerfil());
+            usuariosBeans.update(usuario);
             return usuario;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -88,7 +84,6 @@ public class UsuariosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario deleteUsuario(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("deleteUsuario-id " + id.toString());
 			Usuario usuario = usuariosBeans.getUsuario(id);
 			usuariosBeans.delete(id);
 			return usuario;
@@ -103,7 +98,6 @@ public class UsuariosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario getLogin(@PathParam("nomAcceso") String nomAcceso, @PathParam("contrasena") String contrasena) throws ServiciosException {
 		try{
-			System.out.println("getLogin-nomAcceso-pass " + nomAcceso + " : " + contrasena); 
 			Usuario usuario= usuariosBeans.getNA(nomAcceso); 
 			
 			if (usuario != null ) {   //existe el usuario

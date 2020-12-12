@@ -61,8 +61,15 @@ public class PedidosBean {
 						"Es necesario ingresar todos los datos requeridos");
 			} else {
 				if (get() == null) {
-					pedidosEJBBean.add(pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado,
-							usuariosEJBBean.getUsuario(idUsuario));
+					Pedido p = new Pedido();
+					p.setPedfecestim(pedfecestim);
+					p.setFecha(fecha);
+					p.setPedreccodigo(pedreccodigo);
+					p.setPedrecfecha(pedrecfecha);
+					p.setPedreccomentario(pedreccomentario);
+					p.setPedestado(pedestado);
+					p.setUsuario(usuario);
+					pedidosEJBBean.add(p);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Pedido ya existe");
@@ -95,8 +102,21 @@ public class PedidosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				pedidosEJBBean.update(id, pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado,
-						usuario);
+				if (get() != null) {
+					Pedido p = new Pedido();
+					p.setId(id);	
+					p.setPedfecestim(pedfecestim);
+					p.setFecha(fecha);
+					p.setPedreccodigo(pedreccodigo);
+					p.setPedrecfecha(pedrecfecha);
+					p.setPedreccomentario(pedreccomentario);
+					p.setPedestado(pedestado);
+					p.setUsuario(usuario);
+					pedidosEJBBean.update(p);
+				}else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+							"Pedido no existe");
+				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;

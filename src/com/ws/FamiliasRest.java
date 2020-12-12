@@ -41,7 +41,6 @@ public class FamiliasRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Familia getFamilia(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("getByIdFamilia-id " + id.toString() ); 
 			Familia familia = familiasBeans.getFamilia(id);
 			return familia;
 		}catch(ServiciosException e){
@@ -54,9 +53,7 @@ public class FamiliasRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Familia addFamilia(Familia familia) throws ServiciosException{
         try{
-            System.out.println("addFamilia-nombre " + familia.getNombre() );
-            //add(String nombre, String descrip, String incompat) 
-            familiasBeans.add(familia.getNombre(), familia.getDescrip(), familia.getIncompat());
+            familiasBeans.add(familia);
 			return familia;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -69,10 +66,8 @@ public class FamiliasRest {
     @Produces(MediaType.APPLICATION_JSON)
       public Familia updateFamilia(@PathParam("id") Long id, Familia familia) throws ServiciosException{
         try{
-            System.out.println("updateFamilia-nombre " + familia.getNombre());
             familia.setId(id);
-            //update(Long id, String nombre, String descrip, String incompat)
-            familiasBeans.update(id, familia.getNombre(), familia.getDescrip(), familia.getIncompat());
+            familiasBeans.update(familia);
             return familia;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -86,7 +81,6 @@ public class FamiliasRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Familia deleteFamilia(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("deleteFamilia-id " + id.toString());
 			Familia familia = familiasBeans.getFamilia(id);
 			familiasBeans.delete(id);
 			return familia;

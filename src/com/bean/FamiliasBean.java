@@ -1,6 +1,5 @@
 package com.bean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,10 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import com.entities.Familia;
-import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.services.FamiliaBeanRemote;
 
@@ -53,7 +50,11 @@ public class FamiliasBean {
 						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
 			} else {
 				if (get2() == null) {
-					familiasEJBBean.add(nombre, descrip, incompat);
+					Familia f = new Familia();
+					f.setNombre(nombre);
+					f.setDescrip(descrip);
+					f.setIncompat(incompat);	
+					familiasEJBBean.add(f);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"La Familia ya existe");
@@ -91,7 +92,17 @@ public class FamiliasBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
 						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
 			} else {
-				familiasEJBBean.update(id, nombre, descrip, incompat);
+				if (get() != null) {
+					Familia f = new Familia();
+					f.setId(id);
+					f.setNombre(nombre);
+					f.setDescrip(descrip);
+					f.setIncompat(incompat);	
+					familiasEJBBean.update(f);
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+							"Familia no existe");
+				}	
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -100,7 +111,7 @@ public class FamiliasBean {
 		}
 	}
 
-	public String delete(Long id) {
+	public String delete() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Familia borrada exitosamente!");
 		String retPage = "bajaFamiliaPage";
@@ -214,7 +225,7 @@ public class FamiliasBean {
 		return familiasList;
 	}
 
-	public void setFamiliasList(List<Familia> usuariosList) {
+	public void setFamiliasList(List<Familia> familiasList) {
 		this.familiasList = familiasList;
 	}
 

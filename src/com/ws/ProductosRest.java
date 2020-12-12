@@ -41,7 +41,6 @@ public class ProductosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Producto getProducto(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("getByIdProducto-id " + id.toString() ); 
 			Producto producto = productosBeans.getProducto(id);
 			return producto;
 		}catch(ServiciosException e){
@@ -54,11 +53,7 @@ public class ProductosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Producto addProducto(Producto producto) throws ServiciosException{
     	try{
-            System.out.println("addProducto-nombre " + producto.getNombre());    
-            System.out.println("addProducto-Felab  " + producto.getFelab().toString());    
-            System.out.println("addProducto-Fven   " + producto.getFven().toString());
-            //add(String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario, Familia familia)
-            productosBeans.add(producto.getNombre(), producto.getLote(), producto.getPrecio(), producto.getFelab(), producto.getFven(), producto.getPeso(), producto.getVolumen(), producto.getEstiba(), producto.getStkMin(), producto.getStkTotal(), producto.getSegmentac(), producto.getUsuario(), producto.getFamilia());
+            productosBeans.add(producto);
             return producto;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -71,10 +66,7 @@ public class ProductosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Producto updateProducto(@PathParam("id") Long id, Producto producto) throws ServiciosException{
         try{
-            System.out.println("updateProducto-nombre " + producto.getNombre());
-            producto.setId(id);
-            // update(Long id, String nombre, String lote, double precio, Date felab, Date fven, double peso, double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario, Familia familia)
-            productosBeans.update(id, producto.getNombre(), producto.getLote(), producto.getPrecio(), producto.getFelab(), producto.getFven(), producto.getPeso(), producto.getVolumen(), producto.getEstiba(), producto.getStkMin(), producto.getStkTotal(), producto.getSegmentac(), producto.getUsuario(), producto.getFamilia());
+            productosBeans.update(producto);
             return producto;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -88,7 +80,6 @@ public class ProductosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Producto deleteProducto(@PathParam("id") Long id) throws ServiciosException {
     	try{
-			System.out.println("deleteProducto-id " + id.toString());
 		    Producto producto = productosBeans.getProducto(id);
 			productosBeans.delete(id);
 			return producto;
