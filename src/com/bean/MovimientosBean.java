@@ -2,7 +2,6 @@ package com.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,13 +19,11 @@ import com.enumerated.tipoPerfil;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.MovimientoBeanRemote;
 
-
 @ManagedBean(name = "movimiento")
 @ViewScoped
 
-
 public class MovimientosBean {
-	
+
 	private Long id;
 	private Date fecha;
 	private int cantidad;
@@ -35,68 +32,74 @@ public class MovimientosBean {
 	private tipoMovimiento tipoMov;
 	private Producto producto;
 	private Almacenamiento almacenamiento;
-	
+
 	private static tipoPerfil perfilLogeado;
-	
+
 	private Movimiento selectedMovimiento;
 	private List<SelectItem> tiposDeMov;
-	
+
 	private Long idProducto;
 	private Long idAlmacenamiento;
-	
+
 	private List<Producto> listaProducto;
 	private List<Almacenamiento> listaAlmacenamiento;
-	
+
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
-	
+
 	@EJB
 	private MovimientoBeanRemote movimientosEJBBean;
-	
+
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientoEJBBean;
-	
+
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:","El Movimiento se creo correctamente");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
+				"El Movimiento se creo correctamente");
 		String retPage = "altaMovimientoPage";
 		try {
-			if (fecha == null || cantidad<=0 || costo<=0 || tipoMov == null || producto == null || almacenamiento == null){
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Es necesario ingresar todos los datos requeridos");
-		}else if(descripcion.length() > 250) {
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Campo Descripcion no puede ser mayor a 250 caracteres");
-		}else {
-			if(get() == null) {
-				movimientosEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
-			}else {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-						"El Movimiento ya existe");
+			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
+					|| almacenamiento == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else if (descripcion.length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Descripcion no puede ser mayor a 250 caracteres");
+			} else {
+				if (get() == null) {
+					movimientosEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto,
+							almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
+							"El Movimiento ya existe");
+				}
 			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return retPage;
+		} catch (Exception e) {
+			return null;
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		return retPage;
-	}catch (Exception e) {
-		return null;
 	}
-	}
-	
-	public String update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov, Producto producto, Almacenamiento almacenamiento) {
+
+	public String update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov,
+			Producto producto, Almacenamiento almacenamiento) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Movimiento Modificado exitosamente!");
 		String retPage = "modificarMovimientoPage";
 		try {
-		
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado) || !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
+
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
+					|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
-		}else if (fecha == null || cantidad<=0 || costo<=0 || tipoMov == null || producto == null || almacenamiento == null){
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Es necesario ingresar todos los datos requeridos");
-		}else if(descripcion.length() > 250) {
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Campo Descripcion no puede ser mayor a 250 caracteres");
-			}else if (!confirmarModificar) {
+			} else if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
+					|| almacenamiento == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else if (descripcion.length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Descripcion no puede ser mayor a 250 caracteres");
+			} else if (!confirmarModificar) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
@@ -104,17 +107,18 @@ public class MovimientosBean {
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	public String delete(Long id) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Movimiento borrado exitosamente!");
 		String retPage = "bajaMovimientoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado) || !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
+					|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
 			} else if (selectedMovimiento == null) {
@@ -132,8 +136,6 @@ public class MovimientosBean {
 			return null;
 		}
 	}
-	
-
 
 	public Movimiento get() {
 		try {
@@ -143,18 +145,14 @@ public class MovimientosBean {
 		}
 	}
 
-	
-	
-
-	
-	public LinkedList<Movimiento> getAll() {
+	public List<Movimiento> getAll() {
 		try {
-			return movimientosEJBBean.getAll();
+			return movimientosEJBBean.getAllMovimientos();
 		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	@PostConstruct
 	public void tiM() {
 		try {
@@ -162,14 +160,12 @@ public class MovimientosBean {
 			tiM.add(new SelectItem(tipoMovimiento.M, tipoMovimiento.M.toString()));
 			tiM.add(new SelectItem(tipoMovimiento.C, tipoMovimiento.C.toString()));
 			tiM.add(new SelectItem(tipoMovimiento.P, tipoMovimiento.P.toString()));
-			tiposDeMov =  tiM;
+			tiposDeMov = tiM;
 		} catch (Exception e) {
 		}
 	}
-	
 
 	/***********************************************************************************************************************************/
-
 
 	public String chequearPerfil() {
 		try {
@@ -187,12 +183,9 @@ public class MovimientosBean {
 		perfilLogeado = null;
 		return "Login?faces-redirect=true";
 	}
-	
+
 	/***********************************************************************************************************************************/
 
-	
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -297,8 +290,4 @@ public class MovimientosBean {
 		this.listaAlmacenamiento = listaAlmacenamiento;
 	}
 
-	
-	
-	
-	
 }

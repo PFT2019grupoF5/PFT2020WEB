@@ -2,7 +2,6 @@ package com.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,13 +19,11 @@ import com.enumerated.tipoPerfil;
 import com.services.PedidoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
-
 @ManagedBean(name = "pedido")
 @ViewScoped
 
-
 public class PedidosBean {
-	
+
 	private Long id;
 	private Date pedfecestim;
 	private Date fecha;
@@ -35,48 +32,51 @@ public class PedidosBean {
 	private String pedreccomentario;
 	private estadoPedido pedestado;
 	private Usuario usuario;
-	
+
 	private static tipoPerfil perfilLogeado;
-	
+
 	private Pedido selectedPedido;
 	private List<SelectItem> estadoDelPedido;
-	
+
 	private Long idUsuario;
 	private List<Usuario> listaUsuario;
-	
+
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
-	
+
 	@EJB
 	private PedidoBeanRemote pedidosEJBBean;
-	
+
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
-	
-	
+
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:","El Pedido se creo correctamente");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:",
+				"El Pedido se creo correctamente");
 		String retPage = "altaPedidoPage";
 		try {
-			if (pedfecestim == null || fecha == null || pedreccodigo<=0 || pedreccomentario.isEmpty() || pedestado == null || usuario == null){
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Es necesario ingresar todos los datos requeridos");
-		}else {
-			if(get() == null) {
-				pedidosEJBBean.add(pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado, usuariosEJBBean.getUsuario(idUsuario));
-			}else {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-						"El Pedido ya existe");
+			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
+					|| pedestado == null || usuario == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else {
+				if (get() == null) {
+					pedidosEJBBean.add(pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado,
+							usuariosEJBBean.getUsuario(idUsuario));
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
+							"El Pedido ya existe");
+				}
 			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return retPage;
+		} catch (Exception e) {
+			return null;
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		return retPage;
-	}catch (Exception e) {
-		return null;
 	}
-	}
-	
-	public String update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha, String pedreccomentario, estadoPedido pedestado, Usuario usuario) {
+
+	public String update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha,
+			String pedreccomentario, estadoPedido pedestado, Usuario usuario) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Pedido Modificado exitosamente!");
 		String retPage = "modificarPedidoPage";
@@ -84,31 +84,33 @@ public class PedidosBean {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			}else if (pedfecestim == null || fecha == null || pedreccodigo<=0 || pedreccomentario.isEmpty() || pedestado == null || usuario == null){
+			} else if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
+					|| pedestado == null || usuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
-			}else if (estadoPedido.E.equals(pedestado)){
+			} else if (estadoPedido.E.equals(pedestado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado");
-			}else if (!confirmarModificar) {
+			} else if (!confirmarModificar) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				pedidosEJBBean.update(id, pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado, usuario);
+				pedidosEJBBean.update(id, pedfecestim, fecha, pedreccodigo, pedrecfecha, pedreccomentario, pedestado,
+						usuario);
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	public String delete(Long id) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Pedido borrado exitosamente!");
 		String retPage = "bajaPedidoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			} else if (selectedPedido == null) {
@@ -126,8 +128,6 @@ public class PedidosBean {
 			return null;
 		}
 	}
-	
-
 
 	public Pedido get() {
 		try {
@@ -137,34 +137,33 @@ public class PedidosBean {
 		}
 	}
 
-	
-	public LinkedList<Pedido> getPedidosFechas(String fechaDesde, String fechaHasta) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Entre Fechas");
+	public List<Pedido> getPedidosFechas(String fechaDesde, String fechaHasta) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			}else {
-			LinkedList<Pedido> listaPedidos = pedidosEJBBean.entreFechas(fechaHasta, fechaHasta);
-			return listaPedidos;
+			} else {
+				List<Pedido> listaPedidos = pedidosEJBBean.getPedidosEntreFechas(fechaHasta, fechaHasta);
+				return listaPedidos;
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
 			return null;
 		}
 		return null;
-		
+
 	}
-	
-	public LinkedList<Pedido> getAll() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:","Todos los Pedidos");
+
+	public List<Pedido> getAll() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Todos los Pedidos");
 		try {
 			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			}else {
-			LinkedList<Pedido> listaPedidos = pedidosEJBBean.getAll(); 
-			return listaPedidos;
+			} else {
+				List<Pedido> listaPedidos = pedidosEJBBean.getAllPedidos();
+				return listaPedidos;
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 
@@ -173,7 +172,7 @@ public class PedidosBean {
 		}
 		return null;
 	}
-	
+
 	@PostConstruct
 	public void esP() {
 		try {
@@ -183,16 +182,12 @@ public class PedidosBean {
 			esP.add(new SelectItem(estadoPedido.P, estadoPedido.P.toString()));
 			esP.add(new SelectItem(estadoPedido.E, estadoPedido.E.toString()));
 			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
-			estadoDelPedido =  esP;
+			estadoDelPedido = esP;
 		} catch (Exception e) {
 		}
 	}
-	
-	
 
 	/***********************************************************************************************************************************/
-
-
 
 	public String chequearPerfil() {
 		try {
@@ -210,10 +205,8 @@ public class PedidosBean {
 		perfilLogeado = null;
 		return "Login?faces-redirect=true";
 	}
-	
-	/***********************************************************************************************************************************/
 
-	
+	/***********************************************************************************************************************************/
 
 	public Long getId() {
 		return id;
@@ -302,7 +295,5 @@ public class PedidosBean {
 	public void setListaUsuario(List<Usuario> listaUsuario) {
 		this.listaUsuario = listaUsuario;
 	}
-	
-	
-	
+
 }

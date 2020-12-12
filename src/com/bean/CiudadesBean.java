@@ -1,7 +1,6 @@
 package com.bean;
 
-
-import java.util.LinkedList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -126,9 +125,9 @@ public class CiudadesBean {
 		}
 	}
 
-	public LinkedList<Ciudad> getAll() {
+	public List<Ciudad> getAll() {
 		try {
-			return ciudadesEJBBean.getAll();
+			return ciudadesEJBBean.getAllCiudades();
 		} catch (Exception e) {
 			return null;
 		}
