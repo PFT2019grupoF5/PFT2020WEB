@@ -97,6 +97,7 @@ public class UsuariosRest {
     @Path("/getLogin/{nomAcceso}/{contrasena}")
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario getLogin(@PathParam("nomAcceso") String nomAcceso, @PathParam("contrasena") String contrasena) throws ServiciosException {
+		
 		try{
 			Usuario usuario= usuariosBeans.getNA(nomAcceso); 
 			
@@ -109,7 +110,9 @@ public class UsuariosRest {
 					return usuario; //usuario y contraseña no concuerdan, por lo que se devuelve false
 				}
 		    }else {
-		    	return usuario; // NO existe el usuario
+		    	Usuario usuario2 = new Usuario();
+		    	usuario2.setContrasena("-No existe!");
+		    	return usuario2; // NO existe el usuario
 		    }			
 			
 		}catch(ServiciosException e){
