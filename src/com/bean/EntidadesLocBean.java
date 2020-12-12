@@ -65,7 +65,13 @@ public class EntidadesLocBean {
 						"Campo ciudad no puede ser vacío");
 			} else {
 				if (get() == null) {
-					entidadLocEJBBean.add(codigo, nombre, direccion, tipoLoc, ciudadEJBBean.getCiudad(idCiudad));
+					EntidadLoc e = new EntidadLoc();
+					e.setCodigo(codigo);
+					e.setNombre(nombre);
+					e.setDireccion(direccion);
+					e.setTipoloc(tipoLoc);
+					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
+					entidadLocEJBBean.add(e);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre del local provisto ya existe");
@@ -94,7 +100,14 @@ public class EntidadesLocBean {
 						"Campo Direccion no puede superar los 50 caracteres");
 			} else {
 				if (get() != null) {
-					entidadLocEJBBean.update(id, codigo, nombre, direccion, tipoLoc, ciudad);
+					EntidadLoc e = new EntidadLoc();
+					e.setId(id);
+					e.setCodigo(codigo);
+					e.setNombre(nombre);
+					e.setDireccion(direccion);
+					e.setTipoloc(tipoLoc);
+					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
+					entidadLocEJBBean.update(e);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 							"Local no existe");

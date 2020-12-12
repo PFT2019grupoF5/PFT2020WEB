@@ -83,8 +83,21 @@ public class ProductosBean {
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
 			} else {
 				if (get() == null) {
-					productosEJBBean.add(nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin, stkTotal,
-							segmentac, usuariosEJBBean.getUsuario(idUsuario), familiasEJBBean.getFamilia(idFamilia));
+		   			Producto p = new Producto();
+		   			p.setNombre(nombre);
+		   			p.setLote(lote);
+		   			p.setPrecio(precio);
+		   			p.setFelab(felab);
+		   			p.setFven(fven);
+		   			p.setPeso(peso);
+		   			p.setVolumen(volumen);
+		   			p.setEstiba(estiba);
+		   			p.setStkMin(stkMin);
+		   			p.setStkTotal(stkTotal);
+		   			p.setSegmentac(segmentac);
+		   			p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
+		   			p.setFamilia(familiasEJBBean.getFamilia(idFamilia));
+					productosEJBBean.add(p);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Producto ya existe. Por favor revise sus datos.");
@@ -120,16 +133,23 @@ public class ProductosBean {
 				// ",
 				// "Seleccione la casilla de confirmación!");
 			} else {
-				if (productosEJBBean.getProducto(id) != null) {
+				if (get() != null) {
 
-					// Traigo clases usuario y familia completas por el ID que se seleccionó en el
-					// desplegable
-					usuario = usuariosEJBBean.getUsuario(usuario.getId());
-
-					familia = familiasEJBBean.getFamilia(familia.getId());
-
-					productosEJBBean.update(id, nombre, lote, precio, felab, fven, peso, volumen, estiba, stkMin,
-							stkTotal, segmentac, usuario, familia);
+		   			Producto p = new Producto();
+		   			p.setNombre(nombre);
+		   			p.setLote(lote);
+		   			p.setPrecio(precio);
+		   			p.setFelab(felab);
+		   			p.setFven(fven);
+		   			p.setPeso(peso);
+		   			p.setVolumen(volumen);
+		   			p.setEstiba(estiba);
+		   			p.setStkMin(stkMin);
+		   			p.setStkTotal(stkTotal);
+		   			p.setSegmentac(segmentac);
+		   			p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
+		   			p.setFamilia(familiasEJBBean.getFamilia(idFamilia));
+					productosEJBBean.update(p);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 							"Producto no existe");

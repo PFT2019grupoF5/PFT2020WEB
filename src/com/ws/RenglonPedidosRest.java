@@ -41,7 +41,6 @@ public class RenglonPedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public RenglonPedido getRenglonPedido(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("getByIdRenglonPedido-id " + id.toString() ); 
 			RenglonPedido renglonPedido = renglonPedidosBeans.getRenglonPedido(id);
 			return renglonPedido;
 		}catch(ServiciosException e){
@@ -54,8 +53,7 @@ public class RenglonPedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public RenglonPedido addRenglonPedido(RenglonPedido renglonPedido) throws ServiciosException{
         try{
-            System.out.println("addRenglonPedido-id " + renglonPedido.getId().toString() );    
-            renglonPedidosBeans.add(renglonPedido.getRennro(), renglonPedido.getRencant(), renglonPedido.getProducto(), renglonPedido.getPedido() );
+            renglonPedidosBeans.add(renglonPedido);
 			return renglonPedido;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -68,9 +66,7 @@ public class RenglonPedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
       public RenglonPedido updateRenglonPedido(@PathParam("id") Long id, RenglonPedido renglonPedido) throws ServiciosException{
         try{
-            System.out.println("updateRenglonPedido-id " + renglonPedido.getId().toString() );
-            renglonPedido.setId(id);
-            renglonPedidosBeans.update(id, renglonPedido.getRennro(), renglonPedido.getRencant(), renglonPedido.getProducto(), renglonPedido.getPedido() );
+            renglonPedidosBeans.update(renglonPedido);
             return renglonPedido;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -84,7 +80,6 @@ public class RenglonPedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public RenglonPedido deleteRenglonPedido(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("deleteRenglonPedido-id " + id.toString());
 			RenglonPedido renglonPedido = renglonPedidosBeans.getRenglonPedido(id);
 			renglonPedidosBeans.delete(id);
 			return renglonPedido;

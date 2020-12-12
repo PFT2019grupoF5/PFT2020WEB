@@ -16,6 +16,7 @@ import com.entities.Movimiento;
 import com.entities.Producto;
 import com.enumerated.tipoMovimiento;
 import com.enumerated.tipoPerfil;
+import com.services.ProductoBeanRemote;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.MovimientoBeanRemote;
 
@@ -51,6 +52,8 @@ public class MovimientosBean {
 	private MovimientoBeanRemote movimientosEJBBean;
 
 	@EJB
+	private ProductoBeanRemote productoEJBBean;
+	@EJB
 	private AlmacenamientoBeanRemote almacenamientoEJBBean;
 
 	public String add() {
@@ -67,8 +70,15 @@ public class MovimientosBean {
 						"Campo Descripcion no puede ser mayor a 250 caracteres");
 			} else {
 				if (get() == null) {
-					movimientosEJBBean.add(fecha, cantidad, descripcion, costo, tipoMov, producto,
-							almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+					Movimiento m = new Movimiento();
+					m.setFecha(fecha);
+					m.setCantidad(cantidad);
+					m.setDescripcion(descripcion);
+					m.setCosto(costo);
+					m.setTipoMov(tipoMov);
+					m.setProducto(productoEJBBean.getProducto(idProducto));
+					m.setAlmacenamiento(almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+					movimientosEJBBean.add(m);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Movimiento ya existe");
@@ -103,7 +113,16 @@ public class MovimientosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				movimientosEJBBean.update(id, fecha, cantidad, descripcion, costo, tipoMov, producto, almacenamiento);
+				Movimiento m = new Movimiento();
+				m.setId(id);
+				m.setFecha(fecha);
+				m.setCantidad(cantidad);
+				m.setDescripcion(descripcion);
+				m.setCosto(costo);
+				m.setTipoMov(tipoMov);
+				m.setProducto(productoEJBBean.getProducto(idProducto));
+				m.setAlmacenamiento(almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+				movimientosEJBBean.update(m);
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -112,7 +131,7 @@ public class MovimientosBean {
 		}
 	}
 
-	public String delete(Long id) {
+	public String delete() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Movimiento borrado exitosamente!");
 		String retPage = "bajaMovimientoPage";

@@ -41,7 +41,6 @@ public class PedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Pedido getPedido(@PathParam("id") Long id) throws ServiciosException {
 		try{ 
-			System.out.println("getByIdPedido-id " + id.toString() );
 			Pedido pedido = pedidosBeans.getPedido(id);
 			return pedido;
 		}catch(ServiciosException e){
@@ -54,10 +53,7 @@ public class PedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Pedido addPedido(Pedido pedido) throws ServiciosException{
         try{
-            System.out.println("addPedido-codigo " + pedido.getPedreccodigo() );    
-            System.out.println("addPedido-fecha " + pedido.getFecha() );
-            //add(Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha, String pedreccomentario, estadoPedido pedestado, Usuario usuario)
-            pedidosBeans.add(pedido.getPedfecestim(), pedido.getFecha(), pedido.getPedreccodigo(), pedido.getPedrecfecha(), pedido.getPedreccomentario(), pedido.getPedestado(), pedido.getUsuario());
+            pedidosBeans.add(pedido);
 			return pedido;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -70,10 +66,8 @@ public class PedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
       public Pedido updatePedido(@PathParam("id") Long id, Pedido pedido) throws ServiciosException{
         try{
-            System.out.println("updatePedido-id " + pedido.getId().toString() );
             pedido.setId(id);
-            //update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha, String pedreccomentario, estadoPedido pedestado, Usuario usuario)
-            pedidosBeans.update(id, pedido.getPedfecestim(), pedido.getFecha(), pedido.getPedreccodigo(), pedido.getPedrecfecha(), pedido.getPedreccomentario(), pedido.getPedestado(), pedido.getUsuario());
+            pedidosBeans.update(pedido);
             return pedido;
         }catch(ServiciosException e){
             e.printStackTrace();

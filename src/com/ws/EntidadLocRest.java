@@ -41,7 +41,6 @@ public class EntidadLocRest {
     @Produces(MediaType.APPLICATION_JSON)
     public EntidadLoc getEntidadLoc(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("getByIdEntidadLoc-id " + id.toString() ); 
 			EntidadLoc entidadLoc = entidadesLocBeans.getEntidadLoc(id);
 			return entidadLoc;
 		}catch(ServiciosException e){
@@ -54,9 +53,7 @@ public class EntidadLocRest {
     @Produces(MediaType.APPLICATION_JSON)
     public EntidadLoc addEntidadLoc(EntidadLoc entidadLoc) throws ServiciosException{
         try{
-            System.out.println("addEntidadLoc-nombre " + entidadLoc.getNombre() );
-            //add(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad)
-            entidadesLocBeans.add(entidadLoc.getCodigo(), entidadLoc.getNombre(), entidadLoc.getDireccion(), entidadLoc.getTipoloc(), entidadLoc.getCiudad());
+            entidadesLocBeans.add(entidadLoc);
 			return entidadLoc;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -69,10 +66,7 @@ public class EntidadLocRest {
     @Produces(MediaType.APPLICATION_JSON)
       public EntidadLoc updateEntidadLoc(@PathParam("id") Long id, EntidadLoc entidadLoc) throws ServiciosException{
         try{
-            System.out.println("updateEntidadLoc-nombre " + entidadLoc.getNombre());
-            entidadLoc.setId(id);
-            //update(Long id, int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad)
-            entidadesLocBeans.update(id, entidadLoc.getCodigo(), entidadLoc.getNombre(), entidadLoc.getDireccion(), entidadLoc.getTipoloc(), entidadLoc.getCiudad());
+            entidadesLocBeans.update(entidadLoc);
             return entidadLoc;
         }catch(ServiciosException e){
             e.printStackTrace();
@@ -86,7 +80,6 @@ public class EntidadLocRest {
     @Produces(MediaType.APPLICATION_JSON)
     public EntidadLoc deleteEntidadLoc(@PathParam("id") Long id) throws ServiciosException {
 		try{
-			System.out.println("deleteEntidadLoc-id " + id.toString());
 			EntidadLoc entidadLoc = entidadesLocBeans.getEntidadLoc(id);
 			entidadesLocBeans.delete(id);
 			return entidadLoc;

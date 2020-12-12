@@ -1,13 +1,11 @@
 package com.bean;
 
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoPerfil;
@@ -66,11 +64,17 @@ public class AlmacenamientosBean {
 						"Campo entidadLoc no puede ser vacío");
 			} else {
 				if (get() == null) {
-					almacenamientosEJBBean.add(volumen, nombre, costoop, capestiba, cappeso,
-							entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					Almacenamiento a = new Almacenamiento();
+					a.setVolumen(volumen);
+					a.setNombre(nombre);
+					a.setCostoop(costoop);
+					a.setCapestiba(capestiba);
+					a.setCappeso(cappeso);
+					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					almacenamientosEJBBean.add(a);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El nombre de ciudad provisto ya existe");
+							"El almacenamiento ya existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -112,7 +116,15 @@ public class AlmacenamientosBean {
 						"Seleccione la casilla de confirmación!");
 			} else {
 				if (get() != null) {
-					almacenamientosEJBBean.update(id, volumen, nombre, costoop, capestiba, cappeso, entidadLoc);
+					Almacenamiento a = new Almacenamiento();
+					a.setId(id);
+					a.setVolumen(volumen);
+					a.setNombre(nombre);
+					a.setCostoop(costoop);
+					a.setCapestiba(capestiba);
+					a.setCappeso(cappeso);
+					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					almacenamientosEJBBean.update(a);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 							"Almacenamiento no existe");
@@ -125,7 +137,7 @@ public class AlmacenamientosBean {
 		}
 	}
 
-	public String delete(Long id) {
+	public String delete() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Almacenamiento borrado exitosamente!");
 		String retPage = "bajaAlmacenamientoPage";

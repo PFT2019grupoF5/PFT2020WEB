@@ -59,8 +59,12 @@ public class RenglonesPedidoBean {
 						"Es necesario ingresar todos los datos requeridos");
 			} else {
 				if (get() == null) {
-					renglonesPedidoEJBBean.add(rennro, rencant, productoEJBBean.getProducto(idProducto),
-							pedidoEJBBean.getPedido(idPedido));
+					RenglonPedido r = new RenglonPedido();
+					r.setRennro(rennro);
+					r.setRencant(rencant);
+					r.setProducto(productoEJBBean.getProducto(idProducto));
+					r.setPedido(pedidoEJBBean.getPedido(idPedido));
+					renglonesPedidoEJBBean.add(r);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Renglon ya existe");
@@ -89,7 +93,18 @@ public class RenglonesPedidoBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				renglonesPedidoEJBBean.update(id, rennro, rencant, producto, pedido);
+				if (get() != null) {
+				RenglonPedido r = new RenglonPedido();
+				r.setId(id);
+				r.setRennro(rennro);
+				r.setRencant(rencant);
+				r.setProducto(productoEJBBean.getProducto(idProducto));
+				r.setPedido(pedidoEJBBean.getPedido(idPedido));
+				renglonesPedidoEJBBean.update(r);
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+							"RengloPedido no existe");
+				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
