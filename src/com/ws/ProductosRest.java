@@ -48,6 +48,18 @@ public class ProductosRest {
 		}
     }
 		
+	@GET
+    @Path("/getByNombre/{nombre}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Producto getProductoByNombre(@PathParam("nombre") String nombre) throws ServiciosException {
+		try{
+			Producto producto = productosBeans.getProductoByNombre(nombre);
+			return producto;
+		}catch(ServiciosException e){
+			throw new ServiciosException("No se pudo obtener producto con nombre " + nombre);
+		}
+    }
+		
     @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
