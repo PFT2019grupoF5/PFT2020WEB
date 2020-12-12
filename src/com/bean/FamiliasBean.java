@@ -1,7 +1,6 @@
 package com.bean;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -141,9 +140,9 @@ public class FamiliasBean {
 		}
 	}
 
-	public LinkedList<Familia> getAll() {
+	public List<Familia> getAll() {
 		try {
-			return familiasEJBBean.getAll();
+			return familiasEJBBean.getAllFamilias();
 		} catch (Exception e) {
 			return null;
 		}
@@ -170,18 +169,15 @@ public class FamiliasBean {
 
 	/***********************************************************************************************************************************/
 
-	
 	@PostConstruct
 	public void cargoLista() {
 		try {
-			//Carga la lista de Familias
+			// Carga la lista de Familias
 			familiasList = this.getAll();
 		} catch (Exception e) {
 		}
 	}
 
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -222,5 +218,4 @@ public class FamiliasBean {
 		this.familiasList = familiasList;
 	}
 
-	
 }

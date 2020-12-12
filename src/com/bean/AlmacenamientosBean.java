@@ -1,6 +1,5 @@
 package com.bean;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -15,13 +14,10 @@ import com.enumerated.tipoPerfil;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.EntidadLocBeanRemote;
 
-
-
 @ManagedBean(name = "almacenamiento")
 @ViewScoped
 public class AlmacenamientosBean {
 
-	
 	private Long id;
 	private int volumen;
 	private String nombre;
@@ -29,19 +25,19 @@ public class AlmacenamientosBean {
 	private double capestiba;
 	private double cappeso;
 	private EntidadLoc entidadLoc;
-	
+
 	private static tipoPerfil perfilLogeado;
-	
+
 	private Almacenamiento selectedAlmacenamiento;
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
-	
+
 	private Long idEntidadLoc;
-	private List <EntidadLoc> listaEntidadLoc;
-	
+	private List<EntidadLoc> listaEntidadLoc;
+
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
-	
+
 	@EJB
 	private EntidadLocBeanRemote entidadLocEJBBean;
 
@@ -56,13 +52,13 @@ public class AlmacenamientosBean {
 			} else if (nombre.length() > 250) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (costoop <=0) {
+			} else if (costoop <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Costo Operacion no puede ser vacío o mayor a 50 caracteres");
-			} else if (capestiba <=0) {
+			} else if (capestiba <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Capacidad de Estiba no puede ser vacío o mayor a 50 caracteres");
-			} else if (cappeso <=0) {
+			} else if (cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Capacidad de Peso no puede ser vacío o mayor a 50 caracteres");
 			} else if (entidadLoc == null) {
@@ -70,7 +66,8 @@ public class AlmacenamientosBean {
 						"Campo entidadLoc no puede ser vacío");
 			} else {
 				if (get() == null) {
-					almacenamientosEJBBean.add(volumen, nombre, costoop, capestiba, cappeso, entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					almacenamientosEJBBean.add(volumen, nombre, costoop, capestiba, cappeso,
+							entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre de ciudad provisto ya existe");
@@ -82,13 +79,14 @@ public class AlmacenamientosBean {
 			return null;
 		}
 	}
-	
-	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso, EntidadLoc entidadLoc) {
+
+	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso,
+			EntidadLoc entidadLoc) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Almacenamiento modificada exitosamente!");
 		String retPage = "modificarAlmacenamientoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"No tiene permisos suficientes para realizar esta acción");
 			} else if (volumen <= 0) {
@@ -97,13 +95,13 @@ public class AlmacenamientosBean {
 			} else if (nombre.length() > 250) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (costoop <=0) {
+			} else if (costoop <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Costo Operacion no puede ser vacío o mayor a 50 caracteres");
-			} else if (capestiba <=0) {
+			} else if (capestiba <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Capacidad de Estiba no puede ser vacío o mayor a 50 caracteres");
-			} else if (cappeso <=0) {
+			} else if (cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Capacidad de Peso no puede ser vacío o mayor a 50 caracteres");
 			} else if (entidadLoc == null) {
@@ -132,7 +130,7 @@ public class AlmacenamientosBean {
 				"Almacenamiento borrado exitosamente!");
 		String retPage = "bajaAlmacenamientoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)||!tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
+			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 						"No tiene permisos suficientes para realizar esta acción");
 			} else if (selectedAlmacenamiento == null) {
@@ -159,19 +157,15 @@ public class AlmacenamientosBean {
 		}
 	}
 
-	public LinkedList<Almacenamiento> getAll() {
+	public List<Almacenamiento> getAll() {
 		try {
-			return almacenamientosEJBBean.getAll();
+			return almacenamientosEJBBean.getAllAlmacenamientos();
 		} catch (Exception e) {
 			return null;
 		}
 	}
-	
-
 
 	/***********************************************************************************************************************************/
-
-
 
 	public String chequearPerfil() {
 		try {
@@ -189,10 +183,9 @@ public class AlmacenamientosBean {
 		perfilLogeado = null;
 		return "Login?faces-redirect=true";
 	}
-	
+
 	/***********************************************************************************************************************************/
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -264,9 +257,5 @@ public class AlmacenamientosBean {
 	public void setListaEntidadLoc(List<EntidadLoc> listaEntidadLoc) {
 		this.listaEntidadLoc = listaEntidadLoc;
 	}
-	
-	
-	
+
 }
-
-

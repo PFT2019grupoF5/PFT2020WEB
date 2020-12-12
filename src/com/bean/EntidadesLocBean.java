@@ -1,7 +1,6 @@
 package com.bean;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -140,9 +139,9 @@ public class EntidadesLocBean {
 		}
 	}
 
-	public LinkedList<EntidadLoc> getAll() {
+	public List<EntidadLoc> getAll() {
 		try {
-			return entidadLocEJBBean.getAll();
+			return entidadLocEJBBean.getAllEntidadesLoc();
 		} catch (Exception e) {
 			return null;
 		}
