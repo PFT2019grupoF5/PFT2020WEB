@@ -14,131 +14,7 @@
 </f:metadata>
 
 <h:body>
-		<p:panel collapsed="true">
-		<h1>Logistica</h1>
-	</p:panel>
-	<h:panelGroup layout="block">
-		<br />
-	</h:panelGroup>
-	<p:panelGrid columns="3" style="vertical-align: top;">
-		<h:form>
-			<p:menu toggleable="true" style="width: 300px">
-			<p:submenu label="Navegación">
-				<p:menuitem value="Página Principal"
-					action="Home?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			<p:submenu label="Almacenamiento">
-				<p:menuitem value="Alta de Almacenamiento"
-					action="altaAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Almacenamiento"
-					action="modificarAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Almacenamiento"
-					action="bajaAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Ciudad">
-				<p:menuitem value="Alta de Ciudad"
-					action="altaCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Ciudad"
-					action="modificarCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Ciudad"
-					action="bajaCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Locales">
-				<p:menuitem value="Alta de Local"
-					action="altaLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Local"
-					action="modificarLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Local"
-					action="bajaLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Familia">
-				<p:menuitem value="Alta de Familia"
-					action="altaFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Familia"
-					action="modificarFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Familia"
-					action="bajaFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Movimiento">
-				<p:menuitem value="Alta de Movimiento"
-					action="altaMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Movimiento"
-					action="modificarMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Movimiento"
-					action="bajaMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Pedido">
-				<p:menuitem value="Alta de Pedido"
-					action="altaPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Pedido"
-					action="modificarPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Pedido"
-					action="bajaPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Producto">
-				<p:menuitem value="Alta de Producto"
-					action="altaProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Producto"
-					action="modificarProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Producto"
-					action="bajaProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Renglon de Pedido">
-				<p:menuitem value="Alta de Renglon de Pedido"
-					action="altaRenglonesPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Renglon de Pedido"
-					action="modificarRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Renglon de Pedido"
-					action="bajaRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Usuario">
-				<p:menuitem value="Alta de Usuario"
-					action="altaUsuarioPage?faces-redirect=true"
-					icon="Poner icono aca*s" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Usuario"
-					action="modificarProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Usuario"
-					action="bajaUsuarioPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Reportes de Pedidos">
-				<p:menuitem value="Pedidos entre fechas"
-					action="reportePedidosFechasPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Salir">
-				<p:menuitem value="Logout"
-					action="#{usuario.logout()}"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			</p:submenu>
-		</p:menu>
-		</h:form>
+	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
 		<p:panel style="vertical-align: top;">
 			<h3>Alta de Pedido</h3>
@@ -253,7 +129,6 @@
 				</h:form>
 			</p:panelGrid>
 		</p:panel>
-	</p:panelGrid>
 </h:body>
 
 </html>
