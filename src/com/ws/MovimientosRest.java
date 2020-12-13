@@ -47,7 +47,21 @@ public class MovimientosRest {
 			throw new ServiciosException("No se pudo obtener movimiento con id " + id.toString());
 		}
     }
-		
+
+	
+	@GET
+    @Path("/validoBajaProducto/{idProducto}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Movimiento validoBajaProducto(@PathParam("idProducto") Long idProducto) throws ServiciosException {
+		try{
+			Movimiento movimiento = movimientosBeans.validoBajaProducto(idProducto);
+			return movimiento;
+		}catch(ServiciosException e){
+			throw new ServiciosException("No se puede dar de baja el producto porque tiene registro de perdida asociado");
+		}
+    }
+	
+	
     @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
