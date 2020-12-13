@@ -40,14 +40,19 @@
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
+				
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Actual:" />
-							<p:inputText id="fecha"
-								value="#{pedido.fecha}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="fecha" value="#{pedido.fecha}"
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__" 
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
+					
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
