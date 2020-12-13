@@ -46,9 +46,6 @@ public class MovimientosBean {
 	private Long idProducto;
 	private Long idAlmacenamiento;
 
-	private List<Producto> listaProducto;
-	private List<Almacenamiento> listaAlmacenamiento;
-
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 	
@@ -60,16 +57,16 @@ public class MovimientosBean {
 
 	@EJB
 	private ProductoBeanRemote productosEJBBean;
+
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
-				"El Movimiento se creo correctamente");
 		String retPage = "altaMovimientoPage";
+		FacesMessage message;
+		
 		try {
-			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
-					|| almacenamiento == null) {
+			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else if (descripcion.length() > 250) {
@@ -86,6 +83,10 @@ public class MovimientosBean {
 					m.setProducto(productosEJBBean.getProducto(idProducto));
 					m.setAlmacenamiento(almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento));
 					movimientosEJBBean.add(m);
+
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
+							"El Movimiento se creo correctamente");
+
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Movimiento ya existe");
@@ -138,23 +139,24 @@ public class MovimientosBean {
 		}
 	}
 
-	public String delete() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Movimiento borrado exitosamente!");
+	public String delete(Movimiento movimiento) {
+		FacesMessage message ;
 		String retPage = "bajaMovimientoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
-					|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
-			} else if (selectedMovimiento == null) {
+			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
+			//		|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
+			//} else 
+			
+			if (movimiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione un Movimiento a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
+						"Seleccione Un Movimiento a borrar!");
 			} else {
-				movimientosEJBBean.delete(selectedMovimiento.getId());
+				movimientosEJBBean.delete(movimiento.getId());
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+						"Movimiento borrado exitosamente!");
+				
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -182,6 +184,7 @@ public class MovimientosBean {
 	public List<Movimiento> obtenerTodosMovimientos() throws ServiciosException {
 		return movimientosList = movimientosEJBBean.getAllMovimientos();
 	}
+	
 	public void onRowEdit(RowEditEvent event) {
 	    Movimiento m = (Movimiento) event.getObject();
 	    
@@ -335,22 +338,6 @@ public class MovimientosBean {
 
 	public void setIdAlmacenamiento(Long idAlmacenamiento) {
 		this.idAlmacenamiento = idAlmacenamiento;
-	}
-
-	public List<Producto> getListaProducto() {
-		return listaProducto;
-	}
-
-	public void setListaProducto(List<Producto> listaProducto) {
-		this.listaProducto = listaProducto;
-	}
-
-	public List<Almacenamiento> getListaAlmacenamiento() {
-		return listaAlmacenamiento;
-	}
-
-	public void setListaAlmacenamiento(List<Almacenamiento> listaAlmacenamiento) {
-		this.listaAlmacenamiento = listaAlmacenamiento;
 	}
 
 	public List<Movimiento> getMovimientosList() {

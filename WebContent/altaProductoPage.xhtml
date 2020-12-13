@@ -188,8 +188,11 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Elaborado:" />
-							<p:calendar id="felab"
-								value="#{producto.felab}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
+							<p:calendar id="felab" value="#{producto.felab}" 
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__" 
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -201,8 +204,11 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Vencimiento:" />
-							<p:calendar id="fven"
-								value="#{producto.fven}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
+							<p:calendar id="fven" value="#{producto.fven}" 
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__" 
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

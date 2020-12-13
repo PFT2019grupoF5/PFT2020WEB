@@ -107,21 +107,21 @@
 			<p:selectOneMenu value="#{mov.tipoMov}">
 				<f:selectItem itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true" />
-				<f:selectItems value="#{mov.tipoMov}" />
+				<f:selectItems value="#{movimiento.tiposDeMov}" />
 			</p:selectOneMenu>
 		</p:column>
 
 		<p:column headerText="Producto">
 			<p:selectOneMenu  id="prod" value="#{mov.producto.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="p" value="#{producto.productos}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
+ 				<f:selectItems var="p" value="#{producto.productosList}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 			</p:selectOneMenu>
         </p:column>
 
 		<p:column headerText="Almacenamiento">
 			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="a" value="#{almacenamiento.almacenamientos}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
+ 				<f:selectItems var="a" value="#{almacenamiento.almacenamientosList}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
 			</p:selectOneMenu>
         </p:column> 
 

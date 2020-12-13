@@ -53,8 +53,6 @@ public class ProductosBean {
 	// Para buscar Familia y Usuario en el add y en edit
 	private Long idUsuario;
 	private Long idFamilia;
-	// private List<Familia> listaFamilia;
-	// private List<Usuario> listaUsuario;
 	private Usuario idUsu;
 
 	// edit
@@ -438,11 +436,11 @@ public class ProductosBean {
 		this.produc = produc;
 	}
 
-	public List<Producto> getProductos() {
+	public List<Producto> getProductosList() {
 		return productosList;
 	}
 
-	public void setProductos(List<Producto> productos) {
+	public void setProductosList(List<Producto> productosList) {
 		this.productosList = productosList;
 	}
 

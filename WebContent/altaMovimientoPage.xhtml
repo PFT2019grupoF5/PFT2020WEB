@@ -1,264 +1,153 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
 
 <f:metadata>
-    <f:viewAction action="#{usuario.chequearPerfil()}" />
+	<f:viewAction action="#{usuario.chequearPerfil()}" />
 </f:metadata>
 
 <h:body>
-		<p:panel collapsed="true">
-		<h1>Logistica</h1>
-	</p:panel>
-	<h:panelGroup layout="block">
-		<br />
-	</h:panelGroup>
-	<p:panelGrid columns="3" style="vertical-align: top;">
-		<h:form>
-			<p:menu toggleable="true" style="width: 300px">
-			<p:submenu label="Navegación">
-				<p:menuitem value="Página Principal"
-					action="Home?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			<p:submenu label="Almacenamiento">
-				<p:menuitem value="Alta de Almacenamiento"
-					action="altaAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Almacenamiento"
-					action="modificarAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Almacenamiento"
-					action="bajaAlmacenamientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Ciudad">
-				<p:menuitem value="Alta de Ciudad"
-					action="altaCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Ciudad"
-					action="modificarCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Ciudad"
-					action="bajaCiudadPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Locales">
-				<p:menuitem value="Alta de Local"
-					action="altaLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Local"
-					action="modificarLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Local"
-					action="bajaLocalPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Familia">
-				<p:menuitem value="Alta de Familia"
-					action="altaFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Familia"
-					action="modificarFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Familia"
-					action="bajaFamiliaPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Movimiento">
-				<p:menuitem value="Alta de Movimiento"
-					action="altaMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Movimiento"
-					action="modificarMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Movimiento"
-					action="bajaMovimientoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Pedido">
-				<p:menuitem value="Alta de Pedido"
-					action="altaPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Pedido"
-					action="modificarPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Pedido"
-					action="bajaPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Producto">
-				<p:menuitem value="Alta de Producto"
-					action="altaProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Producto"
-					action="modificarProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Producto"
-					action="bajaProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Renglon de Pedido">
-				<p:menuitem value="Alta de Renglon de Pedido"
-					action="altaRenglonesPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Renglon de Pedido"
-					action="modificarRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Renglon de Pedido"
-					action="bajaRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Usuario">
-				<p:menuitem value="Alta de Usuario"
-					action="altaUsuarioPage?faces-redirect=true"
-					icon="Poner icono aca*s" style="width: 300px !important;" />
-				<p:menuitem value="Modificacion de Usuario"
-					action="modificarProductoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Usuario"
-					action="bajaUsuarioPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Reportes de Pedidos">
-				<p:menuitem value="Pedidos entre fechas"
-					action="reportePedidosFechasPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Salir">
-				<p:menuitem value="Logout"
-					action="#{usuario.logout()}"
-					icon="Poner icono aca*" style="width: 300px !important;" />
-			</p:submenu>
-			</p:submenu>
-		</p:menu>
-		</h:form>
-		<p:spacer width="10px"></p:spacer>
-		<p:panel style="vertical-align: top;">
-			<h3>Alta de Movimiento</h3>
-			<p:spacer height="10px" />
-			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
-				<h:form>
-					<p:growl id="msg" showDetail="true" life="4000" />
+	<p:spacer width="10px"></p:spacer>
+	<p:panel style="vertical-align: top;">
+		<h3>Alta de Movimientos</h3>
+		<p:spacer height="10px" />
+		<p:panelGrid style="width: auto; height: auto" cellpadding="1">
+			<h:form>
+				<p:growl id="msg" showDetail="true" life="4000" />
 
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Fecha:" />
-							<p:calendar id="fecha"
-								value="#{movimiento.fecha}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-									
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Cantidad:" />
-							<p:inputNumber id="cantidad"
-								value="#{movimiento.cantidad}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Descripcion:" />
-							<p:inputText id="nombre"
-								value="#{movimiento.descripcion}"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Costo:" />
-							<p:inputNumber id="costo"
-								value="#{movimiento.costo}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Tipo de Movimiento" />
-							<p:selectOneMenu id="tipoMov"
-								value="#{movimiento.tipoMov}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
-    						<f:selectItems value="#{movimiento.tiposDeMov}" /></p:selectOneMenu>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Fecha:" />
+							<p:calendar id="fecha" value="#{movimiento.fecha}"
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__"
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Cantidad:" />
+						<p:inputNumber id="cantidad" value="#{movimiento.cantidad}"
+							required="true"></p:inputNumber>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Descripcion:" />
+						<p:inputText id="nombre" value="#{movimiento.descripcion}"></p:inputText>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Costo:" />
+						<p:inputNumber id="costo" value="#{movimiento.costo}"
+							required="true"></p:inputNumber>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Tipo de Movimiento" />
+						<p:selectOneMenu id="tipoMov" value="#{movimiento.tipoMov}"
+							effect="fold" editable="false">
+							<f:selectItem itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{movimiento.tiposDeMov}" />
+						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+			
+				<p:row>
+					<p:column colspan="1">
 						<h:outputText value="Producto" />
-							<p:selectOneMenu  id="producto" value="#{movimiento.idProducto}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="p" value="#{producto.all}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="producto" style="color:red" />
+					    	<p:selectOneMenu id="prod" 
+					    		value="#{movimiento.idProducto}">
+								<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{producto.productosList}" 
+									var="p"
+									itemLabel="#{p.nombre}" 
+									itemValue="#{p.id}" />
+								<p:message for="prod" style="color:red" />
 							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+			
+				<p:row>
+					<p:column colspan="1">
 						<h:outputText value="Almacenamiento" />
-							<p:selectOneMenu  id="almacenamiento" value="#{movimiento.idAlmacenamiento}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="a" value="#{almacenamiento.all}" itemLabel="#{a.nombre}" itemValue="${a.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="almacenamiento" style="color:red" />
-							</p:selectOneMenu>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row style="text-align: center;">
-						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Confirmar" ajax="false"
-								action="#{movimiento.add()}" />
-						</p:column>
-						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Cancelar" action="Home" />
-						</p:column>
-					</p:row>
-				</h:form>
-			</p:panelGrid>
-		</p:panel>
-	</p:panelGrid>
+						<p:selectOneMenu id="almac"
+							value="#{movimiento.idAlmacenamiento}">
+							<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{almacenamiento.almacenamientosList}"
+								var="a" 
+								itemLabel="#{a.nombre}" 
+								itemValue="${a.id}"
+								required="true" requiredMessage="Debe seleccionar una opción" />
+							<p:message for="almac" style="color:red" />
+						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row style="text-align: center;">
+					<p:column colspan="1" style="text-align: center;">
+						<h:commandButton value="Confirmar" ajax="false"
+							action="#{movimiento.add()}" />
+					</p:column>
+					<p:column colspan="1" style="text-align: center;">
+						<h:commandButton value="Cancelar" action="Home" />
+					</p:column>
+				</p:row>
+			</h:form>
+		</p:panelGrid>
+	</p:panel>
 </h:body>
 </html>

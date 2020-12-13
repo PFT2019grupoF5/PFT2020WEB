@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Eliminar Movimientos</title>
+	<style type="text/css">
+.ui-row-editor .ui-row-editor-pencil {
+	margin-left: 8px;
+}
+
+
+</style>
+</h:head>
+
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
+
+		<f:facet name="header">
+            Eliminar Movimientos
+        </f:facet>
+
+	<p:dataTable id="mov1" var="mov" value="#{movimiento.movimientosList}"
+		editable="true" >
+ 		
+		<p:column headerText="Id">
+			<f:facet name="output">
+				<h:outputLabel value="ID" />
+			</f:facet>
+			<h:outputLabel value="#{mov.id}" />
+			
+		</p:column>
+		
+		<p:column headerText="Fecha">
+			<f:facet name="output">
+				<h:outputLabel value="Fecha" />
+			</f:facet>
+			<h:outputText value="#{mov.fecha}" pattern="dd/MM/yy">
+				<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+			</h:outputText>
+		</p:column>
+		
+		<p:column headerText="Cantidad">
+			<f:facet name="output">
+				<h:outputLabel value="Cantidad" />
+			</f:facet>
+			<h:outputLabel value="#{mov.cantidad}" />
+		</p:column>
+		
+		<p:column headerText="Descripción">
+			<f:facet name="output">
+				<h:outputLabel value="Descripción" />
+			</f:facet>
+			<h:outputLabel value="#{mov.descripcion}" />
+		</p:column>
+
+		<p:column headerText="Costo">
+			<f:facet name="output">
+				<h:outputLabel value="Costo" />
+			</f:facet>
+			<h:outputText value="#{mov.costo}" />
+		</p:column>
+
+		<p:column headerText="Tipo Movimiento">
+			<f:facet name="output">
+				<h:outputLabel value="Tipo Movimiento" />
+			</f:facet>
+			<h:outputText value="#{mov.tipoMov.toString()}" />
+		</p:column>
+
+		<p:column headerText="Producto">
+			<f:facet name="output">
+				<h:outputLabel value="Producto" />
+			</f:facet>
+			<h:outputText value="#{mov.producto.nombre}" />
+        </p:column>
+
+		<p:column headerText="Almacenamiento">
+			<f:facet name="output">
+				<h:outputLabel value="Almacenamiento" />
+			</f:facet>
+			<h:outputText value="#{mov.almacenamiento.nombre}" />
+        </p:column> 
+ 
+		<p:column style="width:100px;text-align: center">
+        	<p:commandButton action="#{movimiento.delete(mov)}" icon="fa fa-trash"  ></p:commandButton>
+        </p:column>
+	</p:dataTable>
+
+</h:form>
+
+</html>

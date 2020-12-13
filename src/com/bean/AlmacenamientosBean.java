@@ -34,7 +34,7 @@ public class AlmacenamientosBean {
 
 	private Long idEntidadLoc;
 	private List<EntidadLoc> listaEntidadLoc;
-	private List<Almacenamiento> almacenamientos;
+	private List<Almacenamiento> almacenamientosList;
 	private Long idProducto;
 	private Long idAlmacenamiento;
 
@@ -186,7 +186,7 @@ public class AlmacenamientosBean {
 	public void cargoLista() {
 		try {
 			// Carga la lista de Almacenamientos
-			almacenamientos = this.getAll();
+			almacenamientosList = this.getAll();
 		} catch (Exception e) {
 		}
 	}
@@ -284,12 +284,12 @@ public class AlmacenamientosBean {
 		this.listaEntidadLoc = listaEntidadLoc;
 	}
 
-	public List<Almacenamiento> getAlmacenamientos() {
-		return almacenamientos;
+	public List<Almacenamiento> getAlmacenamientosList() {
+		return almacenamientosList;
 	}
 
-	public void setAlmacenamientos(List<Almacenamiento> almacenamientos) {
-		this.almacenamientos = almacenamientos;
+	public void setAlmacenamientosList(List<Almacenamiento> almacenamientosList) {
+		this.almacenamientosList = almacenamientosList;
 	}
 
 	public Long getIdProducto() {

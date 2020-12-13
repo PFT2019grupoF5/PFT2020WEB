@@ -24,7 +24,7 @@
             Editar producto
         </f:facet>
 
-	<p:dataTable id="produc1" var="produc" value="#{producto.productos}"
+	<p:dataTable id="produc1" var="produc" value="#{producto.productosList}"
 		editable="true" >
  
 		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}" update=":form:msgs" 
@@ -181,19 +181,24 @@
 		</p:column>
 
 		<p:column headerText="Usuario">
-			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}" required="true">
+			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="#{u.id}" />
+ 				<f:selectItems var="u" 
+ 					value="#{usuario.usuariosList}" 
+ 					itemLabel="#{u.nombre}" 
+ 					itemValue="#{u.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				<p:message for="usu" style="color:red" />
 			</p:selectOneMenu>
         </p:column>
 
 		<p:column headerText="Familia">
-			<p:selectOneMenu  id="fam" value="#{produc.familia.id}" required="true">
+			<p:selectOneMenu  id="fam" value="#{produc.familia.id}" >
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems value="#{familia.familiasList}" 
  					var="f" 
  					itemLabel="#{f.nombre}" 
- 					itemValue="#{f.id}" />
+ 					itemValue="#{f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+ 				<p:message for="fam" style="color:red" />	
  			</p:selectOneMenu>
         </p:column> 
  
