@@ -7,7 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import com.entities.Ciudad;
+import com.entities.Producto;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.CiudadBeanRemote;
 
 @ManagedBean(name = "ciudad")
@@ -20,6 +22,7 @@ public class CiudadesBean {
 	private static tipoPerfil perfilLogeado;
 
 	private Ciudad selectedCiudad;
+	private List<Ciudad> ciudades;
 
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
@@ -135,6 +138,10 @@ public class CiudadesBean {
 			return null;
 		}
 	}
+	
+	public List<Ciudad> obtenerTodasCiudades() throws ServiciosException {
+		return ciudades =ciudadesEJBBean.getAllCiudades();
+	}
 
 	/***********************************************************************************************************************************/
 
@@ -174,5 +181,23 @@ public class CiudadesBean {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public Ciudad getSelectedCiudad() {
+		return selectedCiudad;
+	}
+
+	public void setSelectedCiudad(Ciudad selectedCiudad) {
+		this.selectedCiudad = selectedCiudad;
+	}
+
+	public List<Ciudad> getCiudades() {
+		return ciudades;
+	}
+
+	public void setCiudades(List<Ciudad> ciudades) {
+		this.ciudades = ciudades;
+	}
+	
+	
 
 }

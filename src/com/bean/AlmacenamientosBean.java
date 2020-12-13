@@ -1,6 +1,8 @@
 package com.bean;
 
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -32,6 +34,9 @@ public class AlmacenamientosBean {
 
 	private Long idEntidadLoc;
 	private List<EntidadLoc> listaEntidadLoc;
+	private List<Almacenamiento> almacenamientos;
+	private Long idProducto;
+	private Long idAlmacenamiento;
 
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
@@ -176,6 +181,15 @@ public class AlmacenamientosBean {
 			return null;
 		}
 	}
+	
+	@PostConstruct
+	public void cargoLista() {
+		try {
+			// Carga la lista de Almacenamientos
+			almacenamientos = this.getAll();
+		} catch (Exception e) {
+		}
+	}
 
 	/***********************************************************************************************************************************/
 
@@ -269,5 +283,31 @@ public class AlmacenamientosBean {
 	public void setListaEntidadLoc(List<EntidadLoc> listaEntidadLoc) {
 		this.listaEntidadLoc = listaEntidadLoc;
 	}
+
+	public List<Almacenamiento> getAlmacenamientos() {
+		return almacenamientos;
+	}
+
+	public void setAlmacenamientos(List<Almacenamiento> almacenamientos) {
+		this.almacenamientos = almacenamientos;
+	}
+
+	public Long getIdProducto() {
+		return idProducto;
+	}
+
+	public void setIdProducto(Long idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public Long getIdAlmacenamiento() {
+		return idAlmacenamiento;
+	}
+
+	public void setIdAlmacenamiento(Long idAlmacenamiento) {
+		this.idAlmacenamiento = idAlmacenamiento;
+	}
+	
+	
 
 }

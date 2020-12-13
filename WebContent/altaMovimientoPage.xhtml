@@ -146,14 +146,16 @@
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
+
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha:" />
-							<p:inputText id="fecha"
-								value="#{movimiento.fecha}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="fecha"
+								value="#{movimiento.fecha}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
+									
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
@@ -215,6 +217,7 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">
+						<h:outputText value="Producto" />
 							<p:selectOneMenu  id="producto" value="#{movimiento.idProducto}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 				 				<f:selectItems var="p" value="#{producto.all}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
@@ -230,6 +233,7 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">
+						<h:outputText value="Almacenamiento" />
 							<p:selectOneMenu  id="almacenamiento" value="#{movimiento.idAlmacenamiento}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 				 				<f:selectItems var="a" value="#{almacenamiento.all}" itemLabel="#{a.nombre}" itemValue="${a.id}" required="true" requiredMessage="Debe seleccionar una opción"/>

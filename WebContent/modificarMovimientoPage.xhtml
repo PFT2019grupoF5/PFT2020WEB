@@ -24,14 +24,16 @@
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" />
 
-	<p:dataTable id="movim1" var="mov" value="#{movimiento.movimientos}"
-		editable="true" style="margin-bottom:20px">
-
 		<f:facet name="header">
             Editar Movimientos
         </f:facet>
+        
+	<p:dataTable id="movim1" var="mov" value="#{movimiento.movimientosList}"
+		editable="true" style="margin-bottom:20px">
 
-		<p:ajax event="rowEdit" listener="#{movimiento.update(mov.id, mov.fecha, mov.cantidad, mov.descripcion, mov.costo, mov.tipoMov, mov.producto, mov.almacenamiento)}"
+
+
+		<p:ajax event="rowEdit" listener="#{movimiento.onRowEdit}"
 			update=":form:msgs" />
 
 		<p:column headerText="Id">
@@ -119,7 +121,7 @@
 		<p:column headerText="Almacenamiento">
 			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="a" value="#{almacenamiento.all}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
+ 				<f:selectItems var="a" value="#{almacenamiento.almacenamientos}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
 			</p:selectOneMenu>
         </p:column> 
 

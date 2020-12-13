@@ -11,11 +11,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.event.RowEditEvent;
+
 import com.entities.Almacenamiento;
 import com.entities.Movimiento;
 import com.entities.Producto;
 import com.enumerated.tipoMovimiento;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.ProductoBeanRemote;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.MovimientoBeanRemote;
@@ -47,14 +51,17 @@ public class MovimientosBean {
 
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
+	
+	private Movimiento mov;
+	private List<Movimiento> movimientosList;
 
 	@EJB
 	private MovimientoBeanRemote movimientosEJBBean;
 
 	@EJB
-	private ProductoBeanRemote productoEJBBean;
+	private ProductoBeanRemote productosEJBBean;
 	@EJB
-	private AlmacenamientoBeanRemote almacenamientoEJBBean;
+	private AlmacenamientoBeanRemote almacenamientosEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
@@ -76,8 +83,8 @@ public class MovimientosBean {
 					m.setDescripcion(descripcion);
 					m.setCosto(costo);
 					m.setTipoMov(tipoMov);
-					m.setProducto(productoEJBBean.getProducto(idProducto));
-					m.setAlmacenamiento(almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+					m.setProducto(productosEJBBean.getProducto(idProducto));
+					m.setAlmacenamiento(almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento));
 					movimientosEJBBean.add(m);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
@@ -120,8 +127,8 @@ public class MovimientosBean {
 				m.setDescripcion(descripcion);
 				m.setCosto(costo);
 				m.setTipoMov(tipoMov);
-				m.setProducto(productoEJBBean.getProducto(idProducto));
-				m.setAlmacenamiento(almacenamientoEJBBean.getAlmacenamiento(idAlmacenamiento));
+				m.setProducto(productosEJBBean.getProducto(idProducto));
+				m.setAlmacenamiento(almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento));
 				movimientosEJBBean.update(m);
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -171,6 +178,38 @@ public class MovimientosBean {
 			return null;
 		}
 	}
+	
+	public List<Movimiento> obtenerTodosMovimientos() throws ServiciosException {
+		return movimientosList = movimientosEJBBean.getAllMovimientos();
+	}
+	public void onRowEdit(RowEditEvent event) {
+	    Movimiento m = (Movimiento) event.getObject();
+	    
+	    FacesMessage message;
+	    
+	   try {
+			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null) {
+				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else {
+					
+				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
+				Long prodId = m.getProducto().getId();
+				Long almaId = m.getAlmacenamiento().getId();
+				
+				m.setProducto(productosEJBBean.getId(prodId));
+				m.setAlmacenamiento(almacenamientosEJBBean.getId(almaId));
+				
+				movimientosEJBBean.update(m);
+				 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Movimiento modificado exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null,  message);
+		} catch (Exception e) {
+
+		}
+	}
+
 
 	@PostConstruct
 	public void tiM() {
@@ -180,6 +219,11 @@ public class MovimientosBean {
 			tiM.add(new SelectItem(tipoMovimiento.C, tipoMovimiento.C.toString()));
 			tiM.add(new SelectItem(tipoMovimiento.P, tipoMovimiento.P.toString()));
 			tiposDeMov = tiM;
+			
+			if (movimientosList==null) {
+				mov = new Movimiento();
+				movimientosList = obtenerTodosMovimientos();
+			}
 		} catch (Exception e) {
 		}
 	}
@@ -308,5 +352,15 @@ public class MovimientosBean {
 	public void setListaAlmacenamiento(List<Almacenamiento> listaAlmacenamiento) {
 		this.listaAlmacenamiento = listaAlmacenamiento;
 	}
+
+	public List<Movimiento> getMovimientosList() {
+		return movimientosList;
+	}
+
+	public void setMovimientosList(List<Movimiento> movimientosList) {
+		this.movimientosList = movimientosList;
+	}
+	
+	
 
 }
