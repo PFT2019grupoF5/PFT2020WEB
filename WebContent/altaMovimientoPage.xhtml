@@ -217,7 +217,7 @@
 						<p:column colspan="1">
 							<p:selectOneMenu  id="producto" value="#{movimiento.idProducto}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="p" value="#{movimiento.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<f:selectItems var="p" value="#{producto.all}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 				 				<p:message for="producto" style="color:red" />
 							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
@@ -232,7 +232,7 @@
 						<p:column colspan="1">
 							<p:selectOneMenu  id="almacenamiento" value="#{movimiento.idAlmacenamiento}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="a" value="#{movimiento.listaAlmacenamiento}" itemLabel="#{a.nombre}" itemValue="${a.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<f:selectItems var="a" value="#{almacenamiento.all}" itemLabel="#{a.nombre}" itemValue="${a.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 				 				<p:message for="almacenamiento" style="color:red" />
 							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>

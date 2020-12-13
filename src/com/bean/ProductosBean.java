@@ -10,6 +10,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.event.RowEditEvent;
+
 import com.services.FamiliaBeanRemote;
 import com.services.UsuarioBeanRemote;
 import com.entities.Familia;
@@ -59,7 +62,7 @@ public class ProductosBean {
 
 	// edit
 	private Producto produc;
-	private List<Producto> productos;
+	private List<Producto> productosList;
 
 	@EJB
 	private ProductoBeanRemote productosEJBBean;
@@ -111,15 +114,15 @@ public class ProductosBean {
 	}
 
 	public String update(Long id, String nombre, String lote, double precio, Date felab, Date fven, double peso,
-			double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, Usuario usuario,
-			Familia familia) {
+			double volumen, int estiba, double stkMin, double stkTotal, Segmentacion segmentac, long usuarioIdNuevo,
+			long familiaIdNuevo) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Producto modificado exitosamente!");
 		String retPage = "modificarProductoPage";
 		try {
 			if (nombre.isEmpty() || lote.isEmpty() || precio == 0 || felab == null || fven == null || peso == 0
 					|| volumen == 0 || estiba == 0 || stkMin == 0 || stkTotal == 0 || segmentac == null
-					|| usuario == null || familia == null) {
+					|| usuarioIdNuevo != 0 || familiaIdNuevo != 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else if (nombre.length() > 50) {
@@ -147,8 +150,10 @@ public class ProductosBean {
 		   			p.setStkMin(stkMin);
 		   			p.setStkTotal(stkTotal);
 		   			p.setSegmentac(segmentac);
-		   			p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
-		   			p.setFamilia(familiasEJBBean.getFamilia(idFamilia));
+		   			
+		   			
+		   			p.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
+		   			p.setFamilia(familiasEJBBean.getFamilia(familiaIdNuevo));
 					productosEJBBean.update(p);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
@@ -163,21 +168,22 @@ public class ProductosBean {
 	}
 
 	public String delete(Producto producto) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Producto borrado exitosamente!");
+		FacesMessage message; 
 		String retPage = "bajaProductoPage";
 		try {
-			if (selectedProducto == null) {
+			if (producto == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione Un Producto a borrar!");
 			} else if (productosEJBBean.validoBajaProductos(producto)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"El Producto no se puede eliminar porque existe en Movimientos. Elimínelo previamente de Movimientos para proceder");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
+			//} else if (!confirmarBorrado) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+			//			"Seleccione la casilla de confirmación!");
 			} else {
-				productosEJBBean.delete(selectedProducto.getId());
+				productosEJBBean.delete(producto.getId());
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+						"Producto borrado exitosamente!");
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -203,22 +209,61 @@ public class ProductosBean {
 	}
 
 	public List<Producto> obtenerTodosProductos() throws ServiciosException {
-		return productos = productosEJBBean.getAllProductos();
+		return productosList = productosEJBBean.getAllProductos();
 
 	}
 
+	public void onRowEdit(RowEditEvent event) {
+	    Producto p = (Producto) event.getObject();
+	   
+	    FacesMessage message;
+	    
+	   try {
+			if (p.getNombre().isEmpty() || p.getLote().isEmpty() || p.getPrecio() == 0 || p.getFelab() == null || p.getFven() == null || p.getPeso() == 0 || p.getVolumen() == 0 || p.getEstiba() == 0 || p.getStkMin() == 0 || p.getStkTotal() == 0 || p.getSegmentac() == null || p.getUsuario() == null || p.getFamilia() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else if (p.getNombre().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
+			} else if (p.getFelab().compareTo(p.getFven())>0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"La fecha de fabricación no puede ser posterior a la de vencimiento");
+			} else {
+					
+				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
+				Long usuId = p.getUsuario().getId();
+				Long famId = p.getFamilia().getId();
+				
+				p.setFamilia(familiasEJBBean.getId(famId));
+				p.setUsuario(usuariosEJBBean.getId(usuId));
+				
+				productosEJBBean.update(p);
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Producto modificado exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
+		}
+	}
+
+	
+	
 	@PostConstruct
 	public void segm() {
 		try {
 			ArrayList<SelectItem> segm = new ArrayList<>();
 			segm.add(new SelectItem(Segmentacion.S, Segmentacion.S.toString()));
 			segm.add(new SelectItem(Segmentacion.N, Segmentacion.N.toString()));
-
-			// rowEdit
-			produc = new Producto();
-			productos = obtenerTodosProductos();
-			idUsu = usuariosEJBBean.getId(id);
 			segmentaciones = segm;
+			
+			// rowEdit
+			if (productosList==null) {
+				produc = new Producto();
+				productosList = obtenerTodosProductos();
+			}	
+			idUsu = usuariosEJBBean.getId(id);
+			
 		} catch (Exception e) {
 		}
 	}
@@ -389,11 +434,11 @@ public class ProductosBean {
 	}
 
 	public List<Producto> getProductos() {
-		return productos;
+		return productosList;
 	}
 
 	public void setProductos(List<Producto> productos) {
-		this.productos = productos;
+		this.productosList = productosList;
 	}
 
 }

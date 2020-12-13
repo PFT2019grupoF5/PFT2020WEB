@@ -139,9 +139,11 @@
 			</p:submenu>
 		</p:menu>
 		</h:form>
+		
 		<p:spacer width="10px"></p:spacer>
 		<p:panel style="vertical-align: top;">
-			<h3>Alta de Locals</h3>
+			
+			<h3>Alta de Locales</h3>
 			<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
@@ -202,9 +204,10 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1"> 
+							 <h:outputText value="Ciudad:" />
 							 <p:selectOneMenu  id="ciudad" value="#{entidadLoc.idCiudad}">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="c" value="#{entidadLoc.listaCiudad}" itemLabel="#{c.nombre}" itemValue="${c.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<f:selectItems var="c" value="#{ciudad.all}" itemLabel="#{c.nombre}" itemValue="${c.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 				 				<p:message for="ciudad" style="color:red" />
 							</p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>

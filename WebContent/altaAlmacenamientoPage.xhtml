@@ -146,19 +146,7 @@
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Volumen:" />
-							<p:inputNumber id="volumen"
-								value="#{almacenamiento.volumen}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
+					
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Descripcion:" />
@@ -167,6 +155,22 @@
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
+					
+					<p:row>
+						<p:column colspan="2">
+							<p:spacer height="10px"></p:spacer>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column colspan="1">  
+							<h:outputText value="Volumen:" />
+							<p:inputNumber id="volumen"
+								value="#{almacenamiento.volumen}" required="true"></p:inputNumber>
+							<p:spacer width="5px"></p:spacer>
+						</p:column>
+					</p:row>
+					
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
@@ -213,9 +217,9 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1"> 
-						<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.idEntidadLoc}">
+						<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.entidadLoc.id}">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="el" value="#{almacenamiento.listaEntidadLoc}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<f:selectItems var="el" value="#{entidadLoc.all}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				<p:message for="entidadLoc" style="color:red" />
 						</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Eliminar Productos</title>
+	<style type="text/css">
+.ui-row-editor .ui-row-editor-pencil {
+	margin-left: 8px;
+}
+
+</style>
+</h:head>
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
+
+		<f:facet name="header">
+            Eliminar Productos
+        </f:facet>
+
+	<p:dataTable id="produc1" var="produc" value="#{producto.productos}"
+		editable="true" >
+ 		
+		<p:column headerText="Id">
+			<f:facet name="output">
+				<h:outputLabel value="ID" />
+			</f:facet>
+			<h:outputLabel value="#{produc.id}" />
+			
+		</p:column>
+		
+		<p:column headerText="Nombre">
+			<f:facet name="output">
+				<h:outputLabel value="Nombre" />
+			</f:facet>
+			<h:outputLabel value="#{produc.nombre}" />
+		</p:column>
+
+		<p:column headerText="Lote">
+			<f:facet name="output">
+				<h:outputLabel value="Lote" />
+			</f:facet>
+			<h:outputText value="#{produc.lote}" />
+		</p:column>
+
+		<p:column headerText="Fecha de Elaboración">
+			<f:facet name="output">
+				<h:outputLabel value="Fecha Elaboracion" />
+			</f:facet>
+			<h:outputText value="#{produc.felab}" pattern="dd/MM/yy">
+				<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Fecha de Vencimiento">
+			<f:facet name="output">
+				<h:outputLabel value="Fecha Vencimiento" />
+			</f:facet>
+				<h:outputText value="#{produc.fven}" pattern="dd/MM/yy">
+					<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+						timeZone="America/Mexico_City" />
+				</h:outputText>
+		</p:column>
+
+
+		<p:column headerText="Precio">
+			<f:facet name="output">
+				<h:outputLabel value="Precio" />
+			</f:facet>
+			<h:outputText value="#{produc.precio}" />
+		</p:column>
+
+		<p:column headerText="Peso">
+			<f:facet name="output">
+				<h:outputLabel value="Peso" />
+			</f:facet>
+			<h:outputText value="#{produc.peso}" />
+		</p:column>
+
+		<p:column headerText="Volumen">
+			<f:facet name="output">
+				<h:outputLabel value="Volumen" />
+			</f:facet>
+			<h:outputText value="#{produc.volumen}" />
+		</p:column>
+
+		<p:column headerText="Estiba">
+			<f:facet name="output">
+				<h:outputLabel value="Estiba" />
+			</f:facet>
+			<h:outputText value="#{produc.estiba}" />
+		</p:column>
+
+		<p:column headerText="Stock minimo">
+			<f:facet name="output">
+				<h:outputLabel value="Stock minimo" />
+			</f:facet>
+			<h:outputText value="#{produc.stkMin}" />
+		</p:column>
+
+		<p:column headerText="Stock maximo">
+			<f:facet name="output">
+				<h:outputLabel value="Stock maximo" />
+			</f:facet>
+			<h:outputText value="#{produc.stkTotal}" />
+		</p:column>
+
+		<p:column headerText="Segmentable">
+			<f:facet name="output">
+				<h:outputLabel value="Segmentable" />
+			</f:facet>
+			<h:outputText value="#{produc.segmentac.toString()}" />
+		</p:column>
+
+		<p:column headerText="Usuario">
+			<f:facet name="output">
+				<h:outputLabel value="Usuario" />
+			</f:facet>
+			<h:outputText value="#{produc.usuario.nomAcceso}" />
+        </p:column>
+
+		<p:column headerText="Familia">
+			<f:facet name="output">
+				<h:outputLabel value="Familia" />
+			</f:facet>
+			<h:outputText value="#{produc.familia.nombre}" />
+
+        </p:column> 
+ 
+		<p:column style="width:100px;text-align: center">
+        	<p:commandButton action="#{producto.delete(produc)}" icon="fa fa-trash"  ></p:commandButton>
+        </p:column>
+	</p:dataTable>
+
+</h:form>
+
+</html>

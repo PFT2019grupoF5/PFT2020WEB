@@ -16,28 +16,24 @@
 </h:head>
 
 <h:form id="form">
-	<p:growl id="msgs" showDetail="true" />
-
-	<p:dataTable id="produc1" var="produc" value="#{producto.productos}"
-		editable="true" style="margin-bottom:20px">
+	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
 		<f:facet name="header">
             Editar producto
         </f:facet>
 
-		<p:ajax event="rowEdit" listener="#{producto.update(produc.id, produc.nombre, produc.lote, produc.precio, produc.felab, produc.fven, produc.peso, produc.volumen, produc.estiba, produc.stkMin, produc.stkTotal, produc.segmentac, produc.usuario, produc.familia)}"
-			update=":form:msgs" />
-
+	<p:dataTable id="produc1" var="produc" value="#{producto.productos}"
+		editable="true" >
+ 
+		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}" update=":form:msgs" 
+						immediate="true" />
+		
 		<p:column headerText="Id">
-			<p:cellEditor>
-				<f:facet name="output">
-					<h:outputText value="#{produc.id}" />
-				</f:facet>
-				<f:facet name="input">
-					<p:inputText id="modelInput" value="#{produc.id}"
-						style="width:100%" />
-				</f:facet>
-			</p:cellEditor>
+			<f:facet name="output">
+				<h:outputLabel value="ID" />
+			</f:facet>
+			<h:outputLabel value="#{produc.id}" />
+			
 		</p:column>
 
 		<p:column headerText="Nombre">
@@ -183,22 +179,26 @@
 		</p:column>
 
 		<p:column headerText="Usuario">
-			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}">
+			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}" required="true">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}" />
+ 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="#{u.id}" />
 			</p:selectOneMenu>
         </p:column>
 
 		<p:column headerText="Familia">
-			<p:selectOneMenu  id="fam" value="#{produc.familia.id}">
+			<p:selectOneMenu  id="fam" value="#{produc.familia.id}" required="true">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" />
-			</p:selectOneMenu>
+ 				<f:selectItems value="#{familia.familiasList}" 
+ 					var="f" 
+ 					itemLabel="#{f.nombre}" 
+ 					itemValue="#{f.id}" />
+ 			</p:selectOneMenu>
         </p:column> 
-
+ 
 		<p:column style="width:35px">
 			<p:rowEditor />
 		</p:column>
+
 	</p:dataTable>
 
 </h:form>

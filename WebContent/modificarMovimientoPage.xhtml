@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<!--  -->
+
+<h:head>
+	<title>Modificar Movimientos</title>
+	<style type="text/css">
+.ui-row-editor .ui-row-editor-pencil {
+	margin-left: 8px;
+}
+
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
+
+</style>
+</h:head>
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" />
+
+	<p:dataTable id="movim1" var="mov" value="#{movimiento.movimientos}"
+		editable="true" style="margin-bottom:20px">
+
+		<f:facet name="header">
+            Editar Movimientos
+        </f:facet>
+
+		<p:ajax event="rowEdit" listener="#{movimiento.update(mov.id, mov.fecha, mov.cantidad, mov.descripcion, mov.costo, mov.tipoMov, mov.producto, mov.almacenamiento)}"
+			update=":form:msgs" />
+
+		<p:column headerText="Id">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{mov.id}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText id="modelInput" value="#{mov.id}"
+						style="width:100%" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Fecha">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{mov.fecha}" pattern="dd/MM/yy">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</h:outputText>
+				</f:facet>
+
+				<f:facet name="input">
+					<p:calendar value="#{mov.fecha}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="felab">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</p:calendar>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Cantidad">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{mov.cantidad}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{mov.cantidad}" style="width:100%"
+						label="cantidad" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+
+		<p:column headerText="Descripcion">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{mov.descripcion}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{mov.descripcion}" style="width:100%" label="descripcion" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Costo">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{mov.costo}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{mov.costo}" style="width:100%"
+						label="volumen" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Tipo Movimiento">
+			<p:selectOneMenu value="#{mov.tipoMov}">
+				<f:selectItem itemLabel="Seleccione..." itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{mov.tipoMov}" />
+			</p:selectOneMenu>
+		</p:column>
+
+		<p:column headerText="Producto">
+			<p:selectOneMenu  id="prod" value="#{mov.producto.id}">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+ 				<f:selectItems var="p" value="#{producto.productos}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
+			</p:selectOneMenu>
+        </p:column>
+
+		<p:column headerText="Almacenamiento">
+			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+ 				<f:selectItems var="a" value="#{almacenamiento.all}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
+			</p:selectOneMenu>
+        </p:column> 
+
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+	</p:dataTable>
+
+</h:form>
+
+</html>
