@@ -39,9 +39,9 @@
 			
 		</p:column>
 
-		<p:column headerText="Nombre">
+		<p:column headerText="Nombre" filterBy="#{produc.nombre}" filterMatchMode="contains">
 			<p:cellEditor>
-				<f:facet name="output">
+				<f:facet name="output" >
 					<h:outputText value="#{produc.nombre}" />
 				</f:facet>
 				<f:facet name="input">

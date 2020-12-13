@@ -45,14 +45,14 @@
 			</h:outputText>
 		</p:column>
 		
-		<p:column headerText="Cantidad">
+		<p:column headerText="Cantidad" >
 			<f:facet name="output">
 				<h:outputLabel value="Cantidad" />
 			</f:facet>
 			<h:outputLabel value="#{mov.cantidad}" />
 		</p:column>
 		
-		<p:column headerText="Descripción">
+		<p:column headerText="Descripción" filterBy="#{mov.descripcion}" filterMatchMode="contains">
 			<f:facet name="output">
 				<h:outputLabel value="Descripción" />
 			</f:facet>
@@ -73,14 +73,14 @@
 			<h:outputText value="#{mov.tipoMov.toString()}" />
 		</p:column>
 
-		<p:column headerText="Producto">
+		<p:column headerText="Producto" filterBy="#{mov.producto}" filterMatchMode="contains">
 			<f:facet name="output">
 				<h:outputLabel value="Producto" />
 			</f:facet>
 			<h:outputText value="#{mov.producto.nombre}" />
         </p:column>
 
-		<p:column headerText="Almacenamiento">
+		<p:column headerText="Almacenamiento" filterBy="#{mov.almacenamiento}" filterMatchMode="contains">
 			<f:facet name="output">
 				<h:outputLabel value="Almacenamiento" />
 			</f:facet>
@@ -88,7 +88,7 @@
         </p:column> 
  
 		<p:column style="width:100px;text-align: center">
-        	<p:commandButton action="#{movimiento.delete(mov)}" icon="fa fa-trash"  ></p:commandButton>
+        	<p:commandButton action="#{movimiento.delete(mov)}" icon="fa fa-trash"></p:commandButton>
         </p:column>
 	</p:dataTable>
 
