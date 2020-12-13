@@ -21,6 +21,8 @@ import com.exception.ServiciosException;
 @Path("/productos")
 public class ProductosRest {
 
+	
+	
 	@EJB
 	private ProductoBeanRemote productosBeans;
 	
@@ -78,6 +80,7 @@ public class ProductosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Producto updateProducto(@PathParam("id") Long id, Producto producto) throws ServiciosException{
         try{
+        	producto.setId(id);
             productosBeans.update(producto);
             return producto;
         }catch(ServiciosException e){

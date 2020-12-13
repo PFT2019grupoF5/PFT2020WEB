@@ -14,6 +14,7 @@ import javax.faces.model.SelectItem;
 import org.primefaces.event.RowEditEvent;
 
 import com.services.FamiliaBeanRemote;
+import com.services.MovimientoBeanRemote;
 import com.services.UsuarioBeanRemote;
 import com.entities.Familia;
 import com.entities.Producto;
@@ -67,6 +68,9 @@ public class ProductosBean {
 
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
+
+	@EJB
+	private MovimientoBeanRemote movimientosEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
@@ -168,6 +172,8 @@ public class ProductosBean {
 		}
 	}
 
+
+	
 	public String delete(Producto producto) {
 		FacesMessage message; 
 		String retPage = "bajaProductoPage";
@@ -175,9 +181,9 @@ public class ProductosBean {
 			if (producto == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione Un Producto a borrar!");
-			} else if (productosEJBBean.validoBajaProductos(producto)) {
+			} else if (movimientosEJBBean.validoBajaProducto(producto.getId()) != null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"El Producto no se puede eliminar porque existe en Movimientos. Elimínelo previamente de Movimientos para proceder");
+						"El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder");
 			//} else if (!confirmarBorrado) {
 			//	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 			//			"Seleccione la casilla de confirmación!");
