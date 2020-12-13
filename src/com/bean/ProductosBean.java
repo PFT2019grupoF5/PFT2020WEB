@@ -136,7 +136,7 @@ public class ProductosBean {
 				// ",
 				// "Seleccione la casilla de confirmación!");
 			} else {
-				if (get() != null) {
+				if (getNombre(nombre) != null) {
 
 		   			Producto p = new Producto();
 		   			p.setNombre(nombre);
@@ -195,6 +195,14 @@ public class ProductosBean {
 	public Producto get() {
 		try {
 			return productosEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public Producto getNombre(String nombre) {
+		try {
+			return productosEJBBean.getNombre(nombre);
 		} catch (Exception e) {
 			return null;
 		}
