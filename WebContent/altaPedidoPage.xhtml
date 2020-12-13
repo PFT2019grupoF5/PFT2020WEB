@@ -22,14 +22,19 @@
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
+
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Estimada de Entrega:" />
-							<p:inputText id="pedfecestim"
-								value="#{pedido.pedfecestim}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="pedfecestim" value="#{pedido.pedfecestim}"
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__" 
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
+					
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>

@@ -73,11 +73,7 @@ public class ProductosBean {
 				"Producto ingresado exitosamente!");
 		String retPage = "altaProductoPage";
 		try {
-			if (tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-				System.out.println("***********ENTRA EN LA VALIDACION DEL PERFIL**********************");
-			} else if (nombre.isEmpty() || lote.isEmpty() || precio <= 0 || felab == null || fven == null || peso <= 0
+			if (nombre.isEmpty() || lote.isEmpty() || precio <= 0 || felab == null || fven == null || peso <= 0
 					|| volumen <= 0 || estiba <= 0 || stkMin <= 0 || stkTotal <= 0 || segmentac == null
 					|| idUsuario == null || idFamilia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
