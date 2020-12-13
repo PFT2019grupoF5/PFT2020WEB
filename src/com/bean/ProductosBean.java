@@ -27,9 +27,6 @@ import com.services.ProductoBeanRemote;
 @ViewScoped
 
 public class ProductosBean {
-
-	// Comentario para Luis
-
 	private Long id;
 	private String nombre;
 	private String lote;
