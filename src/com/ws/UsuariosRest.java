@@ -56,6 +56,7 @@ public class UsuariosRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario addUsuario(Usuario usuario) throws ServiciosException{
         try{
+        	usuario.setContrasena(DigestUtils.md5Hex(usuario.getContrasena()));
             usuariosBeans.add(usuario);
 			return usuario;
         }catch(ServiciosException e){
@@ -70,6 +71,7 @@ public class UsuariosRest {
       public Usuario updateUsuario(@PathParam("id") Long id, Usuario usuario) throws ServiciosException{
         try{
             usuario.setId(id);
+        	usuario.setContrasena(DigestUtils.md5Hex(usuario.getContrasena()));
             usuariosBeans.update(usuario);
             return usuario;
         }catch(ServiciosException e){

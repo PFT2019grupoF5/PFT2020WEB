@@ -78,7 +78,6 @@ public class AlmacenamientosRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Almacenamiento deleteAlmacenamiento(@PathParam("id") Long id) throws ServiciosException {
 		try {
-			System.out.println("deleteAlmacenamiento-id " + id.toString());
 			Almacenamiento almacenamiento = almacenamientosBeans.getAlmacenamiento(id);
 			almacenamientosBeans.delete(id);
 			return almacenamiento;
