@@ -77,7 +77,13 @@ public class ProductosBean {
 				"Producto ingresado exitosamente!");
 		String retPage = "altaProductoPage";
 		try {
-			if (nombre.length() > 50) {
+			if (nombre.isEmpty() || lote.isEmpty() || precio <= 0 || felab == null || fven == null || peso <= 0
+					|| volumen <= 0 || estiba <= 0 || stkMin <= 0 || stkTotal <= 0 || segmentac == null
+					|| idUsuario == null || idFamilia == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+				System.out.println("**************Entra ACA por la validacion de campos null o 0**************");
+			}	else if (nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
 			} else if (felab.compareTo(fven) > 0) {
