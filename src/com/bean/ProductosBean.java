@@ -172,6 +172,8 @@ public class ProductosBean {
 		}
 	}
 
+
+	
 	public String delete(Producto producto) {
 		FacesMessage message; 
 		String retPage = "bajaProductoPage";

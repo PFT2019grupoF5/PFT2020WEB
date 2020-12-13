@@ -21,6 +21,8 @@ import com.exception.ServiciosException;
 @Path("/productos")
 public class ProductosRest {
 
+	
+	
 	@EJB
 	private ProductoBeanRemote productosBeans;
 	
