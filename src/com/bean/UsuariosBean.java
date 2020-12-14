@@ -217,19 +217,9 @@ public class UsuariosBean {
 		try {
 			Usuario loginUser = usuariosEJBBean.getNA(nomAcceso);
 
-			
-
-			System.out.println("+++++");
-			System.out.println("+++++");
-			System.out.println("+++++");
-			System.out.println("+++++");
 			System.out.println(loginUser);
-			System.out.println("+++++");
-			
 			System.out.println(ValidarContrasena(nomAcceso, contrasena));
-			System.out.println("contrasena con digest: " + DigestUtils.md5Hex(contrasena));
 			System.out.println("nomAcceso:  " + nomAcceso);
-			
 			
 			if (nomAcceso != null && loginUser != null && contrasena != null
 					&& ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
@@ -252,6 +242,7 @@ public class UsuariosBean {
 
 	}
 
+	
 	public String cancelLogin() {
 		return "Login?faces-redirect=true";
 	}
