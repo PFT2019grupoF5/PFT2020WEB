@@ -34,13 +34,11 @@
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
-					
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
-					</p:row>
-				
+					</p:row>			
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Actual:" />
@@ -51,8 +49,7 @@
 							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
-					</p:row>
-					
+					</p:row>		
 					<p:row>
 						<p:column colspan="2">
 							<p:spacer height="10px"></p:spacer>
@@ -74,8 +71,11 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha del Pedido:" />
-							<p:inputText id="pedrecfecha"
-								value="#{pedido.pedrecfecha}" pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__" required="true"></p:inputText>
+							<p:calendar id="pedrecfecha" value="#{pedido.pedrecfecha}"
+								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__" 
+								locale="es_ES" required="true">
+									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -116,13 +116,14 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="1"> 
-							 <p:selectOneMenu  id="usuario" value="#{pedido.idUsuario}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="u" value="#{pedido.listaUsuario}" itemLabel="#{u.nombre}" itemValue="${u.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="usuario" style="color:red" />
-							</p:selectOneMenu> 
-							<p:spacer width="5px"></p:spacer>
+					<p:column colspan="1">
+					<h:outputText value="Usuario:" />
+						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith">
+							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				<p:message for="usuario" style="color:red" />
+						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -135,9 +136,8 @@
 							<h:commandButton value="Confirmar" ajax="false"
 								action="#{pedido.add()}" />
 						</p:column>
-						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Cancelar" action="Home" />
-						</p:column>
+						
+
 					</p:row>
 				</h:form>
 			</p:panelGrid>

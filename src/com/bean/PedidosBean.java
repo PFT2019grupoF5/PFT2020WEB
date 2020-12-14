@@ -43,6 +43,8 @@ public class PedidosBean {
 
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
+	
+	private Usuario idUsu;
 
 	@EJB
 	private PedidoBeanRemote pedidosEJBBean;
@@ -56,9 +58,13 @@ public class PedidosBean {
 		String retPage = "altaPedidoPage";
 		try {
 			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
-					|| pedestado == null || usuario == null) {
+					|| pedestado == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
+				System.out.println("*******************");
+				System.out.println("Entra a la validacion de .null .isempty o <=0");
+				System.out.println("*******************");
+				
 			} else {
 				if (get() == null) {
 					Pedido p = new Pedido();
@@ -68,7 +74,10 @@ public class PedidosBean {
 					p.setPedrecfecha(pedrecfecha);
 					p.setPedreccomentario(pedreccomentario);
 					p.setPedestado(pedestado);
-					p.setUsuario(usuario);
+					p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
+					System.out.println("*******************");
+					System.out.println("**********Entra al add del Bean*********");
+					System.out.println("*******************");
 					pedidosEJBBean.add(p);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
@@ -203,6 +212,7 @@ public class PedidosBean {
 			esP.add(new SelectItem(estadoPedido.E, estadoPedido.E.toString()));
 			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
 			estadoDelPedido = esP;
+			idUsu = usuariosEJBBean.getId(id);
 		} catch (Exception e) {
 		}
 	}
@@ -315,5 +325,15 @@ public class PedidosBean {
 	public void setListaUsuario(List<Usuario> listaUsuario) {
 		this.listaUsuario = listaUsuario;
 	}
+
+	public Usuario getIdUsu() {
+		return idUsu;
+	}
+
+	public void setIdUsu(Usuario idUsu) {
+		this.idUsu = idUsu;
+	}
+	
+	
 
 }
