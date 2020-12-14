@@ -22,7 +22,15 @@
 </f:metadata>
 
 <h:body>
-  <ui:include src="header.xhtml" />
+<div style="float:left;">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		<p:panel style="vertical-align: top;">
+		</p:panel>
+		
+</div>
+<div style="float:left; margin-left:10px;">
+
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
@@ -215,5 +223,6 @@
 	</p:dataTable>
 
 </h:form>
+</div>
 </h:body>
 </html>

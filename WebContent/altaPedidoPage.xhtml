@@ -11,6 +11,7 @@
         body {
         font-size: 70%;
         }
+        h3{display: inline-block}
     </style>
 </h:head>
 
@@ -19,9 +20,14 @@
 </f:metadata>
 
 <h:body>
+<div style="float:left;">
 	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
 		<p:panel style="vertical-align: top;">
+		</p:panel>
+		
+</div>
+<div>
 			<h3>Alta de Pedido</h3>
 			<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
@@ -123,7 +129,7 @@
 					<p:row>
 					<p:column colspan="1">
 					<h:outputText value="Usuario:" />
-						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith">
+						<p:selectOneMenu id="usuario" value="#{pedido.idUsuario}"  filter="true" filterMatchMode="startsWith">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				<p:message for="usuario" style="color:red" />
@@ -146,7 +152,7 @@
 					</p:row>
 				</h:form>
 			</p:panelGrid>
-		</p:panel>
+		</div>
 </h:body>
 
 </html>

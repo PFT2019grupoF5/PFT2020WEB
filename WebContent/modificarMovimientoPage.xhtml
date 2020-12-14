@@ -12,10 +12,10 @@
         body {
         font-size: 70%;
         }
-        .ui-row-editor .ui-row-editor-pencil {
+         .ui-row-editor .ui-row-editor-pencil {
 		margin-left: 8px;
 		}
-    </style>
+   		 </style>
 </h:head>
 
 <f:metadata>
@@ -25,7 +25,15 @@
 
 
 <h:body>
-  <ui:include src="header.xhtml" />
+<div style="float:left;">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		<p:panel style="vertical-align: top;">
+		</p:panel>
+		
+</div>
+<div style="float:left; margin-left:10px;">
+
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" />
 
@@ -137,5 +145,6 @@
 	</p:dataTable>
 
 </h:form>
+</div>
 </h:body>
 </html>

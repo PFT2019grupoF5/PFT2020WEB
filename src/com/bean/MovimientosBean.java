@@ -62,9 +62,8 @@ public class MovimientosBean {
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
-				"Movimiento ingresado exitosamente!");
 		String retPage = "altaMovimientoPage";
+		FacesMessage message = null;
 		
 		try {
 			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0) {
@@ -88,8 +87,9 @@ public class MovimientosBean {
 					m.setTipoMov(tipoMov);
 					m.setProducto(productoEnBD);
 					m.setAlmacenamiento(almacenamientoEnBD);
-										
-					// Para el caso de un movimiento del tipo Perdida, verificar si hay Stock Suficiente del Producto
+					
+					// Para el caso de un movimeinto del tipo Perdida, verificar si hay Stock Suficiente del Producto
+					
 					if (tipoMov.toString().equals("P")) {
 					
 						// Significa que Registro una PERDIDA de un producto en un almacenamiento
@@ -117,6 +117,10 @@ public class MovimientosBean {
 							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
 									"El Movimiento se creo correctamente");
 						}	
+					}else {
+						movimientosEJBBean.add(m);
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Movimiento:",
+								"El Movimiento se creo correctamente");
 					}
 					
 				} else {
@@ -138,11 +142,12 @@ public class MovimientosBean {
 		String retPage = "modificarMovimientoPage";
 		try {
 
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
-					|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
-			} else if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
+			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
+			//		|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
+			//} else
+				if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
 					|| almacenamiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
@@ -177,53 +182,59 @@ public class MovimientosBean {
 	}
 
 	public String delete(Movimiento movimiento) {
-		FacesMessage message;
+		FacesMessage message = null ;
 		String retPage = "bajaMovimientoPage";
 		try {
-			// if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||
-			// !tipoPerfil.SUPERVISOR.equals(perfilLogeado) ||
-			// !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-			// message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos:
-			// ",
-			// "Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder
-			// acceder");
-			// } else
-
+			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
+			//		|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
+			//} else 
+			
 			if (movimiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione Un Movimiento a borrar!");
 			} else {
-				if (tipoMov.toString().equals("P")) {
+
+				if (movimiento.getTipoMov().toString().equals("P")) {
+
 					Producto productoEnBD = productosEJBBean.getProducto(idProducto);
 					Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento);
-					// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un
-					// producto en un almacenamiento
+
+					// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
 					double stockTotalDelProducto = productoEnBD.getStkTotal();
+					
 					if (stockTotalDelProducto < cantidad) {
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 								"Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.");
 					} else {
-						// repone stock del producto
+						
+                        //repone stock del producto
 						productoEnBD.setStkTotal(stockTotalDelProducto + cantidad);
-						// vuelve a ocupar espacio en el almacenamiento
-						almacenamientoEnBD.setVolumen(
-								(int) (almacenamientoEnBD.getVolumen() - cantidad * productoEnBD.getVolumen()));
+                        // vuelve a ocupar espacio en el almacenamiento
+						almacenamientoEnBD.setVolumen( (int) (almacenamientoEnBD.getVolumen() - cantidad*productoEnBD.getVolumen()) );
 						// actualiza BD
 						productosEJBBean.update(productoEnBD);
 						almacenamientosEJBBean.update(almacenamientoEnBD);
-					}
-				}
+						
+						movimientosEJBBean.delete(movimiento.getId());
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+								"Movimiento borrado exitosamente!");
+					}	
+			}else {
 				movimientosEJBBean.delete(movimiento.getId());
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-						"Movimiento borrado exitosamente!");
+						"Se eliminó el Movimiento.");
 			}
+		}
+		
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
 			return null;
 		}
 	}
-
+//
 	public Movimiento get() {
 		try {
 			return movimientosEJBBean.getId(id);

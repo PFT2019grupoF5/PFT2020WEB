@@ -40,32 +40,29 @@ public class PedidosBean {
 
 	private Long idUsuario;
 	private List<Usuario> listaUsuario;
-
+	private List<Pedido> listaPedido;
+	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
-	
-	private Usuario idUsu;
 
-	@EJB
+    private Date fechaIni;
+    private Date fechaFin;
+
+    @EJB
 	private PedidoBeanRemote pedidosEJBBean;
 
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:",
-				"El Pedido se creo correctamente");
+		FacesMessage message;
 		String retPage = "altaPedidoPage";
 		try {
-			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
-					|| pedestado == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
-				System.out.println("*******************");
-				System.out.println("Entra a la validacion de .null .isempty o <=0");
-				System.out.println("*******************");
-				
-			} else {
+			//if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
+			//		|| pedestado == null || idUsuario <= 0) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+			//			"Es necesario ingresar todos los datos requeridos");
+			//} else {
 				if (get() == null) {
 					Pedido p = new Pedido();
 					p.setPedfecestim(pedfecestim);
@@ -74,17 +71,18 @@ public class PedidosBean {
 					p.setPedrecfecha(pedrecfecha);
 					p.setPedreccomentario(pedreccomentario);
 					p.setPedestado(pedestado);
-					p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
-					System.out.println("*******************");
-					System.out.println("**********Entra al add del Bean*********");
-					System.out.println("*******************");
+					p.setUsuario(usuariosEJBBean.getId(idUsuario));
 					pedidosEJBBean.add(p);
+
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:",
+							"El Pedido se creo correctamente");
+
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Pedido ya existe");
 				}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			//}
+			//FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
 			return null;
@@ -166,21 +164,21 @@ public class PedidosBean {
 		}
 	}
 
-	public List<Pedido> getPedidosFechas(String fechaDesde, String fechaHasta) {
+	public void getPedidosFechas(String fechaDesde, String fechaHasta) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else {
-				List<Pedido> listaPedidos = pedidosEJBBean.getPedidosEntreFechas(fechaHasta, fechaHasta);
-				return listaPedidos;
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
+			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
+			//} else {
+				this.listaPedido = pedidosEJBBean.getPedidosEntreFechas(fechaHasta, fechaHasta);
+				//return listaPedidos;
+			//}
+			//FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
-			return null;
+			//return null;
 		}
-		return null;
+		//return null;
 
 	}
 
@@ -202,6 +200,16 @@ public class PedidosBean {
 		return null;
 	}
 
+	public void validarFechas() throws Exception {
+        if (this.fechaIni != null && this.fechaFin != null) {
+            if (this.fechaIni.compareTo(this.fechaFin)>0) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Fecha Inicial no puede ser anterior a la Fecha Final"));
+            }
+        }
+    }
+	
+	
+	
 	@PostConstruct
 	public void esP() {
 		try {
@@ -212,7 +220,6 @@ public class PedidosBean {
 			esP.add(new SelectItem(estadoPedido.E, estadoPedido.E.toString()));
 			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
 			estadoDelPedido = esP;
-			idUsu = usuariosEJBBean.getId(id);
 		} catch (Exception e) {
 		}
 	}
@@ -326,14 +333,29 @@ public class PedidosBean {
 		this.listaUsuario = listaUsuario;
 	}
 
-	public Usuario getIdUsu() {
-		return idUsu;
+	public Date getFechaIni() {
+		return fechaIni;
 	}
 
-	public void setIdUsu(Usuario idUsu) {
-		this.idUsu = idUsu;
+	public void setFechaIni(Date fechaIni) {
+		this.fechaIni = fechaIni;
 	}
-	
-	
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+
+	public List<Pedido> getListaPedido() {
+		return listaPedido;
+	}
+
+	public void setListaPedido(List<Pedido> listaPedido) {
+		this.listaPedido = listaPedido;
+	}
 
 }

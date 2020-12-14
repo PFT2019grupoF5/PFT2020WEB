@@ -11,6 +11,7 @@
         body {
         font-size: 70%;
         }
+        h3{display: inline-block}
     </style>
 </h:head>
 
@@ -19,11 +20,14 @@
 </f:metadata>
 
 <h:body>
-
-<ui:include src="header.xhtml" />
-		
+<div style="float:left;">
+	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
 		<p:panel style="vertical-align: top;">
+		</p:panel>
+		
+</div>
+<div style="float:left; margin-left:10px;">
 			<h3>Alta de Producto</h3>
 			<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
@@ -221,7 +225,7 @@
 					</p:row>
 				</h:form>
 			</p:panelGrid>
-		</p:panel>
+		</div>>
 	
 </h:body>
 
