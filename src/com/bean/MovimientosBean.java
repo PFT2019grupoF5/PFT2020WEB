@@ -177,7 +177,7 @@ public class MovimientosBean {
 	}
 
 	public String delete(Movimiento movimiento) {
-		FacesMessage message = null ;
+		FacesMessage message;
 		String retPage = "bajaMovimientoPage";
 		try {
 			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
@@ -212,11 +212,13 @@ public class MovimientosBean {
 						productosEJBBean.update(productoEnBD);
 						almacenamientosEJBBean.update(almacenamientoEnBD);
 						
-						movimientosEJBBean.delete(movimiento.getId());
-						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-								"Movimiento borrado exitosamente!");
-					}}	
+					}
+	
+				}	
 				
+				movimientosEJBBean.delete(movimiento.getId());
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+						"Movimiento borrado exitosamente!");	
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
