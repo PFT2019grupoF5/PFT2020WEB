@@ -106,13 +106,13 @@
 			<p:submenu label="Renglon de Pedido">
 				<p:menuitem value="Alta de Renglon de Pedido"
 					action="altaRenglonesPedidoPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
+					icon="Poner icono aca*" style="width: 300px !important;" rendered="#{!usuario.chequearPerfil() == 'OPERARIO'}"/>
 				<p:menuitem value="Modificacion de Renglon de Pedido"
 					action="modificarRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
+					icon="Poner icono aca*" style="width: 300px !important;" rendered="#{!usuario.chequearPerfil() == 'OPERARIO'}"/>
 				<p:menuitem value="Baja de Renglon de Pedido"
 					action="bajaRenglonPage?faces-redirect=true"
-					icon="Poner icono aca*" style="width: 300px !important;" />
+					icon="Poner icono aca*" style="width: 300px !important;" rendered="#{!usuario.chequearPerfil() == 'OPERARIO'}"/>
 			</p:submenu>
 			<p:submenu label="Usuario">
 				<p:menuitem value="Alta de Usuario"
