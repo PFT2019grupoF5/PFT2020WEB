@@ -24,7 +24,7 @@
 		<p:panel style="vertical-align: top;">
 			<h3>Alta de Almacenamiento</h3>
 			<p:spacer height="10px" />
-			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
+			<p:panelGrid style="horizontal-align: right;" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
 					
@@ -38,7 +38,7 @@
 					</p:row>
 					
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -53,7 +53,7 @@
 					</p:row>
 					
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -66,7 +66,7 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -79,7 +79,7 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -92,7 +92,7 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -107,17 +107,15 @@
 						</p:column>
 					</p:row>
 					<p:row>
-						<p:column colspan="2">
+						<p:column colspan="1">
 							<p:spacer height="10px"></p:spacer>
 						</p:column>
 					</p:row>
 					<p:row style="text-align: center;">
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Confirmar" ajax="false"
-								action="#{almacenamiento.add()}" />
-						</p:column>
-						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Cancelar" action="Home" />
+								action="#{almacenamiento.add()}" style="float: left;"/>
+						<h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;" />
 						</p:column>
 					</p:row>
 				</h:form>
