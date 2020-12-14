@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Reporte de Pedidos entre Fechas</title>
+		</f:facet>
+	</h:head>
+
+	<f:metadata>
+		<f:viewAction action="#{usuario.chequearPerfil()}" />
+	</f:metadata>
+
+
+	<h:body>
+			<h:panelGrid id="grid" columns="1" cellpadding="1">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+
+				<p:outputLabel for="fechaIni" value="Fecha Inicio" />
+				<p:calendar id="fechaIni" value="#{pedido.fechaIni}" showOn="button" />
+
+				<p:outputLabel for="fechaFin" value="Fecha Fin" />
+				<p:calendar id="fechaFin" value="#{pedido.fechaFin}" showOn="button" />
+
+				
+			</h:panelGrid>
+
+	<h:form id="frm">
+		<p:growl id="msg" showDetail="true" life="4000" />		
+			<p:panel id="panelReporte">
+				<p:dataTable id="table" var="ped"
+					value="#{pedido.listaPedido}"
+					editable="false" emptyMessage="No hay nada para mostrar"
+					style="margin-bottom:20px">
+	
+					<f:facet name="header">Reporte de Pedidos entre Fechas</f:facet>
+	
+					<p:column headerText="Id">
+						<h:outputText value="#{ped.id}" />
+					</p:column>
+	
+					<p:column headerText="Fecha">
+						<h:outputText value="#{ped.fecha}">
+							<f:convertDateTime type="date" pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+	
+					<p:column headerText="Fecha Recepción">
+						<h:outputText value="#{ped.pedrecfecha}">
+							<f:convertDateTime type="date" pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+	
+					<p:column headerText="Fecha Estimada">
+						<h:outputText value="#{ped.pedfecestim}">
+							<f:convertDateTime type="date" pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+	
+					<p:column headerText="Estado">
+						<h:outputText value="#{ped.pedestado.toString()}" />
+					</p:column>
+	
+					<p:column headerText="Usuario">
+						<h:outputText value="#{ped.usuario.nomAcceso}" />
+					</p:column>
+				</p:dataTable>
+	
+			</p:panel>
+
+			<p:row style="text-align: center;">
+				<p:column colspan="1" style="text-align: center;">
+					<p:commandButton update=":frm" value="Obtener Reporte" 
+					action="#{pedido.getPedidosFechas(pedido.fechaIni, pedido.fechaFin)}" />
+
+					<p:spacer width="10px"></p:spacer>
+				</p:column>
+				<p:column colspan="1" style="text-align: center;">
+					<h:commandButton value="Cancelar" action="mainPage" />
+				</p:column>
+			</p:row>
+		</h:form> 
+	</h:body>
+
+</f:view>
+</html>
