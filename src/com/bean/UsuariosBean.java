@@ -284,6 +284,16 @@ public class UsuariosBean {
 				return false;
 			}
 	}
+	
+	@SuppressWarnings("static-access")
+	public boolean chequearSupervisor() {
+
+			if (perfilLogeado == tipoPerfil.SUPERVISOR) {
+				return true;
+			} else {
+				return false;
+			}
+	}
 
 	public String logout() {
 		perfilLogeado = null;

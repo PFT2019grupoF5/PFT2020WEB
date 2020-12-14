@@ -127,14 +127,14 @@
 			<p:submenu label="Usuario">
 				<p:menuitem value=" Alta de Usuario"
 					action="altaUsuarioPage?faces-redirect=true"
-					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
+					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
 				<p:menuitem value=" Modificacion de Usuario"
 					action="modificarProductoPage?faces-redirect=true"
-					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
+					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
 				<p:menuitem value=" Baja de Usuario"
 					action="bajaUsuarioPage?faces-redirect=true"
-					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+					icon="fa fa-navicon" style="width: 300px !important;" endered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
+				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
 			</p:submenu>
 			<p:submenu label=" Reportes de Pedidos">
 				<p:menuitem value="Pedidos entre fechas"
