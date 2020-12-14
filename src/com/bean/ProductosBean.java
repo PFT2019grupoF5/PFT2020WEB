@@ -82,7 +82,6 @@ public class ProductosBean {
 					|| idUsuario == null || idFamilia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
-				System.out.println("**************Entra ACA por la validacion de campos null o 0**************");
 			}	else if (nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
@@ -90,7 +89,8 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
 			} else {
-				if (get() == null) {
+				//
+				if (getNombre(nombre) == null) {
 		   			Producto p = new Producto();
 		   			p.setNombre(nombre);
 		   			p.setLote(lote);
@@ -141,10 +141,11 @@ public class ProductosBean {
 				// ",
 				// "Seleccione la casilla de confirmación!");
 			} else {
-				if (getNombre(nombre) != null) {
-
+				if (get() != null) {
 		   			Producto p = new Producto();
-		   			p.setNombre(nombre);
+		   			p = productosEJBBean.getId(id);
+		   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
+		   			//p.setNombre(nombre);
 		   			p.setLote(lote);
 		   			p.setPrecio(precio);
 		   			p.setFelab(felab);
@@ -155,8 +156,6 @@ public class ProductosBean {
 		   			p.setStkMin(stkMin);
 		   			p.setStkTotal(stkTotal);
 		   			p.setSegmentac(segmentac);
-		   			
-		   			
 		   			p.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
 		   			p.setFamilia(familiasEJBBean.getFamilia(familiaIdNuevo));
 					productosEJBBean.update(p);
