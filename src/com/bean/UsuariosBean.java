@@ -273,6 +273,17 @@ public class UsuariosBean {
 			return "Login?faces-redirect=true";
 		}
 	}
+	
+
+	@SuppressWarnings("static-access")
+	public boolean chequearOperario() {
+
+			if (perfilLogeado == tipoPerfil.OPERARIO) {
+				return true;
+			} else {
+				return false;
+			}
+	}
 
 	public String logout() {
 		perfilLogeado = null;
