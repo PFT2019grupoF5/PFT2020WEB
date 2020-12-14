@@ -6,16 +6,18 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Modificar Productos</title>
-	<style type="text/css">
-.ui-row-editor .ui-row-editor-pencil {
-	margin-left: 8px;
-}
-
-<!-- -->
-
-</style>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+    </style>
 </h:head>
+
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
 <h:body>
   <ui:include src="header.xhtml" />
 <h:form id="form">
