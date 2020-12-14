@@ -22,13 +22,13 @@
 		<p:panel id="loginPan" header="Login"
 			style="width: 350px; margin: 0 auto;">
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
-				<h:outputText value="Username" />
-				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" label="usuario" styleClass="form-control" minlength="1" maxlength="20" placeholder="Usuario"></p:inputText>
+				<h:outputText value="Usuario" />
+				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" styleClass="form-control" minlength="1" maxlength="20" placeholder="Usuario"></p:inputText>
 				<p:spacer />
 				<p:spacer />
-				<h:outputText value="contrasena" />
-				<p:password id="contrasena" value="#{usuario.contrasena}"
-					feedback="false" required="true" label="contraseña" styleClass="form-control" minlength="8" maxlength="16" pattern="[a-zA-Z0-9]\s"></p:password>
+				<h:outputText value="Contraseña" />
+				<p:password id="contrasena" value="#{usuario.contrasena}" label="Contraseña"
+					feedback="false" required="true" styleClass="form-control" minlength="8" maxlength="16" pattern="[a-zA-Z0-9]\s" placeholder="Contraseña"></p:password>
 				<p:message for="contrasena"></p:message>
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10" width="100%">
