@@ -28,6 +28,8 @@ import com.exception.ServiciosException;
 import com.services.PedidoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
+
+
 @ManagedBean(name = "pedido")
 @SessionScoped
 public class PedidosBean {
