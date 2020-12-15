@@ -30,6 +30,9 @@ import com.services.UsuarioBeanRemote;
 
 
 
+
+
+
 @ManagedBean(name = "pedido")
 @SessionScoped
 public class PedidosBean {
