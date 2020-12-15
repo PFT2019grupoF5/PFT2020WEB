@@ -198,8 +198,8 @@ public class MovimientosBean {
 
 				if (movimiento.getTipoMov().toString().equals("P")) {
 
-					Producto productoEnBD = productosEJBBean.getProducto(idProducto);
-					Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento);
+					Producto productoEnBD = productosEJBBean.getProducto(movimiento.getProducto().getId());
+					Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(movimiento.getAlmacenamiento().getId());
 
 					// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
 					double stockTotalDelProducto = productoEnBD.getStkTotal();
