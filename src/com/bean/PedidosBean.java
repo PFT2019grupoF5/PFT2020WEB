@@ -1,13 +1,21 @@
 package com.bean;
 
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -16,12 +24,12 @@ import com.entities.Pedido;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.PedidoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
 @ManagedBean(name = "pedido")
-@ViewScoped
-
+@SessionScoped
 public class PedidosBean {
 
 	private Long id;
@@ -41,13 +49,14 @@ public class PedidosBean {
 	private Long idUsuario;
 	private List<Usuario> listaUsuario;
 	private List<Pedido> listaPedido;
+	private List<Pedido> listaPedidoReporteFechas;
 	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 
     private Date fechaIni;
     private Date fechaFin;
-
+    
     @EJB
 	private PedidoBeanRemote pedidosEJBBean;
 
@@ -164,22 +173,34 @@ public class PedidosBean {
 		}
 	}
 
-	public void getPedidosFechas(String fechaDesde, String fechaHasta) {
+	public String getPedidosFechas() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
-		try {
+		FacesContext.getCurrentInstance().addMessage(null, message);
+
 			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
 			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
 			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
 			//} else {
-				this.listaPedido = pedidosEJBBean.getPedidosEntreFechas(fechaHasta, fechaHasta);
-				//return listaPedidos;
-			//}
-			//FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (Exception e) {
-			//return null;
-		}
-		//return null;
 
+		if (fechaIni.compareTo(fechaFin) < 0) {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String SfechaIni = sdf.format(fechaIni);
+			String SfechaFin = sdf.format(fechaFin);
+			
+			System.out.println("sfechaIni : " + SfechaIni);
+			System.out.println("sfechaIni : " + SfechaFin);
+
+			try {
+				listaPedidoReporteFechas = pedidosEJBBean.getPedidosEntreFechas(SfechaIni, SfechaFin);
+			} catch (ServiciosException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+			
+		return "resultadoReportePedidosFecha";
 	}
 
 	public List<Pedido> getAll() {
@@ -245,6 +266,7 @@ public class PedidosBean {
 
 	/***********************************************************************************************************************************/
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -356,6 +378,14 @@ public class PedidosBean {
 
 	public void setListaPedido(List<Pedido> listaPedido) {
 		this.listaPedido = listaPedido;
+	}
+
+	public List<Pedido> getListaPedidoReporteFechas() {
+		return listaPedidoReporteFechas;
+	}
+
+	public void setListaPedidoReporteFechas(List<Pedido> listaPedidoReporteFechas) {
+		this.listaPedidoReporteFechas = listaPedidoReporteFechas;
 	}
 
 }
