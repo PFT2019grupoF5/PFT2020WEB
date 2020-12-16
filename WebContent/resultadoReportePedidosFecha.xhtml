@@ -4,19 +4,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
  
-<f:view contentType="text/html">
+ <f:view contentType="text/html">
+
+	<h:head>Reporte de Pedidos entre Fechas</h:head>			
 
 	<h:body>
 		<h:form id="frm">
-			<p:growl id="msg" showDetail="true" life="4000" />
+
+		<p:growl id="msg" showDetail="true" life="4000" />
 			<p:panel id="panelReporte">
+
 				<p:dataTable id="table" var="ped"
 					value="#{pedido.listaPedidoReporteFechas}" editable="false"
 					emptyMessage="No hay nada para mostrar" style="margin-bottom:20px">
 
-					<f:facet name="header">Reporte de Pedidos entre Fechas</f:facet>
 					
 					<p:column headerText="Id">
 						<h:outputText value="#{ped.id}" />
@@ -28,21 +30,30 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Id Usuario">
-						<h:outputText value="#{ped.usuario.id}" />
+					<p:column headerText="Usuario">
+						<h:outputText value="#{ped.usuario.nomAcceso}" />
+					</p:column>
+
+					<p:column headerText="Fec.Estim">
+						<h:outputText value="#{ped.pedfecestim}">
+							<f:convertDateTime type="date" pattern="dd/MM/yy" />
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Rec. Codigo">
 						<h:outputText value="#{ped.pedreccodigo}" />
 					</p:column>
 
-					<p:column headerText="Rec. Comentario">
-						<h:outputText value="#{ped.pedreccomentario}" />
+					<p:column headerText="Fec.Recibido">
+						<h:outputText value="#{ped.pedrecfecha}">
+							<f:convertDateTime type="date" pattern="dd/MM/yy" />
+						</h:outputText>
 					</p:column>
+
 
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-	</h:body>
+	</h:body>		
 </f:view>
 </html>
