@@ -5,7 +5,6 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-<!-- Comentario para borrar, MAS COMENTARIOS -->
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
@@ -16,7 +15,7 @@
 
 <h:body>
 	<p:panel collapsed="true">
-		<h1>Logistica</h1>
+		<h1>Logística</h1>
 	</p:panel>
 	<h:panelGroup layout="block">
 		<br />
@@ -39,7 +38,7 @@
 				<p:menuitem value=" Baja de Almacenamiento"
 					action="bajaAlmacenamientoPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Ciudad">
 				<p:menuitem value=" Alta de Ciudad"
@@ -51,7 +50,7 @@
 				<p:menuitem value=" Baja de Ciudad"
 					action="bajaCiudadPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Locales">
 				<p:menuitem value=" Alta de Local"
@@ -63,7 +62,7 @@
 				<p:menuitem value=" Baja de Local"
 					action="bajaLocalPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Familia">
 				<p:menuitem value=" Alta de Familia"
@@ -75,7 +74,7 @@
 				<p:menuitem value=" Baja de Familia"
 					action="bajaFamiliaPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Movimiento">
 				<p:menuitem value=" Alta de Movimiento"
@@ -98,7 +97,7 @@
 				<p:menuitem value=" Baja de Pedido"
 					action="bajaPedidoPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Producto">
 				<p:menuitem value=" Alta de Producto"
@@ -110,7 +109,7 @@
 				<p:menuitem value=" Baja de Producto"
 					action="bajaProductoPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Renglon de Pedido">
 				<p:menuitem value=" Alta de Renglon de Pedido"
@@ -122,7 +121,7 @@
 				<p:menuitem value=" Baja de Renglon de Pedido"
 					action="bajaRenglonPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" rendered="#{!usuario.chequearOperario()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 			</p:submenu>
 			<p:submenu label="Usuario">
 				<p:menuitem value=" Alta de Usuario"
@@ -134,7 +133,7 @@
 				<p:menuitem value=" Baja de Usuario"
 					action="bajaUsuarioPage?faces-redirect=true"
 					icon="fa fa-navicon" style="width: 300px !important;" endered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
-				<p:menuitem value="No tiene permisos suficientes para realizar esta acción" rendered="#{usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
+				<p:menuitem value="" rendered="#{usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
 			</p:submenu>
 			<p:submenu label=" Reportes de Pedidos">
 				<p:menuitem value="Pedidos entre fechas"
