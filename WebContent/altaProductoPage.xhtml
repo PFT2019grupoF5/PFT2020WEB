@@ -36,6 +36,7 @@
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
 								value="#{producto.nombre}" required="true"></p:inputText>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -49,6 +50,7 @@
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
 								value="#{producto.lote}" required="true"></p:inputText>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -62,6 +64,7 @@
 							<h:outputText value="Precio:" />
 							<p:inputNumber id="precio"
 								value="#{producto.precio}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -73,10 +76,13 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Fecha Elaborado:" />
+							
 							<p:calendar id="felab" value="#{producto.felab}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
 								locale="es_ES" required="true">
+								<span style="color:red">*</span>
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+									
 							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -93,6 +99,7 @@
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__-__-__" 
 								locale="es_ES" required="true">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
+									<span style="color:red">*</span>
 							</p:calendar>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -107,6 +114,7 @@
 							<h:outputText value="Peso:" />
 							<p:inputNumber id="peso"
 								value="#{producto.peso}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -120,6 +128,7 @@
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
 								value="#{producto.volumen}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -133,6 +142,7 @@
 							<h:outputText value="Estiba:" />
 							<p:inputNumber id="estiba"
 								value="#{producto.estiba}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -146,6 +156,7 @@
 							<h:outputText value="Stock Minimo:" />
 							<p:inputNumber id="stkMin"
 								value="#{producto.stkMin}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -159,6 +170,7 @@
 							<h:outputText value="Stock Total:" />
 							<p:inputNumber id="stkTotal"
 								value="#{producto.stkTotal}" required="true"></p:inputNumber>
+								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -170,8 +182,10 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Segmentacion:" />
+							<span style="color:red">*</span>
 							<p:selectOneMenu id="segmentac"
 								value="#{producto.segmentac}" effect="fold" editable="false">
+								
 							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{producto.segmentacion}" /></p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>
@@ -185,9 +199,11 @@
 					<p:row>
 					<p:column colspan="1">
 					<h:outputText value="Usuario:" />
+					<span style="color:red">*</span>
 						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				
 			 				<p:message for="usuario" style="color:red" />
 						</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>
@@ -201,9 +217,11 @@
 					<p:row>
 					<p:column colspan="1">
 					<h:outputText value="Familia:" />
+					<span style="color:red">*</span>
 						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}" filter="true" filterMatchMode="startsWith">
-							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+						<span style="color:red">*</span>	<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+			 				
 			 				<p:message for="familia" style="color:red" />
 						</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>
