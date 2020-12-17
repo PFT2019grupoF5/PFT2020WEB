@@ -1,13 +1,19 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import com.entities.Ciudad;
 import com.entities.Producto;
+import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.CiudadBeanRemote;
@@ -22,7 +28,7 @@ public class CiudadesBean {
 	private static tipoPerfil perfilLogeado;
 
 	private Ciudad selectedCiudad;
-	private List<Ciudad> ciudades;
+	private List<Ciudad> ciudadesList;
 
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
@@ -140,7 +146,7 @@ public class CiudadesBean {
 	}
 	
 	public List<Ciudad> obtenerTodasCiudades() throws ServiciosException {
-		return ciudades =ciudadesEJBBean.getAllCiudades();
+		return ciudadesList =ciudadesEJBBean.getAllCiudades();
 	}
 
 	/***********************************************************************************************************************************/
@@ -162,6 +168,23 @@ public class CiudadesBean {
 		return "Login?faces-redirect=true";
 	}
 
+	public List<Ciudad> obtenerTodosCiudades() throws ServiciosException {
+		return ciudadesList = ciudadesEJBBean.getAllCiudades();
+
+	}
+	
+	@PostConstruct
+	public void segm() {
+		try {
+			// rowEdit
+			if (ciudadesList==null) {
+				ciudadesList = obtenerTodosCiudades();
+			}	
+		} catch (Exception e) {
+		}
+	}
+	
+	
 	/***********************************************************************************************************************************/
 
 	// Getters and Setters
@@ -191,11 +214,19 @@ public class CiudadesBean {
 	}
 
 	public List<Ciudad> getCiudades() {
-		return ciudades;
+		return ciudadesList;
 	}
 
 	public void setCiudades(List<Ciudad> ciudades) {
-		this.ciudades = ciudades;
+		this.ciudadesList = ciudades;
+	}
+
+	public List<Ciudad> getCiudadesList() {
+		return ciudadesList;
+	}
+
+	public void setCiudadesList(List<Ciudad> ciudadesList) {
+		this.ciudadesList = ciudadesList;
 	}
 	
 	

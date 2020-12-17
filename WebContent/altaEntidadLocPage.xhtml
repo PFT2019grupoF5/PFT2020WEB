@@ -1,115 +1,125 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		  <style>
-        body {
-        font-size: 70%;
-        }
-        h3{display: inline-block}
-    </style>
+	<style>
+body {
+	font-size: 70%;
+}
+
+h3 {
+	display: inline-block
+}
+</style>
 </h:head>
 
 <f:metadata>
-    <f:viewAction action="#{usuario.chequearPerfil()}" />
+	<f:viewAction action="#{usuario.chequearPerfil()}" />
 </f:metadata>
 
 <h:body>
-<div style="clear:both">
-	  <ui:include src="header.xhtml" />
+	<div style="clear: both">
+		<ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
-		
-</div>
-<div style="clear:both">
-			<h3>Alta de Locales</h3>
-			<p:spacer height="10px" />
-			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
-				<h:form>
-					<p:growl id="msg" showDetail="true" life="4000" />
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Codigo:" />
-							<p:inputNumber id="codigo"
-								value="#{entidadLoc.codigo}" required="true"></p:inputNumber>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Nombre:" />
-							<p:inputText id="nombre"
-								value="#{entidadLoc.nombre}" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Direccion:" />
-							<p:inputText id="direccion"
-								value="#{entidadLoc.direccion}" required="true"></p:inputText>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">  
-							<h:outputText value="Tipo de Local:" />
-							<p:selectOneMenu id="tipoLoc"
-								value="#{entidadLoc.tipoLoc}" effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
-    						<f:selectItems value="#{entidadLoc.tiposDeLocal}" /></p:selectOneMenu>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1"> 
-							 <h:outputText value="Ciudad:" />
-							 <p:selectOneMenu  id="ciudad" value="#{entidadLoc.idCiudad}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-				 				<f:selectItems var="c" value="#{ciudad.all}" itemLabel="#{c.nombre}" itemValue="${c.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="ciudad" style="color:red" />
-							</p:selectOneMenu>
-							<p:spacer width="5px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="1">
-							<p:spacer height="10px"></p:spacer>
-						</p:column>
-					</p:row>
-					<p:row style="text-align: center;">
-						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Confirmar" ajax="false"
-								action="#{entidadLoc.add()}" style="float: left;"/>
-							<h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/>
-						</p:column>
-					</p:row>
-				</h:form>
-			</p:panelGrid>
-		</div>>
+
+	</div>
+	<div style="clear: both">
+		<h3>Alta de Locales</h3>
+		<p:spacer height="10px" />
+		<p:panelGrid style="width: auto; height: auto" cellpadding="1">
+			<h:form>
+				<p:growl id="msg" showDetail="true" life="4000" />
+
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Nombre:" />
+						<p:inputText id="nombre" value="#{entidadLoc.nombre}"
+							required="true"></p:inputText>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="1">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Codigo:" />
+						<p:inputNumber id="codigo" value="#{entidadLoc.codigo}"
+							required="true"></p:inputNumber>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Direccion:" />
+						<p:inputText id="direccion" value="#{entidadLoc.direccion}"
+							required="true"></p:inputText>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Tipo de Local:" />
+						<p:selectOneMenu id="tipoLoc" value="#{entidadLoc.tipoLoc}"
+							effect="fold" editable="false">
+							<f:selectItem itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{entidadLoc.tiposDeLocal}" />
+						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<h:outputText value="Ciudad:" />
+						<p:selectOneMenu id="ciudad" value="#{entidadLoc.idCiudad}">
+							<f:selectItem itemLabel="Seleccione..." itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems var="c" value="#{ciudad.ciudadesList}"
+								itemLabel="#{c.nombre}" itemValue="${c.id}" required="true"
+								requiredMessage="Debe seleccionar una opción" />
+							<p:message for="ciudad" style="color:red" />
+						</p:selectOneMenu>
+						<p:spacer width="5px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:spacer height="10px"></p:spacer>
+					</p:column>
+				</p:row>
+				<p:row style="text-align: center;">
+					<p:column colspan="1" style="text-align: center;">
+						<h:commandButton value="Confirmar" ajax="false"
+							action="#{entidadLoc.add()}" style="float: left;" />
+						<h:commandButton value="Cancelar"
+							action="Home?faces-redirect=true" style="float: right;" />
+					</p:column>
+				</p:row>
+			</h:form>
+		</p:panelGrid>
+	</div>>
 </h:body>
 </html>

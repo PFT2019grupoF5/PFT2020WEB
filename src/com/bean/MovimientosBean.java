@@ -180,12 +180,6 @@ public class MovimientosBean {
 		FacesMessage message = null ;
 		String retPage = "bajaMovimientoPage";
 		try {
-			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
-			//		|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
-			//} else 
-			
 			if (movimiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione Un Movimiento a borrar!");
@@ -218,8 +212,11 @@ public class MovimientosBean {
 					}	
 			}else {
 				movimientosEJBBean.delete(movimiento.getId());
+				movimientosList.remove(movimiento); //se elimina el producto de la lista para que se muestre actualizado en la página
+
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 						"Se eliminó el Movimiento.");
+				
 			}
 		}
 		

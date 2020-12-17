@@ -47,8 +47,7 @@ public class EntidadesLocBean {
 	private CiudadBeanRemote ciudadEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
-				"Local ingresada exitosamente!");
+		FacesMessage message;
 		String retPage = "altaLocalPage";
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50) {
@@ -60,7 +59,7 @@ public class EntidadesLocBean {
 			} else if (tipoLoc == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo tipoLoc no puede ser vacío");
-			} else if (ciudad == null) {
+			} else if (idCiudad == 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo ciudad no puede ser vacío");
 			} else {
@@ -72,6 +71,8 @@ public class EntidadesLocBean {
 					e.setTipoloc(tipoLoc);
 					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
 					entidadLocEJBBean.add(e);
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
+							"Local ingresado exitosamente!");
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre del local provisto ya existe");

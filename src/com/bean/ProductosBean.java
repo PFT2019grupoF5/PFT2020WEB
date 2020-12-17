@@ -203,13 +203,13 @@ public class ProductosBean {
 			} else if (movimientosEJBBean.validoBajaProducto(producto.getId()) != null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder");
-			//} else if (!confirmarBorrado) {
-			//	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-			//			"Seleccione la casilla de confirmación!");
 			} else {
 				productosEJBBean.delete(producto.getId());
+				productosList.remove(producto); //se elimina el producto de la lista para que se muestre actualizado en la página
+
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 						"Producto borrado exitosamente!");
+			
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
