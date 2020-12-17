@@ -59,13 +59,13 @@
 				</p:submenu>
 				<p:submenu label="Locales">
 					<p:menuitem value=" Alta de Local"
-						action="altaEntidadLoclPage?faces-redirect=true"
+						action="altaEntidadLocPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value=" Modificacion de Local"
-						action="modificarLocalPage?faces-redirect=true"
+						action="modificarEntidadLocPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value=" Baja de Local"
-						action="bajaLocalPage?faces-redirect=true"
+						action="bajaEntidadLocPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
@@ -118,13 +118,13 @@
 				</p:submenu>
 				<p:submenu label="Renglon de Pedido">
 					<p:menuitem value=" Alta de Renglon de Pedido"
-						action="altaRenglonesPedidoPage?faces-redirect=true"
+						action="altaRenglonPedidoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value=" Modificacion de Renglon de Pedido"
-						action="modificarRenglonPage?faces-redirect=true"
+						action="modificarRenglonPedidoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value=" Baja de Renglon de Pedido"
-						action="bajaRenglonPage?faces-redirect=true"
+						action="bajaRenglonPedidoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario()}"/>
 					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
@@ -133,7 +133,7 @@
 						action="altaUsuarioPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
 					<p:menuitem value=" Modificacion de Usuario"
-						action="modificarProductoPage?faces-redirect=true"
+						action="modificarUsuarioPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 420px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
 					<p:menuitem value=" Baja de Usuario"
 						action="bajaUsuarioPage?faces-redirect=true"
