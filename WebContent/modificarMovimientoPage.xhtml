@@ -25,23 +25,21 @@
 
 
 <h:body>
-<div style="float:left;">
+<div style="clear:both">
 	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
-		<p:panel style="vertical-align: top;">
-		</p:panel>
 		
 </div>
-<div style="float:left; margin-left:10px;">
+<div style="clear:both">
 
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" />
 
  
-		<f:facet name="header">
-            Editar Movimientos
-        </f:facet>
-        
+		<p:panel>
+			<h3 align="center">Modificar Movimientos</h3>
+		</p:panel>
+		        
 	<p:dataTable id="movim1" var="mov" value="#{movimiento.movimientosList}"
 		editable="true" style="margin-bottom:20px">
 
@@ -51,15 +49,10 @@
 			update=":form:msgs" />
 
 		<p:column headerText="Id">
-			<p:cellEditor>
 				<f:facet name="output">
-					<h:outputText value="#{mov.id}" />
+					<h:outputText value="ID" />
 				</f:facet>
-				<f:facet name="input">
-					<p:inputText id="modelInput" value="#{mov.id}"
-						style="width:100%" />
-				</f:facet>
-			</p:cellEditor>
+				<h:outputLabel value="#{mov.id}" />
 		</p:column>
 
 		<p:column headerText="Fecha">

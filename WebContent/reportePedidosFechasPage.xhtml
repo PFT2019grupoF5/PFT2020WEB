@@ -17,35 +17,49 @@
 	</h:head>
 
 	<h:body>
-	 <h:form id="ReporteFamiliasForm">
-			<h:panelGrid id="grid" columns="1" cellpadding="1">
-				<p:messages id="messages" showDetail="true" autoUpdate="true"
-					closable="true" />
+		<div style="clear: both">
+			<ui:include src="header.xhtml" />
+			<p:spacer width="10px"></p:spacer>
+
+		</div>
+		<div style="clear: both">
+
+
+			<h:form id="ReporteFamiliasForm">
+				<h:panelGrid id="grid" columns="1" cellpadding="1">
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="true" />
 
 					<p:column colspan="1">  
 						Fecha Desde:
-						<h:inputText id="fechaIni" value="#{pedido.fechaIni}" converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'" styleClass="form-control">
-                			<f:convertDateTime pattern="yyyy-MM-dd"/>
-              			</h:inputText>
-              			<h:message for="fechaIni" styleClass="text-danger"/>
-					</p:column>		
-			
+						<h:inputText id="fechaIni" value="#{pedido.fechaIni}"
+							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
+							styleClass="form-control">
+							<f:convertDateTime pattern="yyyy-MM-dd" />
+						</h:inputText>
+						<h:message for="fechaIni" styleClass="text-danger" />
+					</p:column>
+
 					<p:column colspan="1">  
 						Fecha Hasta:
-						<h:inputText id="fechaFin" value="#{pedido.fechaFin}" converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'" styleClass="form-control">
-                			<f:convertDateTime pattern="yyyy-MM-dd"/>
-              			</h:inputText>
-              			<h:message for="fechaFin" styleClass="text-danger"/>
-					</p:column>		
-			</h:panelGrid>
+						<h:inputText id="fechaFin" value="#{pedido.fechaFin}"
+							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
+							styleClass="form-control">
+							<f:convertDateTime pattern="yyyy-MM-dd" />
+						</h:inputText>
+						<h:message for="fechaFin" styleClass="text-danger" />
+					</p:column>
+				</h:panelGrid>
 
-			<p:commandButton id="submit"  value="Obtener Reporte" action="#{pedido.getPedidosFechas}" >
- 			</p:commandButton>
- 
-			<p:column colspan="1" style="text-align: center;">
-				<p:commandButton value="Cancelar" action="mainPage" />
-			</p:column>
-		</h:form>		
-		</h:body>
+				<p:commandButton id="submit" value="Obtener Reporte"
+					action="#{pedido.getPedidosFechas}">
+				</p:commandButton>
+
+				<p:column colspan="1" style="text-align: center;">
+					<p:commandButton value="Cancelar" action="mainPage" />
+				</p:column>
+			</h:form>
+		</div>
+	</h:body>
 </f:view>
 </html>

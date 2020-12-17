@@ -142,12 +142,7 @@ public class MovimientosBean {
 		String retPage = "modificarMovimientoPage";
 		try {
 
-			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)
-			//		|| !tipoPerfil.OPERARIO.equals(perfilLogeado)) {
-			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR O OPERARIO para poder acceder");
-			//} else
-				if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
+			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
 					|| almacenamiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");

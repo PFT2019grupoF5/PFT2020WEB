@@ -77,19 +77,27 @@ public class ProductosBean {
 				"Producto ingresado exitosamente!");
 		String retPage = "altaProductoPage";
 		try {
-			if (nombre.isEmpty() || lote.isEmpty() || precio <= 0 || felab == null || fven == null || peso <= 0
-					|| volumen <= 0 || estiba <= 0 || stkMin <= 0 || stkTotal <= 0 || segmentac == null
-					|| idUsuario == null || idFamilia == null) {
+			if (nombre.isEmpty() || nombre.length() > 50 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
-			}	else if (nombre.length() > 50) {
+						"Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios");
+			}	else if (precio <= 0 || peso <= 0 || volumen <= 0 || estiba <= 0 
+					|| stkMin <= 0 || stkTotal <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
+						"Los campos numéricos no pueden ser inferior a 0 y son obligatorios");
+			}	else if (lote.isEmpty() || segmentac == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Los campos Lote y Segmentación son obligatorios");
+			}	else if (idUsuario == null || idFamilia == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Los campos Usuario y Familia son obligatorios");
+			} else if (felab == null || fven == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"La fecha de fabricación y vencimiento se deben ingresar en formato dd/mm/aa");
 			} else if (felab.compareTo(fven) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
 			} else {
-				//
+				
 				if (getNombre(nombre) == null) {
 		   			Producto p = new Producto();
 		   			p.setNombre(nombre);
@@ -106,9 +114,12 @@ public class ProductosBean {
 		   			p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
 		   			p.setFamilia(familiasEJBBean.getFamilia(idFamilia));
 					productosEJBBean.add(p);
+					
+					System.out.print(nombre.trim());
+					
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El Producto ya existe. Por favor revise sus datos.");
+							"El Producto " + nombre.trim() + " ya existe. Por favor revise sus datos.");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -125,24 +136,33 @@ public class ProductosBean {
 				"Producto modificado exitosamente!");
 		String retPage = "modificarProductoPage";
 		try {
-			if (nombre.isEmpty() || lote.isEmpty() || precio == 0 || felab == null || fven == null || peso == 0
-					|| volumen == 0 || estiba == 0 || stkMin == 0 || stkTotal == 0 || segmentac == null
-					|| usuarioIdNuevo != 0 || familiaIdNuevo != 0) {
+			if (nombre.isEmpty() || nombre.length() > 50 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
-			} else if (nombre.length() > 50) {
+						"Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios");
+			}	else if (precio <= 0 || peso <= 0 || volumen <= 0 || estiba <= 0 
+					|| stkMin <= 0 || stkTotal <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Los datos ingresados superan el largo permitido. Por favor revise sus datos");
+						"Los campos numéricos no pueden ser inferior a 0 y son obligatorios");
+			}	else if (lote.isEmpty() || segmentac == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Los campos Lote y Segmentación son obligatorios");
+			}	else if (lote.length()>10) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"El campo Lote no puede sobrepasar los 10 caracteres");
+				
+			}	else if (idUsuario == null || idFamilia == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Los campos Usuario y Familia son obligatorios");
+			} else if (felab == null || fven == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"La fecha de fabricación y vencimiento se deben ingresar en formato dd/mm/aa");
 			} else if (felab.compareTo(fven) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
-				// } else if (!confirmarModificar) {
-				// message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar:
-				// ",
-				// "Seleccione la casilla de confirmación!");
 			} else {
-				if (get() != null) {
-		   			Producto p = new Producto();
+				
+				if (getNombre(nombre) != null) {
+					Producto p = new Producto();
 		   			p = productosEJBBean.getId(id);
 		   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
 		   			//p.setNombre(nombre);

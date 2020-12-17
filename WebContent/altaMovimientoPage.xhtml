@@ -20,14 +20,12 @@
 </f:metadata>
 
 <h:body>
-<div style="float:left;">
+<div style="clear:both">
 	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
-		<p:panel style="vertical-align: top;">
-		</p:panel>
 		
 </div>
-<div style="float:left; margin-left:10px;">
+<div style="clear:both">
 		<h3>Alta de Movimientos</h3>
 		<p:spacer height="10px" />
 		<p:panelGrid style="width: auto; height: auto" cellpadding="1">
@@ -38,7 +36,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Fecha:" />
 							<p:calendar id="fecha" value="#{movimiento.fecha}"
-								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__-__-__"
+								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__"
 								locale="es_ES" required="true">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>

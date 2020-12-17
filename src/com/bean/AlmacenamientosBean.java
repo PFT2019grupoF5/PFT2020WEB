@@ -33,10 +33,7 @@ public class AlmacenamientosBean {
 	private boolean confirmarModificar = false;
 
 	private Long idEntidadLoc;
-	private List<EntidadLoc> listaEntidadLoc;
 	private List<Almacenamiento> almacenamientosList;
-	private Long idProducto;
-	private Long idAlmacenamiento;
 
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
@@ -45,30 +42,22 @@ public class AlmacenamientosBean {
 	private EntidadLocBeanRemote entidadLocEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
-				"Almacenamiento ingresado exitosamente!");
+		FacesMessage message ;
 		String retPage = "altaAlmacenamientoPage";
+		
 		try {
-			if (volumen <= 0) {
+			
+			if (volumen <= 0 || costoop <= 0 || capestiba <= 0 || cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Volumen no puede ser vacío o mayor a 50 caracteres");
-			} else if (nombre.length() > 250) {
+						"Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
+			} else if (nombre.length() > 250 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (costoop <= 0) {
+						"Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
+			} else if (idEntidadLoc  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Costo Operacion no puede ser vacío o mayor a 50 caracteres");
-			} else if (capestiba <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Capacidad de Estiba no puede ser vacío o mayor a 50 caracteres");
-			} else if (cappeso <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Capacidad de Peso no puede ser vacío o mayor a 50 caracteres");
-			} else if (entidadLoc == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo entidadLoc no puede ser vacío");
+						"Campo Local no puede ser vacío");
 			} else {
-				if (get() == null) {
+				if (almacenamientosEJBBean.getNombre(nombre) == null) { // no existe el almacenamiento con ese nombre
 					Almacenamiento a = new Almacenamiento();
 					a.setVolumen(volumen);
 					a.setNombre(nombre);
@@ -77,9 +66,13 @@ public class AlmacenamientosBean {
 					a.setCappeso(cappeso);
 					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
 					almacenamientosEJBBean.add(a);
+
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
+							"Almacenamiento ingresado exitosamente!");
+
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El almacenamiento ya existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+							"El almacenamiento " + nombre + " ya existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -268,22 +261,6 @@ public class AlmacenamientosBean {
 		this.entidadLoc = entidadLoc;
 	}
 
-	public long getIdEntidadLoc() {
-		return idEntidadLoc;
-	}
-
-	public void setIdEntidadLoc(long idEntidadLoc) {
-		this.idEntidadLoc = idEntidadLoc;
-	}
-
-	public List<EntidadLoc> getListaEntidadLoc() {
-		return listaEntidadLoc;
-	}
-
-	public void setListaEntidadLoc(List<EntidadLoc> listaEntidadLoc) {
-		this.listaEntidadLoc = listaEntidadLoc;
-	}
-
 	public List<Almacenamiento> getAlmacenamientosList() {
 		return almacenamientosList;
 	}
@@ -292,20 +269,12 @@ public class AlmacenamientosBean {
 		this.almacenamientosList = almacenamientosList;
 	}
 
-	public Long getIdProducto() {
-		return idProducto;
+	public void setIdEntidadLoc(Long idEntidadLoc) {
+		this.idEntidadLoc = idEntidadLoc;
 	}
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
-
-	public Long getIdAlmacenamiento() {
-		return idAlmacenamiento;
-	}
-
-	public void setIdAlmacenamiento(Long idAlmacenamiento) {
-		this.idAlmacenamiento = idAlmacenamiento;
+	public Long getIdEntidadLoc() {
+		return idEntidadLoc;
 	}
 	
 	

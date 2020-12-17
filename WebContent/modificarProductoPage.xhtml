@@ -22,22 +22,20 @@
 </f:metadata>
 
 <h:body>
-<div style="float:left;">
+<div style="clear:both">
 	  <ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
-		<p:panel style="vertical-align: top;">
-		</p:panel>
 		
 </div>
-<div style="float:left; margin-left:10px;">
+<div style="clear:both">
 
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
-		<f:facet name="header">
-            Editar producto
-        </f:facet>
-
+		<p:panel>
+			<h3 align="center">Modificar Producto</h3>
+		</p:panel>
+		
 	<p:dataTable id="produc1" var="produc" value="#{producto.productosList}"
 		editable="true" >
  
@@ -53,15 +51,10 @@
 		</p:column>
 
 		<p:column headerText="Nombre" filterBy="#{produc.nombre}" filterMatchMode="contains">
-			<p:cellEditor>
-				<f:facet name="output" >
-					<h:outputText value="#{produc.nombre}" />
-				</f:facet>
-				<f:facet name="input">
-					<p:inputText value="#{produc.nombre}" style="width:100%"
-						label="nombre" />
-				</f:facet>
-			</p:cellEditor>
+			<f:facet name="output" >
+				<h:outputText value="#{produc.nombre}" />
+			</f:facet>
+			<h:outputLabel value="#{produc.nombre}" />
 		</p:column>
 
 		<p:column headerText="Lote">
@@ -120,7 +113,7 @@
 					<h:outputText value="#{produc.precio}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.precio}" style="width:100%"
+					<p:inputNumber value="#{produc.precio}" style="width:100%"
 						label="precio" />
 				</f:facet>
 			</p:cellEditor>
@@ -133,7 +126,7 @@
 					<h:outputText value="#{produc.peso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.peso}" style="width:100%" label="peso" />
+					<p:inputNumber value="#{produc.peso}" style="width:100%" label="peso" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -144,7 +137,7 @@
 					<h:outputText value="#{produc.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.volumen}" style="width:100%"
+					<p:inputNumber value="#{produc.volumen}" style="width:100%"
 						label="volumen" />
 				</f:facet>
 			</p:cellEditor>
@@ -156,7 +149,7 @@
 					<h:outputText value="#{produc.estiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.estiba}" style="width:100%"
+					<p:inputNumber value="#{produc.estiba}" style="width:100%"
 						label="estiba" />
 				</f:facet>
 			</p:cellEditor>
@@ -168,7 +161,7 @@
 					<h:outputText value="#{produc.stkMin}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.stkMin}" style="width:100%"
+					<p:inputNumber value="#{produc.stkMin}" style="width:100%"
 						label="stkMin" />
 				</f:facet>
 			</p:cellEditor>
@@ -180,7 +173,7 @@
 					<h:outputText value="#{produc.stkTotal}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.stkTotal}" style="width:100%"
+					<p:inputNumber value="#{produc.stkTotal}" style="width:100%"
 						label="stkTotal" />
 				</f:facet>
 			</p:cellEditor>

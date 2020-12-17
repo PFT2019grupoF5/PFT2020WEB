@@ -35,7 +35,7 @@ public class EntidadesLocBean {
 	private List<SelectItem> tiposDeLocal;
 	
 	private Long idCiudad;
-	private List <Ciudad> listaCiudad;
+	private List <EntidadLoc> entidadLocList;
 	
 	
 	private boolean confirmarBorrado = false;
@@ -169,6 +169,8 @@ public class EntidadesLocBean {
 			tipL.add(new SelectItem(com.enumerated.tipoLoc.PUNTODEVENTA, com.enumerated.tipoLoc.PUNTODEVENTA.toString()));
 			tipL.add(new SelectItem(com.enumerated.tipoLoc.OTRO, com.enumerated.tipoLoc.OTRO.toString()));
 			tiposDeLocal =  tipL;
+			
+			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 		} catch (Exception e) {
 		}
 	}
@@ -265,20 +267,12 @@ public class EntidadesLocBean {
 		this.idCiudad = idCiudad;
 	}
 
-	public List<Ciudad> getListaCiudad() {
-		return listaCiudad;
+	public List<EntidadLoc> getEntidadLocList() {
+		return entidadLocList;
 	}
 
-	public void setListaCiudad(List<Ciudad> listaCiudad) {
-		this.listaCiudad = listaCiudad;
-	}
-
-	public EntidadLocBeanRemote getEntidadLocEJBBean() {
-		return entidadLocEJBBean;
-	}
-
-	public void setEntidadLocEJBBean(EntidadLocBeanRemote entidadLocEJBBean) {
-		this.entidadLocEJBBean = entidadLocEJBBean;
+	public void setEntidadLocList(List<EntidadLoc> entidadLocList) {
+		this.entidadLocList = entidadLocList;
 	}
 
 	
