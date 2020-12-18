@@ -181,7 +181,7 @@ public class MovimientosBean {
 		String retPage = "bajaMovimientoPage";
 		try {
 			if (movimiento == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
 						"Seleccione Un Movimiento a borrar!");
 			} else {
 
@@ -235,6 +235,14 @@ public class MovimientosBean {
 		}
 	}
 
+	public Movimiento getMovimientoxAlmac(long idAlma) {
+		try {
+			return movimientosEJBBean.getMovimientoxAlmac(idAlma);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public List<Movimiento> getAll() {
 		try {
 			return movimientosEJBBean.getAllMovimientos();

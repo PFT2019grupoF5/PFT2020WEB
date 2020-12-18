@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+         .ui-row-editor .ui-row-editor-pencil {
+		margin-left: 8px;
+		}
+   		 </style>
+</h:head>
+
+<h:body>
+<div style="clear:both">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		
+</div>
+<div style="clear:both">
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" />
+
+ 
+		<p:panel>
+			<h3 align="center">Modificar Almacenamientos</h3>
+		</p:panel>
+		        
+	<p:dataTable id="almac1" var="alm" value="#{almacenamiento.almacenamientosList}"
+		editable="true" style="margin-bottom:20px">
+
+
+
+		<p:ajax event="rowEdit" listener="#{almacenamiento.onRowEdit}"
+			update=":form:msgs" />
+
+		<p:column headerText="Id">
+				<f:facet name="output">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputLabel value="#{alm.id}" />
+		</p:column>
+
+		<p:column headerText="Nombre">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{alm.nombre}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{alm.nombre}" style="width:100%" label="nombre" 
+					 />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Volumen">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{alm.volumen}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{alm.volumen}" style="width:100%"
+						label="volumen" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Costo Operativo">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{alm.costoop}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{alm.costoop}" style="width:100%"
+						label="costoop" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Capacidad Estiba">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{alm.capestiba}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{alm.capestiba}" style="width:100%"
+						label="capestiba" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Capacidad Peso">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{alm.cappeso}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{alm.cappeso}" style="width:100%"
+						label="cappeso" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Local">
+			<p:selectOneMenu  id="loc" value="#{alm.entidadLoc.id}">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+ 				<f:selectItems var="l" value="#{entidadLoc.entidadLocList}" itemLabel="#{l.nombre}" itemValue="${l.id}" />
+			</p:selectOneMenu>
+        </p:column>
+
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+	</p:dataTable>
+
+</h:form>
+</div>
+</h:body>
+</html>

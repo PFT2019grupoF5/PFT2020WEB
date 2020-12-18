@@ -8,11 +8,17 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
+
 import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
+import com.entities.Movimiento;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.EntidadLocBeanRemote;
+import com.services.MovimientoBeanRemote;
 
 @ManagedBean(name = "almacenamiento")
 @ViewScoped
@@ -28,18 +34,18 @@ public class AlmacenamientosBean {
 
 	private static tipoPerfil perfilLogeado;
 
-	private Almacenamiento selectedAlmacenamiento;
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
-
 	private Long idEntidadLoc;
 	private List<Almacenamiento> almacenamientosList;
-
+	private boolean operacionOK;
+	
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
 
 	@EJB
 	private EntidadLocBeanRemote entidadLocEJBBean;
+
+	@EJB
+	private MovimientoBeanRemote movimientosEJBBean;
 
 	public String add() {
 		FacesMessage message ;
@@ -71,8 +77,9 @@ public class AlmacenamientosBean {
 							"Almacenamiento ingresado exitosamente!");
 
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Registrar: ",
 							"El almacenamiento " + nombre + " ya existe");
+					return "";
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -82,76 +89,76 @@ public class AlmacenamientosBean {
 		}
 	}
 
-	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso,
-			EntidadLoc entidadLoc) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-				"Almacenamiento modificada exitosamente!");
-		String retPage = "modificarAlmacenamientoPage";
+	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso, EntidadLoc entidadLoc) {
+		FacesMessage message ;
+		String resultado="";
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (volumen <= 0) {
+			
+			if (volumen <= 0 || costoop <= 0 || capestiba <= 0 || cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Volumen no puede ser vacío o mayor a 50 caracteres");
-			} else if (nombre.length() > 250) {
+						"Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
+			} else if (nombre.length() > 250 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (costoop <= 0) {
+						"Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
+			} else if (idEntidadLoc  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Costo Operacion no puede ser vacío o mayor a 50 caracteres");
-			} else if (capestiba <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Capacidad de Estiba no puede ser vacío o mayor a 50 caracteres");
-			} else if (cappeso <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Capacidad de Peso no puede ser vacío o mayor a 50 caracteres");
-			} else if (entidadLoc == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo entidadLoc no puede ser vacío");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
+						"Campo Local no puede ser vacío");
 			} else {
-				if (get() != null) {
-					Almacenamiento a = new Almacenamiento();
-					a.setId(id);
-					a.setVolumen(volumen);
-					a.setNombre(nombre);
-					a.setCostoop(costoop);
-					a.setCapestiba(capestiba);
-					a.setCappeso(cappeso);
-					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
-					almacenamientosEJBBean.update(a);
+				
+					if (almacenamientosEJBBean.getNombre(nombre) != null) { // si existe el almacenamiento con ese nombre, puedo modificar
+							Almacenamiento a = new Almacenamiento();
+							a.setId(id);
+							a.setVolumen(volumen);
+							a.setNombre(nombre);
+							a.setCostoop(costoop);
+							a.setCapestiba(capestiba);
+							a.setCappeso(cappeso);
+							a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+							almacenamientosEJBBean.update(a);
+							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+									"Almacenamiento " + nombre + " fue modificado!");
+							resultado = "retPage";	
+					
+					} else {
+							message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ",
+									"Almacenamiento no existe");
+							resultado = "modificarAlmacenamientoPage";	
+					}
+				}
+					
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return resultado;
+			} catch (ServiciosException e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
+			
+
+	public String delete(Almacenamiento almacenamiento) {
+		FacesMessage message ;
+		String retPage = "";
+		
+		try {
+			if (almacenamiento == null) {
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
+							"Seleccione Un Movimiento a borrar!");
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-							"Almacenamiento no existe");
+				
+				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) != null) {
+					// No se puede eliminar el Almacenamiento porque hay Movimientos que lo tienen asociado
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
+							"No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento" + almacenamiento.getNombre());
+				} else {
+					almacenamientosEJBBean.delete(almacenamiento.getId());
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+							"Almacenamiento borrado exitosamente!");
+					
+					retPage = "bajaAlmacenamientoPage";
 				}
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String delete() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Almacenamiento borrado exitosamente!");
-		String retPage = "bajaAlmacenamientoPage";
-		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (selectedAlmacenamiento == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione una Ciudad a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
-			} else {
-				almacenamientosEJBBean.delete(selectedAlmacenamiento.getId());
-			}
+			
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
@@ -174,6 +181,36 @@ public class AlmacenamientosBean {
 			return null;
 		}
 	}
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+	    Almacenamiento a = (Almacenamiento) event.getObject();
+	    
+	    FacesMessage message;
+	    operacionOK = false;
+	    
+	   try {
+			if (a.getCapestiba() == 0 || a.getCappeso() == 0 || a.getCostoop() == 0 || a.getNombre() == "" || a.getVolumen() == 0 || a.getEntidadLoc() == null) {
+				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+			} else {
+					
+				//Traigo la clase Local completa por el ID que se seleccionó en el desplegable
+				Long locId = a.getEntidadLoc().getId();
+				
+				a.setEntidadLoc(entidadLocEJBBean.getId(locId));
+				
+				almacenamientosEJBBean.update(a);
+				 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Almacenamiento modificado exitosamente!");
+				 operacionOK = true;
+			}
+			FacesContext.getCurrentInstance().addMessage(null,  message);
+		} catch (Exception e) {
+
+		}
+	}
+	
 	
 	@PostConstruct
 	public void cargoLista() {
@@ -275,6 +312,14 @@ public class AlmacenamientosBean {
 
 	public Long getIdEntidadLoc() {
 		return idEntidadLoc;
+	}
+
+	public boolean isOperacionOK() {
+		return operacionOK;
+	}
+
+	public void setOperacionOK(boolean operacionOK) {
+		this.operacionOK = operacionOK;
 	}
 	
 	
