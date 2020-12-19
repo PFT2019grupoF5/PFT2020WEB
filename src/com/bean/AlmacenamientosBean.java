@@ -146,7 +146,7 @@ public class AlmacenamientosBean {
 							"Seleccione Un Movimiento a borrar!");
 				} else {
 				
-				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) != null) {
+				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) != 0) {
 					// No se puede eliminar el Almacenamiento porque hay Movimientos que lo tienen asociado
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
 							"No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento" + almacenamiento.getNombre());

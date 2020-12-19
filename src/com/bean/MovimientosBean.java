@@ -235,6 +235,7 @@ public class MovimientosBean {
 		}
 	}
 
+	/*
 	public Movimiento getMovimientoxAlmac(long idAlma) {
 		try {
 			return movimientosEJBBean.getMovimientoxAlmac(idAlma);
@@ -242,7 +243,7 @@ public class MovimientosBean {
 			return null;
 		}
 	}
-	
+	*/
 	public List<Movimiento> getAll() {
 		try {
 			return movimientosEJBBean.getAllMovimientos();
