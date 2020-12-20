@@ -22,7 +22,9 @@
 		
 </div>
 <div style="clear:both">
-		<h3>Alta de Movimientos</h3>
+		<p:panel>
+			<h3 align="center">Alta de Movimiento</h3>
+		</p:panel>
 		<p:spacer height="10px" />
 		<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 			<h:form>
@@ -33,7 +35,7 @@
 						<h:outputText value="Fecha:" />
 							<p:calendar id="fecha" value="#{movimiento.fecha}"
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__"
-								locale="es_ES" required="true">
+								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
 						<p:spacer width="5px"></p:spacer>
@@ -49,7 +51,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Cantidad:" />
 						<p:inputNumber id="cantidad" value="#{movimiento.cantidad}"
-							required="true"></p:inputNumber>
+							required="true" requiredMessage="Debe ingresar una Cantidad"></p:inputNumber>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -74,7 +76,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Costo:" />
 						<p:inputNumber id="costo" value="#{movimiento.costo}"
-							required="true"></p:inputNumber>
+							required="true" requiredMessage="Debe ingresar un Costo"></p:inputNumber>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -87,7 +89,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Tipo de Movimiento" />
 						<p:selectOneMenu id="tipoMov" value="#{movimiento.tipoMov}"
-							effect="fold" editable="false">
+							effect="fold" editable="false" required="true" requiredMessage="Debe seleccionar un Tipo de Movimiento">
 							<f:selectItem itemValue="#{null}" noSelectionOption="true" />
 							<f:selectItems value="#{movimiento.tiposDeMov}" />
 						</p:selectOneMenu>
@@ -104,7 +106,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Producto" />
 					    	<p:selectOneMenu id="prod" 
-					    		value="#{movimiento.idProducto}">
+					    		value="#{movimiento.idProducto}" required="true" requiredMessage="Debe seleccionar un Producto">
 								<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
 								<f:selectItems value="#{producto.productosList}" 
 									var="p"
@@ -126,7 +128,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Almacenamiento" />
 						<p:selectOneMenu id="almac"
-							value="#{movimiento.idAlmacenamiento}">
+							value="#{movimiento.idAlmacenamiento}" required="true" requiredMessage="Debe seleccionar una Almacenamiento">
 							<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
 							<f:selectItems value="#{almacenamiento.almacenamientosList}"
 								var="a" 

@@ -63,7 +63,7 @@
 					<h:outputText value="#{produc.lote}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.lote}" style="width:100%" label="lote" />
+					<p:inputText value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage="Debe ingresar un Lote"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -71,7 +71,7 @@
 		<p:column headerText="Fecha de Elaboración">
 			<p:cellEditor>
 				<f:facet name="output">
-					<h:outputText value="#{produc.felab}" pattern="dd/MM/yy">
+					<h:outputText value="#{produc.felab}" pattern="dd/MM/yy" >
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</h:outputText>
@@ -79,7 +79,7 @@
 
 				<f:facet name="input">
 					<p:calendar value="#{produc.felab}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="felab">
+						locale="es_ES" style="width:90%" label="felab"  required="true" requiredMessage="Debe seleccionar una Fecha de Elaboración">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
@@ -98,7 +98,7 @@
 
 				<f:facet name="input">
 					<p:calendar value="#{produc.fven}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="fven">
+						locale="es_ES" style="width:90%" label="fven"  required="true" requiredMessage="Debe seleccionar una Fecha de Vencimiento">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
@@ -113,8 +113,7 @@
 					<h:outputText value="#{produc.precio}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.precio}" style="width:100%"
-						label="precio" />
+					<p:inputNumber value="#{produc.precio}" style="width:100%" label="precio"  required="true" requiredMessage="Debe ingresar un Precio"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -126,7 +125,7 @@
 					<h:outputText value="#{produc.peso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.peso}" style="width:100%" label="peso" />
+					<p:inputNumber value="#{produc.peso}" style="width:100%" label="peso"   required="true" requiredMessage="Debe ingresar un Peso"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -137,8 +136,7 @@
 					<h:outputText value="#{produc.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.volumen}" style="width:100%"
-						label="volumen" />
+					<p:inputNumber value="#{produc.volumen}" style="width:100%" label="volumen"   required="true" requiredMessage="Debe ingresar un Volumen"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -149,8 +147,7 @@
 					<h:outputText value="#{produc.estiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.estiba}" style="width:100%"
-						label="estiba" />
+					<p:inputNumber value="#{produc.estiba}" style="width:100%" label="estiba"   required="true" requiredMessage="Debe ingresar una Estiba"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -161,8 +158,7 @@
 					<h:outputText value="#{produc.stkMin}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.stkMin}" style="width:100%"
-						label="stkMin" />
+					<p:inputNumber value="#{produc.stkMin}" style="width:100%" label="stkMin"   required="true" requiredMessage="Debe ingresar un Stock Mínimo"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -173,8 +169,7 @@
 					<h:outputText value="#{produc.stkTotal}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.stkTotal}" style="width:100%"
-						label="stkTotal" />
+					<p:inputNumber value="#{produc.stkTotal}" style="width:100%" label="stkTotal"   required="true" requiredMessage="Debe ingresar un Stock Máximo"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -182,14 +177,14 @@
 		<p:column headerText="Segmentable">
 			<p:selectOneMenu value="#{produc.segmentac}">
 				<f:selectItem itemLabel="Seleccione..." itemValue=""
-					noSelectionOption="true" />
+					noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar si es Segmentable"/>
 				<f:selectItems value="#{producto.segmentacion}" />
 			</p:selectOneMenu>
 		</p:column>
 
 		<p:column headerText="Usuario">
 			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar un Usuario"/>
  				<f:selectItems var="u" 
  					value="#{usuario.usuariosList}" 
  					itemLabel="#{u.nombre}" 
@@ -199,7 +194,7 @@
         </p:column>
 
 		<p:column headerText="Familia">
-			<p:selectOneMenu  id="fam" value="#{produc.familia.id}" >
+			<p:selectOneMenu  id="fam" value="#{produc.familia.id}"   required="true" requiredMessage="Debe seleccionar una Familia">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems value="#{familia.familiasList}" 
  					var="f" 

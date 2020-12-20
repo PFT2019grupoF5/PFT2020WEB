@@ -74,8 +74,7 @@
 					<h:outputText value="#{mov.cantidad}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{mov.cantidad}" style="width:100%"
-						label="cantidad" />
+					<p:inputNumber value="#{mov.cantidad}" style="width:100%" label="cantidad"  required="true" requiredMessage="Debe ingresar una Cantidad" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -98,14 +97,13 @@
 					<h:outputText value="#{mov.costo}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{mov.costo}" style="width:100%"
-						label="volumen" />
+					<p:inputNumber value="#{mov.costo}" style="width:100%" label="volumen"  required="true" requiredMessage="Debe ingresar un Costo Operativo"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Tipo Movimiento">
-			<p:selectOneMenu value="#{mov.tipoMov}">
+			<p:selectOneMenu value="#{mov.tipoMov}"  required="true" requiredMessage="Debe seleccionar un Tipo de Movimiento">
 				<f:selectItem itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true" />
 				<f:selectItems value="#{movimiento.tiposDeMov}" />
@@ -113,14 +111,14 @@
 		</p:column>
 
 		<p:column headerText="Producto">
-			<p:selectOneMenu  id="prod" value="#{mov.producto.id}">
+			<p:selectOneMenu  id="prod" value="#{mov.producto.id}"  required="true" requiredMessage="Debe seleccionar un Producto">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="p" value="#{producto.productosList}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 			</p:selectOneMenu>
         </p:column>
 
 		<p:column headerText="Almacenamiento">
-			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}">
+			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}"  required="true" requiredMessage="Debe ingresar un Almacenamiento">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="a" value="#{almacenamiento.almacenamientosList}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
 			</p:selectOneMenu>

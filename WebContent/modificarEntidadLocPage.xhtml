@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+         .ui-row-editor .ui-row-editor-pencil {
+		margin-left: 8px;
+		}
+   		 </style>
+</h:head>
+
+<h:body>
+<div style="clear:both">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		
+</div>
+<div style="clear:both">
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" />
+
+ 
+		<p:panel>
+			<h3 align="center">Modificar Locales</h3>
+		</p:panel>
+		        
+	<p:dataTable id="loc1" var="loc" value="#{entidadLoc.entidadLocList}"
+		editable="true" style="margin-bottom:20px">
+
+
+
+		<p:ajax event="rowEdit" listener="#{entidadLoc.onRowEdit}"
+			update=":form:msgs" />
+
+		<p:column headerText="Id">
+				<f:facet name="output">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputLabel value="#{loc.id}" />
+		</p:column>
+
+		<p:column headerText="Codigo">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{loc.codigo}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{loc.codigo}" style="width:100%" label="codigo"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Nombre">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{loc.nombre}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{loc.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Dirección">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{loc.direccion}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{loc.direccion}" style="width:100%" label="direccion" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Tipo Local">
+			<p:selectOneMenu value="#{loc.tipoloc}"  required="true" requiredMessage="Debe seleccionar un Tipo de Local">
+				<f:selectItem itemLabel="Seleccione..." itemValue="0"
+					noSelectionOption="true" />
+				<f:selectItems value="#{entidadLoc.tiposDeLocal}" />
+			</p:selectOneMenu>
+		</p:column>
+ 
+		<p:column headerText="Ciudad">
+			<p:selectOneMenu  id="ciu" value="#{loc.ciudad.id}"  required="true" requiredMessage="Debe ingresar una Ciudad">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="0" noSelectionOption="true"/>
+ 				<f:selectItems var="c" value="#{ciudad.ciudadesList}" itemLabel="#{c.nombre}" itemValue="${c.id}" />
+			</p:selectOneMenu>
+        </p:column> 
+ 
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+	</p:dataTable>
+
+</h:form>
+</div>
+</h:body>
+</html>

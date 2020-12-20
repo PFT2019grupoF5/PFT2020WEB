@@ -146,12 +146,11 @@ public class MovimientosBean {
 					|| almacenamiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
+				return retPage;
 			} else if (descripcion.length() > 250) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Descripcion no puede ser mayor a 250 caracteres");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
+				return retPage;
 			} else {
 				
 				if (!tipoMov.toString().equals("P")) {
@@ -235,11 +234,11 @@ public class MovimientosBean {
 		}
 	}
 
-	public Movimiento getMovimientoxAlmac(long idAlma) {
+	public int getMovimientoxAlmac(long idAlma) {
 		try {
 			return movimientosEJBBean.getMovimientoxAlmac(idAlma);
 		} catch (Exception e) {
-			return null;
+			return 0;
 		}
 	}
 	

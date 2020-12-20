@@ -40,7 +40,7 @@
 
 
 		<p:ajax event="rowEdit" listener="#{almacenamiento.onRowEdit}"
-			update=":form:msgs" />
+			update=":form:almac1" />
 
 		<p:column headerText="Id">
 				<f:facet name="output">
@@ -55,8 +55,7 @@
 					<h:outputText value="#{alm.nombre}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{alm.nombre}" style="width:100%" label="nombre" 
-					 />
+					<p:inputText value="#{alm.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingrear un Nombre" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -67,8 +66,7 @@
 					<h:outputText value="#{alm.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.volumen}" style="width:100%"
-						label="volumen" />
+					<p:inputNumber value="#{alm.volumen}" style="width:100%" label="volumen"  required="true" requiredMessage="Debe ingresar un Volumen"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -79,8 +77,7 @@
 					<h:outputText value="#{alm.costoop}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.costoop}" style="width:100%"
-						label="costoop" />
+					<p:inputNumber value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -91,8 +88,7 @@
 					<h:outputText value="#{alm.capestiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.capestiba}" style="width:100%"
-						label="capestiba" />
+					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -103,14 +99,13 @@
 					<h:outputText value="#{alm.cappeso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.cappeso}" style="width:100%"
-						label="cappeso" />
+					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Local">
-			<p:selectOneMenu  id="loc" value="#{alm.entidadLoc.id}">
+			<p:selectOneMenu  id="loc" value="#{alm.entidadLoc.id}"  required="true" requiredMessage="Debe seleccionar un Local">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="l" value="#{entidadLoc.entidadLocList}" itemLabel="#{l.nombre}" itemValue="${l.id}" />
 			</p:selectOneMenu>

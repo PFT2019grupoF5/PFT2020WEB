@@ -27,8 +27,10 @@
 		
 </div>
 <div style="clear:both">
-			<h3>Alta de Usuario</h3>
-			<p:spacer height="10px" />
+		<p:panel>
+			<h3 align="center">Alta de Usuario</h3>
+		</p:panel>
+		<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
@@ -36,7 +38,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{usuario.nombre}" required="true"></p:inputText>
+								value="#{usuario.nombre}" required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -49,7 +51,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Apellido:" />
 							<p:inputText id="apellido"
-								value="#{usuario.apellido}" required="true"></p:inputText>
+								value="#{usuario.apellido}" required="true" requiredMessage="Debe ingresar un Apellido"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -62,7 +64,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre de Acceso:" />
 							<p:inputText id="nomAcceso"
-								value="#{usuario.nomAcceso}" required="true"></p:inputText>
+								value="#{usuario.nomAcceso}" required="true" requiredMessage="Debe ingresar un Nombre de Acceso"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -75,7 +77,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Contraseña:" />
 							<p:password id="contrasena"
-								value="#{usuario.contrasena}" required="true"></p:password>
+								value="#{usuario.contrasena}" required="true" requiredMessage="Debe ingresar una Contraseña"></p:password>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -88,7 +90,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Correo:" />
 							<p:inputText id="correo"
-								value="#{usuario.correo}" required="true"></p:inputText>
+								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -101,7 +103,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Perfil:" />
 							<p:selectOneMenu id="perfil"
-								value="#{usuario.tipoPerfil}" effect="fold" editable="false">
+								value="#{usuario.tipoPerfil}" effect="fold" editable="false" required="true" requiredMessage="Debe Seleccionar un Perfil">
 							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{usuario.perfiles}" /></p:selectOneMenu>
 							<p:spacer width="5px"></p:spacer>

@@ -18,18 +18,16 @@ h3 {
 </style>
 </h:head>
 
-<f:metadata>
-	<f:viewAction action="#{usuario.chequearPerfil()}" />
-</f:metadata>
-
 <h:body>
 	<div style="clear: both">
 		<ui:include src="header.xhtml" />
 		<p:spacer width="10px"></p:spacer>
-
 	</div>
 	<div style="clear: both">
-		<h3>Alta de Locales</h3>
+		<p:panel>
+			<h3 align="center">Alta de Locales</h3>
+		</p:panel>
+
 		<p:spacer height="10px" />
 		<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 			<h:form>
@@ -39,7 +37,7 @@ h3 {
 					<p:column colspan="1">
 						<h:outputText value="Nombre:" />
 						<p:inputText id="nombre" value="#{entidadLoc.nombre}"
-							required="true"></p:inputText>
+							required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -65,8 +63,7 @@ h3 {
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Direccion:" />
-						<p:inputText id="direccion" value="#{entidadLoc.direccion}"
-							required="true"></p:inputText>
+						<p:inputText id="direccion" value="#{entidadLoc.direccion}"></p:inputText>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -94,8 +91,8 @@ h3 {
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Ciudad:" />
-						<p:selectOneMenu id="ciudad" value="#{entidadLoc.idCiudad}">
-							<f:selectItem itemLabel="Seleccione..." itemValue=""
+						<p:selectOneMenu id="ciudad" value="#{entidadLoc.idCiudad}"  required="true" requiredMessage="Debe seleccionar una Ciudad">
+							<f:selectItem itemLabel="Seleccione..." itemValue="-1"
 								noSelectionOption="true" />
 							<f:selectItems var="c" value="#{ciudad.ciudadesList}"
 								itemLabel="#{c.nombre}" itemValue="${c.id}" required="true"

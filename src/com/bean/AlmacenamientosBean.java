@@ -79,7 +79,6 @@ public class AlmacenamientosBean {
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Registrar: ",
 							"El almacenamiento " + nombre + " ya existe");
-					return "";
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -98,34 +97,41 @@ public class AlmacenamientosBean {
 			if (volumen <= 0 || costoop <= 0 || capestiba <= 0 || cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
+				resultado = "retPage";
 			} else if (nombre.length() > 250 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
-			} else if (idEntidadLoc  <= 0) {
+				resultado = "retPage";
+			} else if (entidadLoc.getId()  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Local no puede ser vacío");
+				resultado = "retPage";
+			} else if (almacenamientosEJBBean.getNombre(nombre.trim()) ==null) {// pregunto si el nombre ingresado es igual al que ya tiene algún almacenamiento a modificar, si NO hay intento modificar
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Ya existe un Local con ese nombre. Por favor ingrese otro.");
+				resultado = "retPage";
 			} else {
-				
-					if (almacenamientosEJBBean.getNombre(nombre) != null) { // si existe el almacenamiento con ese nombre, puedo modificar
-							Almacenamiento a = new Almacenamiento();
-							a.setId(id);
-							a.setVolumen(volumen);
-							a.setNombre(nombre);
-							a.setCostoop(costoop);
-							a.setCapestiba(capestiba);
-							a.setCappeso(cappeso);
-							a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
-							almacenamientosEJBBean.update(a);
-							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-									"Almacenamiento " + nombre + " fue modificado!");
-							resultado = "retPage";	
 					
-					} else {
-							message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ",
-									"Almacenamiento no existe");
-							resultado = "modificarAlmacenamientoPage";	
-					}
+				if (almacenamientosEJBBean.getId(id) != null ) { // si existe el almacenamiento, lo modifico
+					Almacenamiento a = new Almacenamiento();
+					a.setId(id);
+					a.setVolumen(volumen);
+					a.setNombre(nombre);
+					a.setCostoop(costoop);
+					a.setCapestiba(capestiba);
+					a.setCappeso(cappeso);
+					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					almacenamientosEJBBean.update(a);
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+							"Almacenamiento " + nombre + " fue modificado!");
+					resultado = "modificarAlmacenamientoPage";	
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ",
+							"Almacenamiento no existe");
+					resultado = "retPage";	
 				}
+	
+			}
 					
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return resultado;
@@ -146,12 +152,13 @@ public class AlmacenamientosBean {
 							"Seleccione Un Movimiento a borrar!");
 				} else {
 				
-				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) != null) {
+				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) >0) {
 					// No se puede eliminar el Almacenamiento porque hay Movimientos que lo tienen asociado
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
-							"No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento" + almacenamiento.getNombre());
+							"No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento " + almacenamiento.getNombre());
 				} else {
 					almacenamientosEJBBean.delete(almacenamiento.getId());
+					almacenamientosList.remove(almacenamiento); //elimino el almacenamiento de la lista para que se refleje en la página
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 							"Almacenamiento borrado exitosamente!");
 					
@@ -186,28 +193,11 @@ public class AlmacenamientosBean {
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
 	    
-	    FacesMessage message;
-	    operacionOK = false;
-	    
 	   try {
-			if (a.getCapestiba() == 0 || a.getCappeso() == 0 || a.getCostoop() == 0 || a.getNombre() == "" || a.getVolumen() == 0 || a.getEntidadLoc() == null) {
-				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
-			} else {
-					
-				//Traigo la clase Local completa por el ID que se seleccionó en el desplegable
-				Long locId = a.getEntidadLoc().getId();
-				
-				a.setEntidadLoc(entidadLocEJBBean.getId(locId));
-				
-				almacenamientosEJBBean.update(a);
-				 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-						"Almacenamiento modificado exitosamente!");
-				 operacionOK = true;
+			if (a != null) {
+				this.update(a.getId(), a.getVolumen(), a.getNombre(), a.getCostoop(), a.getCapestiba(), a.getCappeso(), a.getEntidadLoc());
 			}
-			FacesContext.getCurrentInstance().addMessage(null,  message);
 		} catch (Exception e) {
-
 		}
 	}
 	

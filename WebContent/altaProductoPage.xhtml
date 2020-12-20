@@ -26,8 +26,10 @@
 		
 </div>
 <div style="clear:both">
-			<h3>Alta de Producto</h3>
-			<p:spacer height="10px" />
+		<p:panel>
+			<h3 align="center">Alta de Producto</h3>
+		</p:panel>
+		<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
@@ -35,7 +37,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{producto.nombre}" required="true"></p:inputText>
+								value="#{producto.nombre}" required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -49,7 +51,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
-								value="#{producto.lote}" required="true"></p:inputText>
+								value="#{producto.lote}" required="true" requiredMessage="Debe ingresar un Lote"></p:inputText>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -63,7 +65,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Precio:" />
 							<p:inputNumber id="precio"
-								value="#{producto.precio}" required="true"></p:inputNumber>
+								value="#{producto.precio}" required="true" requiredMessage="Debe ingresar un Precio"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -79,7 +81,7 @@
 							
 							<p:calendar id="felab" value="#{producto.felab}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
-								locale="es_ES" required="true">
+								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha de Elaborado">
 								<span style="color:red">*</span>
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 									
@@ -97,7 +99,7 @@
 							<h:outputText value="Fecha Vencimiento:" />
 							<p:calendar id="fven" value="#{producto.fven}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__-__-__" 
-								locale="es_ES" required="true">
+								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha de Vencimiento">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 									<span style="color:red">*</span>
 							</p:calendar>
@@ -113,7 +115,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Peso:" />
 							<p:inputNumber id="peso"
-								value="#{producto.peso}" required="true"></p:inputNumber>
+								value="#{producto.peso}" required="true" requiredMessage="Debe ingresar un Peso"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -127,7 +129,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{producto.volumen}" required="true"></p:inputNumber>
+								value="#{producto.volumen}" required="true" requiredMessage="Debe ingresar un Volumen"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -141,7 +143,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Estiba:" />
 							<p:inputNumber id="estiba"
-								value="#{producto.estiba}" required="true"></p:inputNumber>
+								value="#{producto.estiba}" required="true" requiredMessage="Debe ingresar una Estiba"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -155,7 +157,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Minimo:" />
 							<p:inputNumber id="stkMin"
-								value="#{producto.stkMin}" required="true"></p:inputNumber>
+								value="#{producto.stkMin}" required="true" requiredMessage="Debe ingresar un Stock Mínimo"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -169,7 +171,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Total:" />
 							<p:inputNumber id="stkTotal"
-								value="#{producto.stkTotal}" required="true"></p:inputNumber>
+								value="#{producto.stkTotal}" required="true" requiredMessage="Debe ingresar un Stock Total"></p:inputNumber>
 								<span style="color:red">*</span>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -184,7 +186,7 @@
 							<h:outputText value="Segmentacion:" />
 							<span style="color:red">*</span>
 							<p:selectOneMenu id="segmentac"
-								value="#{producto.segmentac}" effect="fold" editable="false">
+								value="#{producto.segmentac}" effect="fold" editable="false" required="true" requiredMessage="Debe seleccionar una Segmentación">
 								
 							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{producto.segmentacion}" /></p:selectOneMenu>
@@ -200,7 +202,7 @@
 					<p:column colspan="1">
 					<h:outputText value="Usuario:" />
 					<span style="color:red">*</span>
-						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith">
+						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar un Usuario">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				
@@ -218,7 +220,7 @@
 					<p:column colspan="1">
 					<h:outputText value="Familia:" />
 					<span style="color:red">*</span>
-						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}" filter="true" filterMatchMode="startsWith">
+						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar una Familia">
 						<span style="color:red">*</span>	<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
 			 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 			 				

@@ -16,10 +16,6 @@
     </style>
 </h:head>
 
-<f:metadata>
-    <f:viewAction action="#{usuario.chequearPerfil()}" />
-</f:metadata>
-
 <h:body>
 <div style="clear:both">
 	  <ui:include src="header.xhtml" />
@@ -27,7 +23,9 @@
 		
 </div>
 <div style="clear:both">
-			<h3>Alta de Ciudad</h3>
+			<p:panel>
+				<h3 align="center">Alta de Ciudad</h3>
+			</p:panel>
 			<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
 				<h:form>
@@ -35,8 +33,8 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
-							<p:inputText id="nombre"
-								value="#{ciudad.nombre}" required="true"></p:inputText>
+							<p:inputText id="nombre" 
+								value="#{ciudad.nombre}" required="true" requiredMessage="Debe ingresar un Nombre" ></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

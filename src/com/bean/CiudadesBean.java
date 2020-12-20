@@ -11,12 +11,16 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
+import com.entities.Almacenamiento;
 import com.entities.Ciudad;
 import com.entities.Producto;
 import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.CiudadBeanRemote;
+import com.services.EntidadLocBeanRemote;
 
 @ManagedBean(name = "ciudad")
 @ViewScoped
@@ -30,11 +34,11 @@ public class CiudadesBean {
 	private Ciudad selectedCiudad;
 	private List<Ciudad> ciudadesList;
 
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
-
 	@EJB
 	private CiudadBeanRemote ciudadesEJBBean;
+	
+	@EJB
+	private EntidadLocBeanRemote entidadLocEJBBean;
 
 	public String add() {
 
@@ -45,7 +49,7 @@ public class CiudadesBean {
 			if (nombre.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-				System.out.println("esta vacio o muy largo no funca");
+			
 			} else {
 				if (get2() == null) {
 					Ciudad c = new Ciudad();
@@ -54,7 +58,7 @@ public class CiudadesBean {
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El nombre de ciudad provisto ya existe");
-					System.out.println("falló todito");
+					
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -67,52 +71,66 @@ public class CiudadesBean {
 	}
 
 	public String update(Long id, String nombre) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-				"Ciudad modificada exitosamente!");
-		String retPage = "modificarCiudadPage";
+		FacesMessage message;
+		String resultado = "modificarCiudadPage";
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (nombre.isEmpty() || nombre.length() > 50) {
+			if (nombre.isEmpty() || nombre.length() > 50 || nombre.trim() == "") {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
-			} else {
-				if (get() != null) {
+						"Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
+				resultado = "retPage";
+			} else if (ciudadesEJBBean.getNombre(nombre) != null) { //ya hay una ciudad con ese nombre
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
+						"Ya existe una ciudad con el nombre " + nombre + ". Por favor utilice otro.");
+				resultado = "retPage";
+			} else {	
+				if (ciudadesEJBBean.getId(id) != null) { //existe la ciudad
 					Ciudad c = new Ciudad();
 					c.setId(id);
 					c.setNombre(nombre);
 					ciudadesEJBBean.update(c);
+				
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+							"Ciudad modificada exitosamente!");
+					resultado="modificacionCiudadPage";
+					
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ", "Ciudad no existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ", "Ciudad no existe");
+					resultado = "retPage";	
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
+			ciudadesList = obtenerTodosCiudades();
+			
+			return resultado;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public String delete() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Ciudad borrada exitosamente!");
-		String retPage = "bajaCiudadPage";
+	
+	public String delete(Ciudad ciudad) {
+		FacesMessage message ;
+		String retPage = "";
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (selectedCiudad == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+			if (ciudad == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
 						"Seleccione una Ciudad a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
 			} else {
-				ciudadesEJBBean.delete(selectedCiudad.getId());
+				if (entidadLocEJBBean.getLocalesxCiu(ciudad.getId()) > 0) {
+					// No se puede eliminar la Ciudad porque hay Locales que la tienen asociada
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
+							"No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad " + ciudad.getNombre());
+				} else {
+					ciudadesEJBBean.delete(ciudad.getId());
+					ciudadesList.remove(ciudad); //elimino la CIudad de la lista para que se refleje en la página
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+							"Ciudad borrada exitosamente!");
+					
+					retPage = "bajaCiudadPage";
+				}	
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -120,7 +138,19 @@ public class CiudadesBean {
 			return null;
 		}
 	}
-
+	
+	public void onRowEdit(RowEditEvent event) {
+	    Ciudad c = (Ciudad) event.getObject();
+	    
+	   try {
+			if (c != null) {
+				this.update(c.getId(), c.getNombre());
+			}
+		} catch (Exception e) {
+		}
+	}
+	
+	
 	public Ciudad get() {
 		try {
 			return ciudadesEJBBean.getId(id);

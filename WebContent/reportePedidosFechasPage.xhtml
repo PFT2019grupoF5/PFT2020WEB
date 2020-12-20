@@ -34,7 +34,7 @@
 						Fecha Desde:
 						<h:inputText id="fechaIni" value="#{pedido.fechaIni}"
 							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
-							styleClass="form-control">
+							styleClass="form-control"   required="true" requiredMessage="Debe ingresar una Fecha Desde">
 							<f:convertDateTime pattern="yyyy-MM-dd" />
 						</h:inputText>
 						<h:message for="fechaIni" styleClass="text-danger" />
@@ -44,7 +44,7 @@
 						Fecha Hasta:
 						<h:inputText id="fechaFin" value="#{pedido.fechaFin}"
 							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
-							styleClass="form-control">
+							styleClass="form-control"   required="true" requiredMessage="Debe ingresar una Fecha Hasta">
 							<f:convertDateTime pattern="yyyy-MM-dd" />
 						</h:inputText>
 						<h:message for="fechaFin" styleClass="text-danger" />

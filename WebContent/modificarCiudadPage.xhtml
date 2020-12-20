@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+         .ui-row-editor .ui-row-editor-pencil {
+		margin-left: 8px;
+		}
+   		 </style>
+</h:head>
+
+<h:body>
+<div style="clear:both">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		
+</div>
+<div style="clear:both">
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" />
+
+ 
+		<p:panel>
+			<h3 align="center">Modificar Ciudades</h3>
+		</p:panel>
+		        
+	<p:dataTable id="ciu1" var="ciu" value="#{ciudad.ciudadesList}"
+		editable="true" style="margin-bottom:20px">
+
+
+
+		<p:ajax event="rowEdit" listener="#{ciudad.onRowEdit}"
+			update=":form:msgs" />
+
+		<p:column headerText="Id">
+				<f:facet name="output">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputLabel value="#{ciu.id}" />
+		</p:column>
+
+		<p:column headerText="Nombre">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ciu.nombre}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{ciu.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+	</p:dataTable>
+
+</h:form>
+</div>
+</h:body>
+</html>

@@ -11,10 +11,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
+import com.entities.Almacenamiento;
 import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
 import com.enumerated.tipoPerfil;
+import com.services.AlmacenamientoBeanRemote;
 import com.services.CiudadBeanRemote;
 import com.services.EntidadLocBeanRemote;
 
@@ -46,22 +50,40 @@ public class EntidadesLocBean {
 	@EJB
 	private CiudadBeanRemote ciudadEJBBean;
 
+	@EJB
+	private AlmacenamientoBeanRemote almacenamientoEJBBean;
+
 	public String add() {
 		FacesMessage message;
-		String retPage = "altaLocalPage";
+		String resultado = "altaLocalPage";
+		
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+				resultado = "retPage";
 			} else if (direccion.isEmpty() || nombre.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Dirección no puede ser vacío o mayor a 50 caracteres");
+				resultado = "retPage";
+				
+			} else if (codigo <= 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Código no puede ser menor a 0");
+				resultado = "retPage";
 			} else if (tipoLoc == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo tipoLoc no puede ser vacío");
-			} else if (idCiudad == 0) {
+				resultado = "retPage";
+			} else if (idCiudad <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo ciudad no puede ser vacío");
+				resultado = "retPage";
+			} else if (entidadLocEJBBean.getNombre(nombre.trim()) != null) {
+					//ya existe otro Local con el mismo nombre
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Ya existe un Local con ese nombre. Por favor ingrese otro.");
+				resultado = "retPage";
 			} else {
 				if (get() == null) {
 					EntidadLoc e = new EntidadLoc();
@@ -73,71 +95,112 @@ public class EntidadesLocBean {
 					entidadLocEJBBean.add(e);
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
 							"Local ingresado exitosamente!");
+					resultado ="altaEntidadLocPage";
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Registrar: ",
 							"El nombre del local provisto ya existe");
+					resultado = "retPage";
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
+			return resultado;
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
 	public String update(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-				"Local modificado exitosamente!");
-		String retPage = "modificarLocalPage";
+		FacesMessage message = null;
+		String resultado="";
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) ||!tipoPerfil.SUPERVISOR.equals(perfilLogeado) ) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (nombre.length() > 50) {
+			if (codigo <=0 ) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (direccion.isEmpty() || direccion.length() > 50) {
+						"EL código no puede ser menor a 0");
+				resultado = "retPage";
+			} else if (nombre.length() > 50 || nombre.length()==0 || nombre.trim().length()==0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Direccion no puede superar los 50 caracteres");
+						"Campo Nombre no puede ser vacío, mayor a 50 caracteres ni contener solo espacios");
+				resultado = "retPage";
+			} else if (direccion.isEmpty() || direccion.length() > 50 || direccion.length()==0 || direccion.trim().length()==0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
+						"Campo Direccion no puede ser vacío, mayor a 50 caracteres ni contener solo espacios");
+				resultado = "retPage";
+			} else if (tipoLoc != com.enumerated.tipoLoc.LOCAL && tipoLoc != com.enumerated.tipoLoc.OTRO && tipoLoc != com.enumerated.tipoLoc.PUNTODEVENTA && tipoLoc != com.enumerated.tipoLoc.REGIONAL) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Local no puede ser vacío");
+				resultado = "retPage";
+			} else if (ciudad.getId()<=0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Campo Ciudad no puede ser vacío");
+				resultado = "retPage";
+			} else if (entidadLocEJBBean.getNombre(nombre.trim()) != null) { //ya existe otro Local con el mismo nombre
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Ya existe un Local con ese nombre. Por favor ingrese otro.");
+
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				resultado = "modificarEntidadLocPage";
+				entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+				return resultado;
+				
 			} else {
-				if (get() != null) {
-					EntidadLoc e = new EntidadLoc();
-					e.setId(id);
-					e.setCodigo(codigo);
-					e.setNombre(nombre);
-					e.setDireccion(direccion);
-					e.setTipoloc(tipoLoc);
-					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
-					entidadLocEJBBean.update(e);
+				
+				if (entidadLocEJBBean.getId(id) != null) {// si existe el Local, lo modifico
+						EntidadLoc e = new EntidadLoc();
+						e.setId(id);
+						e.setCodigo(codigo);
+						e.setNombre(nombre);
+						e.setDireccion(direccion);
+						e.setTipoloc(tipoLoc);
+						e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
+						entidadLocEJBBean.update(e);
+	
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+								"Local modificado exitosamente!");
+						resultado = "modificarEntidadLocPage";
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ",
 							"Local no existe");
+					resultado = "retPage";
+					
 				}
 			}
+		
+			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
+			return resultado;
+			
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	public String delete() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Local borrado exitosamente!");
-		String retPage = "bajaLocalPage";
+	public String delete(EntidadLoc entidadLoc) {
+		FacesMessage message;
+		String retPage="";
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)||!tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"No tiene permisos suficientes para realizar esta acción");
-			} else if (selectedEntidadLoc == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+			if (entidadLoc == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
 						"Seleccione un Local a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
 			} else {
-				entidadLocEJBBean.delete(selectedEntidadLoc.getId());
+				
+			if (almacenamientoEJBBean.getAlmacenamientoxLoc(entidadLoc.getId()) > 0) {
+				//No se puede eliminar el Local porque hay Almacenamientos que lo tienen asociado
+
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
+						"No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local " + entidadLoc.getNombre());
+			} else {
+				
+				entidadLocEJBBean.delete(entidadLoc.getId());
+				entidadLocList.remove(entidadLoc); //elimino el local de la lista para que se refleje en la página
+				
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+						"Local borrado exitosamente!");
+				retPage ="bajaLocalPage";
 			}
+		}	
+		
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
@@ -161,6 +224,20 @@ public class EntidadesLocBean {
 		}
 	}
 
+	
+	public void onRowEdit(RowEditEvent event) {
+	    EntidadLoc el = (EntidadLoc) event.getObject();
+	    
+	   try {
+			if (el != null) {
+				this.update(el.getCodigo(), el.getNombre(), el.getDireccion(), el.getTipoloc(), el.getCiudad());
+				
+			}
+		} catch (Exception e) {
+		}
+	}
+	
+	
 	@PostConstruct
 	public void tipL() {
 		try {

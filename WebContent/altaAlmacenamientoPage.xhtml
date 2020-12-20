@@ -22,8 +22,10 @@
 		
 </div>
 <div style="clear:both">
-			<h3>Alta de Almacenamiento</h3>
-			<p:spacer height="5px" />
+		<p:panel>
+			<h3 align="center">Alta de Almacenamientos</h3>
+		</p:panel>
+			
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1" >
 				<h:form>
 					<p:growl id="msg" showDetail="true" life="4000" />
@@ -47,7 +49,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{almacenamiento.volumen}" required="true"></p:inputNumber>
+								value="#{almacenamiento.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" emptyValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -61,7 +63,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Costo Operativo:" />
 							<p:inputNumber id="costoop"
-								value="#{almacenamiento.costoop}" required="true"></p:inputNumber>
+								value="#{almacenamiento.costoop}" required="true" requiredMessage="Debe ingresar un Costo Operativo" emptyValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -74,7 +76,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Estiba:" />
 							<p:inputNumber id="capestiba"
-								value="#{almacenamiento.capestiba}" required="true"></p:inputNumber>
+								value="#{almacenamiento.capestiba}" required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" emptyValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -87,7 +89,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Peso:" />
 							<p:inputNumber id="cappeso"
-								value="#{almacenamiento.cappeso}" required="true"></p:inputNumber>
+								value="#{almacenamiento.cappeso}" required="true" requiredMessage="Debe ingresar una Capacidad de Peso" emptyValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -97,13 +99,14 @@
 						</p:column>
 					</p:row>
 					
-					<p:row>
+					<p:row label="Local">
 						<p:column colspan="1"> 
-						<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.idEntidadLoc}" filter="true" filterMatchMode="startsWith">
-							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="el" value="#{entidadLoc.entidadLocList}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-			 				<p:message for="entidadLoc" style="color:red" />
-						</p:selectOneMenu>
+						<h:outputLabel value="Local" /> <br></br>
+							<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.idEntidadLoc}" label="Local" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar un Local">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="-1" noSelectionOption="true"/>
+				 				<f:selectItems var="el" value="#{entidadLoc.entidadLocList}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				 				<p:message for="entidadLoc" style="color:red" />
+							</p:selectOneMenu>
 						<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
