@@ -18,6 +18,7 @@ import com.entities.Usuario;
 import com.exception.ServiciosException;
 import org.apache.commons.codec.digest.DigestUtils;
 
+
 @Stateless
 @Path("/usuarios")
 public class UsuariosRest {

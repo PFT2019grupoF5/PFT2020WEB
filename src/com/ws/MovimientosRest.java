@@ -17,6 +17,7 @@ import com.services.MovimientoBeanRemote;
 import com.entities.Movimiento;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/movimientos")
 public class MovimientosRest {

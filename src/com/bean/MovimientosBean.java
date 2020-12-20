@@ -29,6 +29,7 @@ import com.services.MovimientoBeanRemote;
 
 public class MovimientosBean {
 
+	
 	private Long id;
 	private Date fecha;
 	private int cantidad;

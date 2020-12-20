@@ -17,6 +17,7 @@ import com.services.ProductoBeanRemote;
 import com.entities.Producto;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/productos")
 public class ProductosRest {

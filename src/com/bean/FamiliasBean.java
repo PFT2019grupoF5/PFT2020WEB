@@ -18,6 +18,7 @@ import com.services.FamiliaBeanRemote;
 
 public class FamiliasBean {
 
+	
 	private Long id;
 	private String nombre;
 	private String descrip;

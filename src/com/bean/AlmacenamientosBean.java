@@ -24,6 +24,7 @@ import com.services.MovimientoBeanRemote;
 @ViewScoped
 public class AlmacenamientosBean {
 
+	
 	private Long id;
 	private int volumen;
 	private String nombre;

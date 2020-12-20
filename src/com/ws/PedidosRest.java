@@ -17,6 +17,7 @@ import com.services.PedidoBeanRemote;
 import com.entities.Pedido;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/pedidos")
 public class PedidosRest {

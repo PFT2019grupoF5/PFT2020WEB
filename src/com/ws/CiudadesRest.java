@@ -17,6 +17,7 @@ import com.services.CiudadBeanRemote;
 import com.entities.Ciudad;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/ciudades")
 public class CiudadesRest {
