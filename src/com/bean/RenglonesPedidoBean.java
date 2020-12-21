@@ -21,6 +21,7 @@ import com.services.RenglonPedidoBeanRemote;
 
 public class RenglonesPedidoBean {
 
+	
 	private Long id;
 	private int rennro;
 	private int rencant;

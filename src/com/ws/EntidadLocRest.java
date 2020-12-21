@@ -17,6 +17,7 @@ import com.services.EntidadLocBeanRemote;
 import com.entities.EntidadLoc;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/entidadesLoc")
 public class EntidadLocRest {

@@ -26,6 +26,7 @@ import com.services.EntidadLocBeanRemote;
 @ViewScoped
 public class CiudadesBean {
 
+	
 	private Long id;
 	private String nombre;
 

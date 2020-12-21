@@ -15,6 +15,7 @@ import com.services.AlmacenamientoBeanRemote;
 import com.entities.Almacenamiento;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/almacenamientos")
 public class AlmacenamientosRest {

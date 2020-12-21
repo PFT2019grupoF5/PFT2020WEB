@@ -24,6 +24,7 @@ import com.services.MovimientoBeanRemote;
 @ViewScoped
 public class AlmacenamientosBean {
 
+	
 	private Long id;
 	private int volumen;
 	private String nombre;
@@ -140,8 +141,6 @@ public class AlmacenamientosBean {
 				return null;
 			}
 	}
-			
-
 	public String delete(Almacenamiento almacenamiento) {
 		FacesMessage message ;
 		String retPage = "";
@@ -152,7 +151,7 @@ public class AlmacenamientosBean {
 							"Seleccione Un Movimiento a borrar!");
 				} else {
 				
-				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) >0) {
+				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) > 0) {
 					// No se puede eliminar el Almacenamiento porque hay Movimientos que lo tienen asociado
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
 							"No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento " + almacenamiento.getNombre());

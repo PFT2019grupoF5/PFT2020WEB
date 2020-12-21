@@ -5,6 +5,7 @@
 		<welcome-file>Login.xhtml</welcome-file>
 	</welcome-file-list>
 	<servlet>
+	
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
@@ -39,13 +40,13 @@
     </context-param>
     <listener>
         <listener-class>
-            <param-name>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</param-name>
+            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
         </listener-class>
     </listener>    
     <servlet>
         <servlet-name>resteasy-servlet</servlet-name>
         <servlet-class>
-           <param-name> org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</param-name>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
         </servlet-class>
     </servlet>     
     <servlet-mapping>

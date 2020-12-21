@@ -17,6 +17,7 @@ import com.services.FamiliaBeanRemote;
 import com.entities.Familia;
 import com.exception.ServiciosException;
 
+
 @Stateless
 @Path("/familias")
 public class FamiliasRest {
