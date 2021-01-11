@@ -7,10 +7,24 @@
  
  
  <f:view contentType="text/html">
+ 
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Reporte de Pedidos entre Fechas</title>
+		</f:facet>
+	</h:head>
+
+
 
 	<h:head>Reporte de Pedidos entre Fechas</h:head>			
 
 	<h:body>
+			<div style="clear: both">
+			<ui:include src="header.xhtml" />
+			<p:spacer width="10px"></p:spacer>
+
+		</div>
 		<h:form id="frm">
 
 		<p:growl id="msg" showDetail="true" life="4000" />

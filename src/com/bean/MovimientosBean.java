@@ -235,19 +235,15 @@ public class MovimientosBean {
 		}
 	}
 
-<<<<<<< HEAD
 	public int getMovimientoxAlmac(long idAlma) {
-=======
-	/*
-	public Movimiento getMovimientoxAlmac(long idAlma) {
->>>>>>> branch 'master' of https://github.com/PFT2019grupoF5/PFT2020WEB.git
 		try {
 			return movimientosEJBBean.getMovimientoxAlmac(idAlma);
 		} catch (Exception e) {
 			return 0;
 		}
 	}
-	*/
+
+	
 	public List<Movimiento> getAll() {
 		try {
 			return movimientosEJBBean.getAllMovimientos();

@@ -13,7 +13,6 @@ import org.primefaces.event.RowEditEvent;
 
 import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
-import com.entities.Movimiento;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.AlmacenamientoBeanRemote;

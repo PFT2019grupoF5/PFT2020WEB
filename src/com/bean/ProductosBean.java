@@ -97,6 +97,9 @@ public class ProductosBean {
 			} else if (felab.compareTo(fven) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
+			} else if (stkMin > stkTotal) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"El stock minimo no puede ser mayor al total");
 			} else {
 				
 				if (getNombre(nombre) == null) {
@@ -150,7 +153,6 @@ public class ProductosBean {
 			}	else if (lote.length()>10) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"El campo Lote no puede sobrepasar los 10 caracteres");
-				
 			}	else if (idUsuario == null || idFamilia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Los campos Usuario y Familia son obligatorios");
@@ -160,6 +162,9 @@ public class ProductosBean {
 			} else if (felab.compareTo(fven) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"La fecha de fabricación no puede ser posterior a la de vencimiento");
+			} else if (stkMin > stkTotal) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"El stock minimo no puede ser mayor al total");
 			} else {
 				
 				if (getNombre(nombre) != null) {
