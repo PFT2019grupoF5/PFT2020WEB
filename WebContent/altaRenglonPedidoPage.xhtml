@@ -71,7 +71,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Numero del Renglon:" />
 							<p:inputNumber id="rennro"
-								value="#{renglonPedido.rennro}" required="true" requiredMessage="Debe ingresar un Número de Renglón"></p:inputNumber>
+								value="#{renglonPedido.rennro}" required="true" requiredMessage="Debe ingresar un Número de Renglón" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -84,7 +84,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Cantidad del Producto:" />
 							<p:inputNumber id="rencant"
-								value="#{renglonPedido.rencant}" required="true" requiredMessage="Debe ingresar una Cantidad"></p:inputNumber>
+								value="#{renglonPedido.rencant}" required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

@@ -50,7 +50,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{almacenamiento.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" emptyValue="0"></p:inputNumber>
+								value="#{almacenamiento.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" emptyValue="0" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -64,7 +64,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Costo Operativo:" />
 							<p:inputNumber id="costoop"
-								value="#{almacenamiento.costoop}" required="true" requiredMessage="Debe ingresar un Costo Operativo" emptyValue="0"></p:inputNumber>
+								value="#{almacenamiento.costoop}" required="true" requiredMessage="Debe ingresar un Costo Operativo" emptyValue="0" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -77,7 +77,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Estiba:" />
 							<p:inputNumber id="capestiba"
-								value="#{almacenamiento.capestiba}" required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" emptyValue="0"></p:inputNumber>
+								value="#{almacenamiento.capestiba}" required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" emptyValue="0" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -90,7 +90,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Peso:" />
 							<p:inputNumber id="cappeso"
-								value="#{almacenamiento.cappeso}" required="true" requiredMessage="Debe ingresar una Capacidad de Peso" emptyValue="0"></p:inputNumber>
+								value="#{almacenamiento.cappeso}" required="true" requiredMessage="Debe ingresar una Capacidad de Peso" emptyValue="0" minValue="0"></p:inputNumber>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

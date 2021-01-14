@@ -65,7 +65,7 @@
 					<h:outputText value="#{alm.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.volumen}" style="width:100%" label="volumen"  required="true" requiredMessage="Debe ingresar un Volumen"/>
+					<p:inputNumber value="#{alm.volumen}" style="width:100%" label="volumen" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -76,7 +76,7 @@
 					<h:outputText value="#{alm.costoop}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo"/>
+					<p:inputNumber value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo" minValue="0"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -87,7 +87,7 @@
 					<h:outputText value="#{alm.capestiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba"/>
+					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" minValue="0"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -98,7 +98,7 @@
 					<h:outputText value="#{alm.cappeso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso"/>
+					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso" minValue="0"/>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>

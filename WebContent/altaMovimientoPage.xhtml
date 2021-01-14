@@ -52,7 +52,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Cantidad:" />
 						<p:inputNumber id="cantidad" value="#{movimiento.cantidad}"
-							required="true" requiredMessage="Debe ingresar una Cantidad"></p:inputNumber>
+							required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"></p:inputNumber>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -77,7 +77,7 @@
 					<p:column colspan="1">
 						<h:outputText value="Costo:" />
 						<p:inputNumber id="costo" value="#{movimiento.costo}"
-							required="true" requiredMessage="Debe ingresar un Costo"></p:inputNumber>
+							required="true" requiredMessage="Debe ingresar un Costo" minValue="0"></p:inputNumber>
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
