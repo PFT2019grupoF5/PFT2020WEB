@@ -48,6 +48,8 @@ public class UsuariosBean {
 	
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
+	
+	private Usuario usu;
 
 	
 	@EJB
@@ -137,8 +139,9 @@ public class UsuariosBean {
 							"Usuario no existe");
 				}
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
+				usuariosList = usuariosEJBBean.getAllUsuarios();
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return null;
 		} catch (Exception e) {
 			return null;
 		}
@@ -191,6 +194,11 @@ public class UsuariosBean {
 			return null;
 		}
 	}
+	
+	public List<Usuario> getAllUsuarios() throws ServiciosException{
+			return usuariosList = usuariosEJBBean.getAllUsuarios();
+		
+	}
 
 	private boolean ValidarContrasena(String nomAcceso, String contrasena) {
 		try {
@@ -209,9 +217,10 @@ public class UsuariosBean {
 			perf.add(new SelectItem(com.enumerated.tipoPerfil.OPERARIO, com.enumerated.tipoPerfil.OPERARIO.toString()));
 			perfiles =  perf;
 			
-			//Carga la lista de Usuarios
-			usuariosList = this.getAll();
-			
+			if(usuariosList == null) {
+				usu = new Usuario();
+			usuariosList = getAllUsuarios();
+			}
 		} catch (Exception e) {
 		}
 	}

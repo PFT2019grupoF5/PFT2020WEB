@@ -31,7 +31,7 @@
 
  
 		<p:panel>
-			<h3 align="center">Modificar Familias</h3>
+			<h3 align="center">Modificar Usuarios</h3>
 		</p:panel>
 		        
 	<p:dataTable id="usu1" var="usu" value="#{usuario.usuariosList}"
@@ -99,13 +99,14 @@
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
-				<p:column headerText="Tipo de Perfil">
-			<f:facet name="output">
-				<h:outputLabel value="Tipo de Perfil" />
-			</f:facet>
-			<h:outputText value="#{usuario.tipoPerfil.toString()}" />
+
+		<p:column headerText="Tipo de Perfil">
+			<p:selectOneMenu value="#{usu.tipoPerfil}"  required="true" requiredMessage="Debe seleccionar un Tipo de Perfil">
+				<f:selectItem itemLabel="Seleccione..." itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{usuario.perfiles}" />
+			</p:selectOneMenu>
 		</p:column>
-		
 
 		<p:column style="width:35px">
 			<p:rowEditor />
