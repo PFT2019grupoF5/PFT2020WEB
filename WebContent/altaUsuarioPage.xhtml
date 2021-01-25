@@ -41,7 +41,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{usuario.nombre}" required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
+								value="#{usuario.nombre}" required="true" requiredMessage="Debe ingresar un Nombre" validatorMessage="El Nombre solo permite letras (espacios entre letras)" >
+								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -54,7 +56,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Apellido:" />
 							<p:inputText id="apellido"
-								value="#{usuario.apellido}" required="true" requiredMessage="Debe ingresar un Apellido"></p:inputText>
+								value="#{usuario.apellido}" required="true" requiredMessage="Debe ingresar un Apellido" validatorMessage="El Apellido solo permite letras (espacios entre letras)">
+								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								<h:message for="apellido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -67,7 +71,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre de Acceso:" />
 							<p:inputText id="nomAcceso"
-								value="#{usuario.nomAcceso}" required="true" requiredMessage="Debe ingresar un Nombre de Acceso"></p:inputText>
+								value="#{usuario.nomAcceso}" required="true" requiredMessage="Debe ingresar un Nombre de Acceso" validatorMessage="El Nombre de Acceso solo permite letras y numeros">
+								<f:validateRegex pattern="[a-zA-Z0-9]+"/> </p:inputText>
+								<h:message for="nomAcceso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -80,7 +86,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Contraseña:" />
 							<p:password id="contrasena"
-								value="#{usuario.contrasena}" required="true" requiredMessage="Debe ingresar una Contraseña"></p:password>
+								value="#{usuario.contrasena}" required="true" requiredMessage="Debe ingresar una Contraseña" validatorMessage="La contraseña requiere 1 de numero/letra mayuscula/letra minuscula y minimo 8 caracteres, sin espacio">
+								<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/></p:password>
+								<h:message for="contrasena" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -93,7 +101,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Correo:" />
 							<p:inputText id="correo"
-								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></p:inputText>
+								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo" validatorMessage="El formato de correo es texto@texto.texto">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-ZÀ-ž0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/></p:inputText>
+								<h:message for="correo" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -121,7 +131,6 @@
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton id="confirmar" value="Confirmar" ajax="false" widgetVar="confirmarCampos"
 								action="#{usuario.add()}" style="float: left;"/>
-							<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
 						</p:column>
 					</p:row>
 				</h:form>
