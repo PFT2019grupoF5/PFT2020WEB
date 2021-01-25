@@ -31,45 +31,60 @@
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
 		<p:panel>
-			<h3 align="center">Eliminar Familias</h3>
+			<h3 align="center">Eliminar Usuario</h3>
 		</p:panel>
 		        
 
-	<p:dataTable id="fam1" var="fam" value="#{familia.familiasList}"
+	<p:dataTable id="usu1" var="usu" value="#{usu.usuariosList}"
 		editable="true" >
  		
 		<p:column headerText="Id">
 			<f:facet name="output">
 				<h:outputLabel value="ID" />
 			</f:facet>
-			<h:outputLabel value="#{fam.id}" />
+			<h:outputLabel value="#{usu.id}" />
 		</p:column>
 		
-		<p:column headerText="Nombre" filterBy="#{fam.nombre}" filterMatchMode="contains">
+		<p:column headerText="Nombre">
 			<f:facet name="output">
 				<h:outputLabel value="Nombre" />
 			</f:facet>
-			<h:outputLabel value="#{fam.nombre}" />
+			<h:outputText value="#{usu.nombre}" />
 		</p:column>
-
-		<p:column headerText="Descripcion">
+		<p:column headerText="Apellido">
 			<f:facet name="output">
-				<h:outputLabel value="Descripcion" />
+				<h:outputLabel value="Apellido" />
 			</f:facet>
-			<h:outputText value="#{fam.descrip}" />
+			<h:outputText value="#{usu.apellido}" />
 		</p:column>
-
-		<p:column headerText="Incompatibles">
+		<p:column headerText="Nombre de Acceso">
 			<f:facet name="output">
-				<h:outputLabel value="Incompatibles" />
+				<h:outputLabel value="Nombre de Acceso" />
 			</f:facet>
-			<h:outputText value="#{fam.incompat}" />
+			<h:outputText value="#{usu.nomAcceso}" />
 		</p:column>
-
- 
+		<p:column headerText="Contraseña">
+			<f:facet name="output">
+				<h:outputLabel value="Contraseña" />
+			</f:facet>
+			<h:outputText value="#{usu.contrasena}" />
+		</p:column>
+		<p:column headerText="Correo">
+			<f:facet name="output">
+				<h:outputLabel value="Correo" />
+			</f:facet>
+			<h:outputText value="#{usu.correo}" />
+		</p:column>
+		<p:column headerText="Estado del Pedido">
+			<f:facet name="output">
+				<h:outputLabel value="Tipo de Perfil" />
+			</f:facet>
+			<h:outputText value="#{usuario.tipoPerfil.toString()}" />
+		</p:column>
+				
 		<p:column style="width:100px;text-align: center">
-        	<p:commandButton immediate="true" action="#{familia.delete(fam)}" icon="fa fa-trash" 
-        		ajax="false"  update=":form:fam1">
+        	<p:commandButton immediate="true" action="#{usuario.delete(usu)}" icon="fa fa-trash" 
+        		ajax="false"  update=":form:usu1">
         	</p:commandButton>
         </p:column>
 	</p:dataTable>

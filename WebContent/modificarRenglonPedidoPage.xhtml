@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+        .ui-row-editor .ui-row-editor-pencil {
+		margin-left: 8px;
+		}
+    </style>
+</h:head>
+
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
+<h:body>
+<div style="clear:both">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		
+</div>
+<div style="clear:both">
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
+
+		<p:panel>
+			<h3 align="center">Modificar Renglon de Pedido</h3>
+		</p:panel>
+		
+	<p:dataTable id="ren1" var="ren" value="#{renglonPedido.listaRenglonPedido}"
+		editable="true" >
+ 
+		<p:ajax event="rowEdit" listener="#{renglonPedido.onRowEdit}" update=":form:msgs" 
+						immediate="true" />
+		
+		<p:column headerText="Id">
+			<f:facet name="output">
+				<h:outputLabel value="ID" />
+			</f:facet>
+			<h:outputLabel value="#{ren.id}" />
+			
+		</p:column>
+		
+		<p:column headerText="Numero de Renglon">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ren.rennro}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{ren.rennro}" style="width:100%" label="numero de renglon"  required="true" requiredMessage="Debe ingresar un Numero de Renglon" minValue="0"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Cantidad">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ren.rencant}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{ren.rencant}" style="width:100%" label="cantidad de un producto"  required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Producto">
+			<p:selectOneMenu  id="pro" value="#{ren.producto.id}">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar un Producto"/>
+ 				<f:selectItems var="p" 
+ 					value="#{renglonPedido.listaProducto}" 
+ 					itemLabel="#{p.nombre}" 
+ 					itemValue="#{p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				<p:message for="pro" style="color:red" />
+			</p:selectOneMenu>
+        </p:column>
+
+		<p:column headerText="Pedido">
+			<p:selectOneMenu  id="ped" value="#{red.pedido.id}"   required="true" requiredMessage="Debe seleccionar un Pedido">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+ 				<f:selectItems value="#{renglonPedido.listaPedido}" 
+ 					var="p" 
+ 					itemLabel="#{p.id}" 
+ 					itemValue="#{p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+ 				<p:message for="ped" style="color:red" />	
+ 			</p:selectOneMenu>
+        </p:column> 
+ 
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+
+	</p:dataTable>
+
+</h:form>
+</div>
+</h:body>
+</html>

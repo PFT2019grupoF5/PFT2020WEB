@@ -7,6 +7,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
+
 import com.entities.Movimiento;
 import com.entities.Pedido;
 import com.entities.Producto;
@@ -37,7 +40,7 @@ public class RenglonesPedidoBean {
 
 	private List<Producto> listaProducto;
 	private List<Pedido> listaPedido;
-
+	private List<RenglonPedido> listaRenglonPedido;
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
 
@@ -83,20 +86,15 @@ public class RenglonesPedidoBean {
 				"Renglon Modificado exitosamente!");
 		String retPage = "modificarRenglonPage";
 		try {
-
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (rennro <= 0 || rencant <= 0 || producto == null || pedido == null) {
+			if (rennro <= 0 || rencant <= 0 || producto == null || pedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else if (!confirmarModificar) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				if (get() != null) {
+				if (getId(id) != null) {
 				RenglonPedido r = new RenglonPedido();
-				r.setId(id);
 				r.setRennro(rennro);
 				r.setRencant(rencant);
 				r.setProducto(productoEJBBean.getProducto(idProducto));
@@ -114,22 +112,21 @@ public class RenglonesPedidoBean {
 		}
 	}
 
-	public String delete(Long id) {
+	public String delete(RenglonPedido renglonPedido) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Renglon borrado exitosamente!");
 		String retPage = "bajaRenglonPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (selectedRenglonPedido == null) {
+			if (renglonPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione un Renglón a borrar!");
 			} else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				renglonesPedidoEJBBean.delete(selectedRenglonPedido.getId());
+				renglonesPedidoEJBBean.delete(renglonPedido.getId());
+				listaRenglonPedido.remove(renglonPedido);
+				
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -145,12 +142,56 @@ public class RenglonesPedidoBean {
 			return null;
 		}
 	}
+	
+	public RenglonPedido getId(Long id) {
+		try {
+			return renglonesPedidoEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	public List<RenglonPedido> getAll() {
 		try {
 			return renglonesPedidoEJBBean.getAllRenglonesPedido();
 		} catch (Exception e) {
 			return null;
+		}
+	}
+	
+	public int getRenglonxPedido (long idPedido) {
+		try {
+			return renglonesPedidoEJBBean.getRenglonxPedido(idPedido);
+		}catch (Exception e) {
+			return 0;
+		}
+	}
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+	    RenglonPedido rp = (RenglonPedido) event.getObject();
+	   
+	    FacesMessage message;
+	    
+	   try {
+			if (rp.getRencant() < 0 || rp.getRennro() <0 || rp.getPedido() == null || rp.getProducto() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Debe ingresar todos los datos correctamente");
+			} else {
+					
+				Long proId = rp.getProducto().getId();
+				Long pedId = rp.getPedido().getId();
+				
+				rp.setProducto(productoEJBBean.getId(proId));
+				rp.setPedido(pedidoEJBBean.getId(pedId));
+				
+				renglonesPedidoEJBBean.update(rp);
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Renglon de Pedido modificado exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -249,4 +290,14 @@ public class RenglonesPedidoBean {
 		this.listaPedido = listaPedido;
 	}
 
+	public List<RenglonPedido> getListaRenglonPedido() {
+		return listaRenglonPedido;
+	}
+
+	public void setListaRenglonPedido(List<RenglonPedido> listaRenglonPedido) {
+		this.listaRenglonPedido = listaRenglonPedido;
+	}
+
+	
+	
 }

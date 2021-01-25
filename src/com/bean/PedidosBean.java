@@ -13,12 +13,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
+import com.entities.Familia;
 import com.entities.Pedido;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.PedidoBeanRemote;
+import com.services.RenglonPedidoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
 
@@ -57,17 +61,21 @@ public class PedidosBean {
 
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
+	
+	@EJB
+	private RenglonPedidoBeanRemote renglonesPedidoEJBBean;
 
 	public String add() {
-		FacesMessage message;
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:", "El Pedido se creo correctamente");
 		String retPage = "altaPedidoPage";
 		try {
-			//if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
-			//		|| pedestado == null || idUsuario <= 0) {
-			//	message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-			//			"Es necesario ingresar todos los datos requeridos");
-			//} else {
+			if (pedfecestim == null || fecha == null || pedrecfecha == null || pedreccomentario.isEmpty() || pedreccodigo <= 0 || pedestado == null || idUsuario == null){
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
+						"Los campos no pueden estar vacios!");
+				
+			}else { 
 				if (get() == null) {
+			
 					Pedido p = new Pedido();
 					p.setPedfecestim(pedfecestim);
 					p.setFecha(fecha);
@@ -78,15 +86,12 @@ public class PedidosBean {
 					p.setUsuario(usuariosEJBBean.getId(idUsuario));
 					pedidosEJBBean.add(p);
 
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:",
-							"El Pedido se creo correctamente");
-
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Pedido ya existe");
 				}
-			//}
-			//FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
 			return null;
@@ -99,10 +104,7 @@ public class PedidosBean {
 				"Pedido Modificado exitosamente!");
 		String retPage = "modificarPedidoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
+			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
 					|| pedestado == null || usuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
@@ -113,9 +115,8 @@ public class PedidosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				if (get() != null) {
+				if (getId(id) != null) {
 					Pedido p = new Pedido();
-					p.setId(id);	
 					p.setPedfecestim(pedfecestim);
 					p.setFecha(fecha);
 					p.setPedreccodigo(pedreccodigo);
@@ -136,23 +137,27 @@ public class PedidosBean {
 		}
 	}
 
-	public String delete(Long id) {
+	public String delete(Pedido pedido) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Pedido borrado exitosamente!");
 		String retPage = "bajaPedidoPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (selectedPedido == null) {
+			if (pedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione un Pedido a borrar!");
 			} else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
-			} else {
-				pedidosEJBBean.delete(selectedPedido.getId());
+				} else {
+					if (renglonesPedidoEJBBean.getRenglonxPedido(pedido.getId()) >0 ) {
+			
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+								"Seleccione la casilla de confirmación!");
+					} else {
+						pedidosEJBBean.delete(pedido.getId());
+						listaPedido.remove(pedido);
 			}
+		}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
@@ -167,15 +172,18 @@ public class PedidosBean {
 			return null;
 		}
 	}
+	
+	public Pedido getId(Long id) {
+		try {
+			return pedidosEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	public String getPedidosFechas() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
 		FacesContext.getCurrentInstance().addMessage(null, message);
-
-			//if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-			//	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-			//			"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			//} else {
 
 		if (fechaIni.compareTo(fechaFin) < 0) {
 
@@ -189,7 +197,6 @@ public class PedidosBean {
 			try {
 				listaPedidoReporteFechas = pedidosEJBBean.getPedidosEntreFechas(SfechaIni, SfechaFin);
 			} catch (ServiciosException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -199,22 +206,14 @@ public class PedidosBean {
 	}
 
 	public List<Pedido> getAll() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Todos los Pedidos");
+		
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else {
-				List<Pedido> listaPedidos = pedidosEJBBean.getAllPedidos();
-				return listaPedidos;
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-
+				return pedidosEJBBean.getAllPedidos();
 		} catch (Exception e) {
 			return null;
 		}
-		return null;
 	}
+
 
 	public void validarFechas() throws Exception {
         if (this.fechaIni != null && this.fechaFin != null) {
@@ -237,6 +236,28 @@ public class PedidosBean {
 			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
 			estadoDelPedido = esP;
 		} catch (Exception e) {
+		}
+	}
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+	    Pedido p = (Pedido) event.getObject();
+	   
+	    FacesMessage message;
+	    
+	   try {
+			if (p.getFecha() == null || p.getPedestado() == null || p.getPedfecestim() == null || p.getPedreccodigo() <0 || p.getPedreccomentario() == null || p.getPedrecfecha() == null || p.getUsuario() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Debe ingresar todos los datos correctamente");
+			} else {
+					
+				pedidosEJBBean.update(p);
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Pedido modificado exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
 		}
 	}
 

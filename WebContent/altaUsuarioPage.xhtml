@@ -14,6 +14,9 @@
         }
         h3{display: inline-block}
     </style>
+	    <script src="ConfirmScript.js">
+	    
+		</script>
 </h:head>
 
 <f:metadata>
@@ -32,7 +35,7 @@
 		</p:panel>
 		<p:spacer height="10px" />
 			<p:panelGrid style="width: auto; height: auto" cellpadding="1">
-				<h:form>
+				<h:form id="altaUsuario">
 					<p:growl id="msg" showDetail="true" life="4000" />
 					<p:row>
 						<p:column colspan="1">  
@@ -90,7 +93,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Correo:" />
 							<p:inputText id="correo"
-								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo"></p:inputText>
+								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></p:inputText>
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -116,7 +119,7 @@
 					</p:row>
 					<p:row style="text-align: center;">
 						<p:column colspan="1" style="text-align: center;">
-							<h:commandButton value="Confirmar" ajax="false"
+							<h:commandButton id="confirmar" value="Confirmar" ajax="false" widgetVar="confirmarCampos"
 								action="#{usuario.add()}" style="float: left;"/>
 							<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
 						</p:column>

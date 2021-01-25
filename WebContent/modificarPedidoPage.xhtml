@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <style>
+        body {
+        font-size: 70%;
+        }
+         .ui-row-editor .ui-row-editor-pencil {
+		margin-left: 8px;
+		}
+   		 </style>
+</h:head>
+
+<h:body>
+<div style="clear:both">
+	  <ui:include src="header.xhtml" />
+		<p:spacer width="10px"></p:spacer>
+		
+</div>
+<div style="clear:both">
+
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true" />
+
+ 
+		<p:panel>
+			<h3 align="center">Modificar Pedidos</h3>
+		</p:panel>
+		        
+	<p:dataTable id="pedi1" var="ped" value="#{pedido.listaPedido}"
+		editable="true" style="margin-bottom:20px">
+
+
+
+		<p:ajax event="rowEdit" listener="#{pedido.onRowEdit}"
+			update=":form:msgs" />
+
+		<p:column headerText="Id">
+				<f:facet name="output">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputLabel value="#{ped.id}" />
+		</p:column>
+
+		<p:column headerText="Fecha Estimada Pedido">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ped.pedfecestim}" pattern="dd/MM/yy">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</h:outputText>
+				</f:facet>
+
+				<f:facet name="input">
+					<p:calendar value="#{ped.pedfecestim}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="Fecha Estimada Pedido">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</p:calendar>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Fecha del Pedido">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ped.fecha}" pattern="dd/MM/yy">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</h:outputText>
+				</f:facet>
+
+				<f:facet name="input">
+					<p:calendar value="#{ped.fecha}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="Fecha del Pedido">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</p:calendar>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Codigo de Recepcion de Pedido">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ped.pedreccodigo}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{ped.pedreccodigo}" style="width:100%" label="codigo"  required="true" requiredMessage="Debe ingresar un codigo" minValue="0"/>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Fecha Recepcion del Pedido">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ped.pedrecfecha}" pattern="dd/MM/yy">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</h:outputText>
+				</f:facet>
+
+				<f:facet name="input">
+					<p:calendar value="#{ped.pedrecfecha}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="Fecha Recepcion del Pedido">
+						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
+							timeZone="America/Mexico_City" />
+					</p:calendar>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Commentario">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{ped.pedreccomentario}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{ped.pedreccomentario}" style="width:100%" label="commentario" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+
+		<p:column headerText="Estado del Pedido">
+			<p:selectOneMenu value="#{ped.pedestado}"  required="true" requiredMessage="Debe seleccionar un Estado de Pedido">
+				<f:selectItem itemLabel="Seleccione..." itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{pedido.pedestado}" />
+			</p:selectOneMenu>
+		</p:column>
+
+		<p:column headerText="Usuario">
+			<p:selectOneMenu  id="usu" value="#{ped.usuario.id}">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar un Usuario"/>
+ 				<f:selectItems var="u" 
+ 					value="#{usuario.usuariosList}" 
+ 					itemLabel="#{u.nombre}" 
+ 					itemValue="#{u.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
+				<p:message for="usu" style="color:red" />
+			</p:selectOneMenu>
+        </p:column>
+
+		<p:column style="width:35px">
+			<p:rowEditor />
+		</p:column>
+	</p:dataTable>
+
+</h:form>
+</div>
+</h:body>
+</html>

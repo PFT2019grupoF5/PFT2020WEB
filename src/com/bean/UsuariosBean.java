@@ -11,6 +11,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.primefaces.event.RowEditEvent;
+
+import com.entities.Familia;
 import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
@@ -44,6 +47,7 @@ public class UsuariosBean {
 	private Usuario selectedUsuario;
 	
 	private boolean confirmarBorrado = false;
+	private boolean confirmarModificar = false;
 
 	
 	@EJB
@@ -73,7 +77,7 @@ public class UsuariosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Correo debe ser del formato : nombre @ dominio");
 			} else {
-				if (get() == null) {
+				if (getNomAcceso(nomAcceso) == null) {
 					Usuario u = new Usuario();
 					u.setNombre(nombre);
 					u.setApellido(apellido);
@@ -100,10 +104,7 @@ public class UsuariosBean {
 				"Usuario modificado exitosamente!");
 		String retPage = "modificarUsuarioPage";
 		try {
-				if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-							"No tiene permisos suficientes para ingresar un nuevo usuario");
-				} else if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
+				if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Es necesario ingresar todos los datos requeridos");
 				} else if (nombre.length() > 50 || apellido.length() > 50) {
@@ -122,9 +123,8 @@ public class UsuariosBean {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Campo Correo debe ser del formato : nombre @ dominio");
 			} else {
-				if (get() != null) {
+				if (getNomAcceso(nomAcceso) != null) {
 					Usuario u = new Usuario();
-					u.setId(id);
 					u.setNombre(nombre);
 					u.setApellido(apellido);
 					u.setNomAcceso(nomAcceso);
@@ -145,22 +145,20 @@ public class UsuariosBean {
 	}
 	
 	
-	public String delete() {
+	public String delete(Usuario usuario) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Usuario borrado exitosamente!");
 		String retPage = "bajaUsuarioPage";
 		try {
-			if (!com.enumerated.tipoPerfil.ADMINISTRADOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR para poder acceder");
-			} else if (selectedUsuario == null) {
+			if (usuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione un Usuario a borrar!");
 			} else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				usuariosEJBBean.delete(selectedUsuario.getId());
+				usuariosEJBBean.delete(usuario.getId());
+				usuariosList.remove(usuario);
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -176,6 +174,15 @@ public class UsuariosBean {
 			return null;
 		}
 	}
+	
+	public Usuario getNomAcceso(String nomAcceso) {
+		try {
+			return usuariosEJBBean.getNA(nomAcceso);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 
 	public List<Usuario> getAll() {
 		try {
@@ -206,6 +213,29 @@ public class UsuariosBean {
 			usuariosList = this.getAll();
 			
 		} catch (Exception e) {
+		}
+	}
+
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+	    Usuario u = (Usuario) event.getObject();
+	   
+	    FacesMessage message;
+	    
+	   try {
+			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getContrasena().isEmpty() || u.getContrasena().length() < 8 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Debe ingresar todos los datos correctamente");
+			} else {
+					
+				usuariosEJBBean.update(u);
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Usuario modificado exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
 		}
 	}
 

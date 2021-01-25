@@ -9,7 +9,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
+
 import com.entities.Familia;
+import com.entities.Producto;
 import com.enumerated.tipoPerfil;
 import com.services.FamiliaBeanRemote;
 
@@ -50,12 +53,16 @@ public class FamiliasBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
 			} else {
-				if (get2() == null) {
+				if (getNombre(nombre) == null) {
 					Familia f = new Familia();
 					f.setNombre(nombre);
 					f.setDescrip(descrip);
 					f.setIncompat(incompat);	
 					familiasEJBBean.add(f);
+					
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Familia:",
+							"La Familia se creo correctamente");
+					
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"La Familia ya existe");
@@ -74,28 +81,12 @@ public class FamiliasBean {
 		String retPage = "modificarFamiliaPage";
 		try {
 
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (selectedFamilia == null) {
+			if (nombre.isEmpty() || nombre.length() > 50 || descrip.isEmpty() || descrip.length() > 100 || incompat.isEmpty() || incompat.length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione una Familia a Modificar!");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
-			} else if (nombre.isEmpty() || nombre.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			} else if (descrip.isEmpty() || descrip.length() > 100) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Descripcion no puede ser vacío o mayor a 100 caracteres");
-			} else if (incompat.isEmpty() || incompat.length() > 60) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
+						"Debe llenar todos los datos!");
 			} else {
-				if (get() != null) {
+				if (getNombre(nombre) != null) {
 					Familia f = new Familia();
-					f.setId(id);
 					f.setNombre(nombre);
 					f.setDescrip(descrip);
 					f.setIncompat(incompat);	
@@ -112,22 +103,21 @@ public class FamiliasBean {
 		}
 	}
 
-	public String delete() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Familia borrada exitosamente!");
+	public String delete(Familia familia) {
+		FacesMessage message;
 		String retPage = "bajaFamiliaPage";
 		try {
-			if (!tipoPerfil.ADMINISTRADOR.equals(perfilLogeado) || !tipoPerfil.SUPERVISOR.equals(perfilLogeado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta de Permisos: ",
-						"Debe ser un Usuario ADMINISTRADOR o SUPERVISOR para poder acceder");
-			} else if (selectedFamilia == null) {
+			if (familia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione un Usuario a borrar!");
+						"Seleccione una Familia a borrar!");
 			} else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
 			} else {
-				familiasEJBBean.delete(selectedFamilia.getId());
+				familiasEJBBean.delete(familia.getId());
+				familiasList.remove(familia);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+						"Familia borrada exitosamente!");
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -144,7 +134,7 @@ public class FamiliasBean {
 		}
 	}
 
-	public Familia get2() {
+	public Familia getNombre(String nombre) {
 		try {
 			return familiasEJBBean.getNombre(nombre);
 		} catch (Exception e) {
@@ -159,6 +149,28 @@ public class FamiliasBean {
 			return null;
 		}
 	}
+	
+	public void onRowEdit(RowEditEvent event) {
+	    Familia f = (Familia) event.getObject();
+	   
+	    FacesMessage message;
+	    
+	   try {
+			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty() || f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Debe ingresar todos los datos correctamente");
+			} else {
+					
+				familiasEJBBean.update(f);
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+						"Familia modificada exitosamente!");
+			}
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
+		}
+	}
+
 
 	/***********************************************************************************************************************************/
 
