@@ -38,8 +38,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{producto.nombre}" required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
-								<span style="color:red">*</span>
+								value="#{producto.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios)">
+								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -52,8 +53,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
-								value="#{producto.lote}" required="true" requiredMessage="Debe ingresar un Lote"></p:inputText>
-								<span style="color:red">*</span>
+								value="#{producto.lote}" required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios)">
+								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								<h:message for="lote" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -66,8 +68,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Precio:" />
 							<p:inputNumber id="precio"
-								value="#{producto.precio}" required="true" requiredMessage="Debe ingresar un Precio" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.precio}" required="true" requiredMessage="Debe ingresar un Precio"  minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+							<h:message for="precio" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -116,8 +119,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Peso:" />
 							<p:inputNumber id="peso"
-								value="#{producto.peso}" required="true" requiredMessage="Debe ingresar un Peso" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.peso}" required="true" requiredMessage="Debe ingresar un Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="peso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -130,8 +134,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{producto.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="volumen" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -144,8 +149,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Estiba:" />
 							<p:inputNumber id="estiba"
-								value="#{producto.estiba}" required="true" requiredMessage="Debe ingresar una Estiba" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.estiba}" required="true" requiredMessage="Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0"> 
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="estiba" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -158,8 +164,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Minimo:" />
 							<p:inputNumber id="stkMin"
-								value="#{producto.stkMin}" required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.stkMin}" required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
+								<h:message for="stkMin" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -172,8 +179,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Total:" />
 							<p:inputNumber id="stkTotal"
-								value="#{producto.stkTotal}" required="true" requiredMessage="Debe ingresar un Stock Total" minValue="0"></p:inputNumber>
-								<span style="color:red">*</span>
+								value="#{producto.stkTotal}" required="true" requiredMessage="Debe ingresar un Stock Total" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="stkTotal" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
