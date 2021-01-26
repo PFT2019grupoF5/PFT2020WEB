@@ -87,7 +87,7 @@ h3 {
 							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true" />
 							<f:selectItems value="#{entidadLoc.tiposDeLocal}" required="true"/>
 						</p:selectOneMenu>
-						 <p:message for="tipoLoc" style="color:red" />
+						 <h:message for="tipoLoc" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -105,7 +105,7 @@ h3 {
 							<f:selectItems var="c" value="#{ciudad.ciudadesList}"
 								itemLabel="#{c.nombre}" itemValue="${c.id}" required="true"/>
 						</p:selectOneMenu>
-						<p:message for="ciudad" style="color:red" />
+						<h:message for="ciudad" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>

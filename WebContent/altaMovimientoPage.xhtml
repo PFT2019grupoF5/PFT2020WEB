@@ -96,12 +96,10 @@
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Tipo de Movimiento" />
-						<p:selectOneMenu id="tipoMov" value="#{movimiento.tipoMov}"
-							effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
+						<p:selectOneMenu id="tipoMov" value="#{movimiento.tipoMov}" effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
 							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true" />
-							<f:selectItems value="#{movimiento.tiposDeMov}" />
-						</p:selectOneMenu>
-						<p:message for="tipoMov" style="color:red" />
+							<f:selectItems value="#{movimiento.tiposDeMov}" /></p:selectOneMenu>
+						<h:message for="tipoMov" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>

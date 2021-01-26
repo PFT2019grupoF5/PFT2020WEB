@@ -41,7 +41,7 @@
 								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
 				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" />
 							</p:selectOneMenu> 
-							<p:message for="pedido" style="color:red" />
+							<h:message for="pedido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -57,7 +57,7 @@
 								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
 				 				<f:selectItems var="p" value="#{renglonPedido.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 							</p:selectOneMenu> 
-							<p:message for="producto" style="color:red" />
+							<h:message for="producto" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

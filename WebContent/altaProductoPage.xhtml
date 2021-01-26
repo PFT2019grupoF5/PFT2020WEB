@@ -194,10 +194,7 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Segmentacion:" />
-							<span style="color:red">*</span>
-							<p:selectOneMenu id="segmentac"
-								value="#{producto.segmentac}" effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar una Segmentación">
-								
+							<p:selectOneMenu id="segmentac" value="#{producto.segmentac}" effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar una Segmentación">
 							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{producto.segmentacion}" /></p:selectOneMenu>
     						<h:message for="segmentac" style="color:red" />
@@ -210,16 +207,13 @@
 						</p:column>
 					</p:row>
 					<p:row>
-					<p:column colspan="1">
-					<h:outputText value="Usuario:" />
-					<span style="color:red">*</span>
-						<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Usuario">
+						<p:column colspan="1">
+							<h:outputText value="Usuario:" />
+							<p:selectOneMenu id="usuario" value="#{producto.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Usuario">
 							<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
-			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}" />
-
-						</p:selectOneMenu>
-						<p:message for="usuario" style="color:red" />
-						<p:spacer width="5px"></p:spacer>
+			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}" /></p:selectOneMenu>
+							<h:message for="usuario" style="color:red" />
+							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -230,12 +224,11 @@
 					<p:row>
 					<p:column colspan="1">
 					<h:outputText value="Familia:" />
-					<span style="color:red">*</span>
 						<p:selectOneMenu  id="familia" value="#{producto.idFamilia}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar una Familia">
 						<span style="color:red">*</span>	<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
 			 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" />
 						</p:selectOneMenu>
-						<p:message for="familia" style="color:red" />
+						<h:message for="familia" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

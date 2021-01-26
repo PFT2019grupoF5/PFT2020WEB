@@ -69,8 +69,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre de Acceso:" />
 							<p:inputText id="nomAcceso"
-								value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un Nombre de Acceso" validatorMessage=" El Nombre de Acceso solo puede contener letras y numeros, sin espacios. Entre 5 y 50 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]){5,50}$"/> </p:inputText>
+								value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un Nombre de Acceso" validatorMessage=" El Nombre de Acceso solo puede contener letras y numeros, sin espacios. Entre 3 y 50 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]){3,50}$"/> </p:inputText>
 								<h:message for="nomAcceso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
