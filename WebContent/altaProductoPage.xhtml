@@ -38,8 +38,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{producto.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios)">
-								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								value="#{producto.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "50" /> </p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -53,8 +53,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
-								value="#{producto.lote}" required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios)">
-								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								value="#{producto.lote}" required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios). Entre 2 y 10 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/> <f:validateLength maximum = "10" /></p:inputText>
 								<h:message for="lote" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -81,7 +81,7 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Fecha Elaborado:" />
+							<h:outputText value="Fecha de Elaboración" />
 							
 							<p:calendar id="felab" value="#{producto.felab}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
@@ -100,7 +100,7 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Fecha Vencimiento:" />
+							<h:outputText value="Fecha de Vencimiento:" />
 							<p:calendar id="fven" value="#{producto.fven}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
 								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha de Vencimiento">
@@ -247,7 +247,6 @@
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Confirmar" ajax="false"
 								action="#{producto.add()}" style="float: left;"/>
-							<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
 						</p:column>
 					</p:row>
 				</h:form>

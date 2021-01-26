@@ -48,13 +48,14 @@
 				<h:outputLabel value="#{alm.id}" />
 		</p:column>
 
-		<p:column headerText="Nombre">
+		<p:column headerText="Descripcion:">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{alm.nombre}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{alm.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingrear un Nombre" />
+					<p:inputText id="nombre" value="#{alm.nombre}" style="width:100%" label="descripcion"  required="true" requiredMessage="Debe ingrear una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -65,7 +66,9 @@
 					<h:outputText value="#{alm.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.volumen}" style="width:100%" label="volumen" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0"/>
+					<p:inputNumber id="volumen" value="#{alm.volumen}" style="width:100%" label="volumen" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0" decimalPlaces="0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="volumen" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -76,7 +79,9 @@
 					<h:outputText value="#{alm.costoop}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo" minValue="0"/>
+					<p:inputNumber id="costoop" value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="costoop" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -87,7 +92,9 @@
 					<h:outputText value="#{alm.capestiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" minValue="0"/>
+					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="capestiba" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -98,7 +105,9 @@
 					<h:outputText value="#{alm.cappeso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso" minValue="0"/>
+					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="cappeso" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>

@@ -35,7 +35,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Descripcion:" />
 							<p:inputText id="nombre"
-								value="#{almacenamiento.nombre}" ></p:inputText>
+								value="#{almacenamiento.nombre}" required="true" requiredMessage=" Debe ingresar una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
+								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -50,7 +52,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{almacenamiento.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" emptyValue="0" minValue="0"></p:inputNumber>
+								value="#{almacenamiento.volumen}" required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0" decimalPlaces="0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="volumen" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -64,7 +68,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Costo Operativo:" />
 							<p:inputNumber id="costoop"
-								value="#{almacenamiento.costoop}" required="true" requiredMessage="Debe ingresar un Costo Operativo" emptyValue="0" minValue="0"></p:inputNumber>
+								value="#{almacenamiento.costoop}" required="true" requiredMessage=" Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="costoop" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -77,7 +83,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Estiba:" />
 							<p:inputNumber id="capestiba"
-								value="#{almacenamiento.capestiba}" required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" emptyValue="0" minValue="0"></p:inputNumber>
+								value="#{almacenamiento.capestiba}" required="true" requiredMessage=" Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="capestiba" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -90,7 +98,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Peso:" />
 							<p:inputNumber id="cappeso"
-								value="#{almacenamiento.cappeso}" required="true" requiredMessage="Debe ingresar una Capacidad de Peso" emptyValue="0" minValue="0"></p:inputNumber>
+								value="#{almacenamiento.cappeso}" required="true" requiredMessage=" Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+								<h:message for="cappeso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -120,7 +130,7 @@
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Confirmar" ajax="false"
 								action="#{almacenamiento.add()}" style="float: left;"/>
-						<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
+						
 						</p:column>
 					</p:row>
 				</h:form>

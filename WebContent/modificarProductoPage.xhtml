@@ -64,7 +64,22 @@
 					<h:outputText value="#{produc.lote}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage="Debe ingresar un Lote"/>
+					<p:inputText id="lote" value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage="Debe ingresar un Lote" validatorMessage=" El Lote solo puede contener letras y numeros (con espacios). Entre 2 y 10 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "50" /></p:inputText>
+					<h:message for="lote" style="color:red" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Precio">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{produc.precio}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber id="precio" value="#{produc.precio}" style="width:100%" label="precio"  required="true" requiredMessage="Debe ingresar un Precio" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="precio" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -108,25 +123,15 @@
 		</p:column>
 
 
-		<p:column headerText="Precio">
-			<p:cellEditor>
-				<f:facet name="output">
-					<h:outputText value="#{produc.precio}" />
-				</f:facet>
-				<f:facet name="input">
-					<p:inputNumber value="#{produc.precio}" style="width:100%" label="precio"  required="true" requiredMessage="Debe ingresar un Precio" minValue="0"/>
-				</f:facet>
-			</p:cellEditor>
-		</p:column>
-
-
 		<p:column headerText="Peso">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{produc.peso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.peso}" style="width:100%" label="peso"   required="true" requiredMessage="Debe ingresar un Peso" minValue="0"/>
+					<p:inputNumber id="peso" value="#{produc.peso}" style="width:100%" label="peso"   required="true" requiredMessage="Debe ingresar un Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="peso" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -137,7 +142,9 @@
 					<h:outputText value="#{produc.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.volumen}" style="width:100%" label="volumen"   required="true" requiredMessage="Debe ingresar un Volumen" minValue="0"/>
+					<p:inputNumber id="volumen" value="#{produc.volumen}" style="width:100%" label="volumen"   required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="volumen" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -148,7 +155,9 @@
 					<h:outputText value="#{produc.estiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.estiba}" style="width:100%" label="estiba"   required="true" requiredMessage="Debe ingresar una Estiba" minValue="0"/>
+					<p:inputNumber id="estiba" value="#{produc.estiba}" style="width:100%" label="estiba" required="true" requiredMessage="Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="estiba" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -159,7 +168,9 @@
 					<h:outputText value="#{produc.stkMin}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.stkMin}" style="width:100%" label="stkMin"   required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0"/>
+					<p:inputNumber id="stkMin" value="#{produc.stkMin}" style="width:100%" label="stkMin" required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
+					<h:message for="stkMin" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -170,7 +181,9 @@
 					<h:outputText value="#{produc.stkTotal}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{produc.stkTotal}" style="width:100%" label="stkTotal"   required="true" requiredMessage="Debe ingresar un Stock Máximo" minValue="0"/>
+					<p:inputNumber id="stkTotal" value="#{produc.stkTotal}" style="width:100%" label="stkTotal" required="true" requiredMessage="Debe ingresar un Stock Máximo" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
+					<h:message for="stkTotal" style="color:red" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
