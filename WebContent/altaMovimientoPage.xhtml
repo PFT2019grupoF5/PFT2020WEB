@@ -36,9 +36,10 @@
 						<h:outputText value="Fecha:" />
 							<p:calendar id="fecha" value="#{movimiento.fecha}"
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__"
-								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha">
+								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
+							<h:message for="fecha" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -52,7 +53,9 @@
 					<p:column colspan="1">
 						<h:outputText value="Cantidad:" />
 						<p:inputNumber id="cantidad" value="#{movimiento.cantidad}"
-							required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"></p:inputNumber>
+							required="true" requiredMessage=" Debe ingresar una Cantidad" minValue="0" decimalPlaces="0" validatorMessage=" La cantidad debe ser mayor a 0">
+							<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+							<h:message for="cantidad" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -64,7 +67,9 @@
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Descripcion:" />
-						<p:inputText id="nombre" value="#{movimiento.descripcion}"></p:inputText>
+						<p:inputText id="descripcion" value="#{movimiento.descripcion}" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Hasta 250 caracteres">
+						<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,250}$"/> </p:inputText>
+						<h:message for="descripcion" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -77,7 +82,9 @@
 					<p:column colspan="1">
 						<h:outputText value="Costo:" />
 						<p:inputNumber id="costo" value="#{movimiento.costo}"
-							required="true" requiredMessage="Debe ingresar un Costo" minValue="0"></p:inputNumber>
+							required="true" requiredMessage=" Debe ingresar un Costo" minValue="0" validatorMessage=" El costo debe ser mayor a 0">
+							<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+							<h:message for="costo" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -90,10 +97,11 @@
 					<p:column colspan="1">
 						<h:outputText value="Tipo de Movimiento" />
 						<p:selectOneMenu id="tipoMov" value="#{movimiento.tipoMov}"
-							effect="fold" editable="false" required="true" requiredMessage="Debe seleccionar un Tipo de Movimiento">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true" />
+							effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
+							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true" />
 							<f:selectItems value="#{movimiento.tiposDeMov}" />
 						</p:selectOneMenu>
+						<p:message for="tipoMov" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -106,15 +114,15 @@
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Producto" />
-					    	<p:selectOneMenu id="prod" 
-					    		value="#{movimiento.idProducto}" required="true" requiredMessage="Debe seleccionar un Producto">
+					    	<p:selectOneMenu id="prod" value="#{movimiento.idProducto}" required="true" requiredMessage=" Debe seleccionar un Producto" filter="true" filterMatchMode="startsWith">
 								<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
 								<f:selectItems value="#{producto.productosList}" 
 									var="p"
 									itemLabel="#{p.nombre}" 
 									itemValue="#{p.id}" />
-								<p:message for="prod" style="color:red" />
+								
 							</p:selectOneMenu>
+							<h:message for="prod" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -129,15 +137,15 @@
 					<p:column colspan="1">
 						<h:outputText value="Almacenamiento" />
 						<p:selectOneMenu id="almac"
-							value="#{movimiento.idAlmacenamiento}" required="true" requiredMessage="Debe seleccionar una Almacenamiento">
+							value="#{movimiento.idAlmacenamiento}" required="true" requiredMessage=" Debe seleccionar una Almacenamiento" filter="true" filterMatchMode="startsWith">
 							<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
 							<f:selectItems value="#{almacenamiento.almacenamientosList}"
 								var="a" 
 								itemLabel="#{a.nombre}" 
-								itemValue="${a.id}"
-								required="true" requiredMessage="Debe seleccionar una opción" />
-							<p:message for="almac" style="color:red" />
+								itemValue="${a.id}" />
+						
 						</p:selectOneMenu>
+						<h:message for="almac" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -150,7 +158,7 @@
 					<p:column colspan="1" style="text-align: center;">
 						<h:commandButton value="Confirmar" ajax="false"
 							action="#{movimiento.add()}" style="float: left;"/>
-							<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
+							
 					</p:column>
 				</p:row>
 			</h:form>

@@ -34,10 +34,10 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Descripcion:" />
-							<p:inputText id="nombre"
+							<p:inputText id="descripcion"
 								value="#{almacenamiento.nombre}" required="true" requiredMessage=" Debe ingresar una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
-								<h:message for="nombre" style="color:red" />
+								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,250}$"/> </p:inputText>
+								<h:message for="descripcion" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -52,7 +52,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{almacenamiento.volumen}" required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0" decimalPlaces="0">
+								value="#{almacenamiento.volumen}" required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El volumen debe ser mayor a 0" decimalPlaces="0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="volumen" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -68,7 +68,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Costo Operativo:" />
 							<p:inputNumber id="costoop"
-								value="#{almacenamiento.costoop}" required="true" requiredMessage=" Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								value="#{almacenamiento.costoop}" required="true" requiredMessage=" Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El costo operativo debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="costoop" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -83,7 +83,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Estiba:" />
 							<p:inputNumber id="capestiba"
-								value="#{almacenamiento.capestiba}" required="true" requiredMessage=" Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								value="#{almacenamiento.capestiba}" required="true" requiredMessage=" Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" La capacidad de estiba debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="capestiba" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -98,7 +98,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Capacidad de Peso:" />
 							<p:inputNumber id="cappeso"
-								value="#{almacenamiento.cappeso}" required="true" requiredMessage=" Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								value="#{almacenamiento.cappeso}" required="true" requiredMessage=" Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" La capacidad de peso debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="cappeso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -113,11 +113,12 @@
 					<p:row label="Local">
 						<p:column colspan="1"> 
 						<h:outputLabel value="Local" /> <br></br>
-							<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.idEntidadLoc}" label="Local" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar un Local">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="-1" noSelectionOption="true"/>
-				 				<f:selectItems var="el" value="#{entidadLoc.entidadLocList}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="entidadLoc" style="color:red" />
+							<p:selectOneMenu  id="entidadLoc" value="#{almacenamiento.idEntidadLoc}" label="Local" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Local">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
+				 				<f:selectItems var="el" value="#{entidadLoc.entidadLocList}" itemLabel="#{el.nombre}" itemValue="${el.id}" required="true"/>
+				 			
 							</p:selectOneMenu>
+						<p:message for="entidadLoc" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

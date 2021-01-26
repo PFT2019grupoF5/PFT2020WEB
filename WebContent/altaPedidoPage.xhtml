@@ -40,9 +40,10 @@
 							<h:outputText value="Fecha Estimada de Entrega:" />
 							<p:calendar id="pedfecestim" value="#{pedido.pedfecestim}"
 								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__/__/__" 
-								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha Estimada de Entrega">
+								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Estimada de Entrega">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
+							<h:message for="pedfecestim" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -56,9 +57,10 @@
 							<h:outputText value="Fecha Actual:" />
 							<p:calendar id="fecha" value="#{pedido.fecha}"
 								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__/__/__" 
-								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha Actual">
+								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Actual">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
+							<h:message for="fecha" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>		
@@ -70,8 +72,10 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Codigo del Pedido:" />
-							<p:inputText id="pedreccodigo"
-								value="#{pedido.pedreccodigo}" required="true" requiredMessage="Debe ingresar un Codigo de Pedido" pattern="[A-Za-z0-9]"></p:inputText>
+							<p:inputNumber id="pedreccodigo"
+								value="#{pedido.pedreccodigo}" required="true" requiredMessage=" Debe ingresar un Codigo de Pedido" validatorMessage=" El codigo debe ser mayor a 0" decimalPlaces="0">
+								<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+								<h:message for="pedreccodigo" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -85,9 +89,10 @@
 							<h:outputText value="Fecha del Pedido:" />
 							<p:calendar id="pedrecfecha" value="#{pedido.pedrecfecha}"
 								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__/__/__" 
-								locale="es_ES" required="true" requiredMessage="Debe ingresar una Fecha de Pedido">
+								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha de Pedido">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
+							<h:message for="pedrecfecha" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -100,7 +105,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Comentario:" />
 							<p:inputText id="pedreccomentario"
-								value="#{pedido.pedreccomentario}" required="true" requiredMessage="Debe ingresar un Comentario"></p:inputText>
+								value="#{pedido.pedreccomentario}" required="true" requiredMessage=" Debe ingresar un Comentario" validatorMessage=" El comentario solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,250}$"/> </p:inputText>
+								<h:message for="pedreccomentario" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -114,9 +121,10 @@
 						<p:column colspan="1">  
 							<h:outputText value="Estado del Pedido" />
 							<p:selectOneMenu id="pedestado"
-								value="#{pedido.pedestado}" effect="fold" editable="false" required="true" requiredMessage="Debe seleccionar una Estado de Pedido">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
+								value="#{pedido.pedestado}" effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar una Estado de Pedido">
+							<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{pedido.estadoDelPedido}" /></p:selectOneMenu>
+    						<h:message for="pedestado" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -128,11 +136,11 @@
 					<p:row>
 					<p:column colspan="1">
 					<h:outputText value="Usuario:" />
-						<p:selectOneMenu id="usuario" value="#{pedido.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar un Usuario">
-							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"  required="true" requiredMessage="Debe seleccionar una opción"/>
-			 				<p:message for="usuario" style="color:red" />
+						<p:selectOneMenu id="usuario" value="#{pedido.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Usuario">
+							<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
+			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"/>
 						</p:selectOneMenu>
+						<p:message for="usuario" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

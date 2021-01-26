@@ -39,8 +39,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{usuario.nombre}" required="true" requiredMessage="Debe ingresar un Nombre" validatorMessage="El Nombre solo permite letras (espacio entre letras)" >
-								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								value="#{usuario.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres" >
+								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -54,8 +54,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Apellido:" />
 							<p:inputText id="apellido"
-								value="#{usuario.apellido}" required="true" requiredMessage="Debe ingresar un Apellido" validatorMessage="El Apellido solo permite letras (espacio entre letras)">
-								<f:validateRegex pattern="([^\s][A-zÀ-ž\s]+)"/> </p:inputText>
+								value="#{usuario.apellido}" required="true" requiredMessage=" Debe ingresar un Apellido" validatorMessage=" El Apellido solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
 								<h:message for="apellido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -69,8 +69,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre de Acceso:" />
 							<p:inputText id="nomAcceso"
-								value="#{usuario.nomAcceso}" required="true" requiredMessage="Debe ingresar un Nombre de Acceso" validatorMessage="El Nombre de Acceso solo permite letras y numeros">
-								<f:validateRegex pattern="[a-zA-Z0-9]+"/> </p:inputText>
+								value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un Nombre de Acceso" validatorMessage=" El Nombre de Acceso solo puede contener letras y numeros, sin espacios. Entre 5 y 50 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]){5,50}$"/> </p:inputText>
 								<h:message for="nomAcceso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -84,7 +84,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Contraseña:" />
 							<p:password id="contrasena"
-								value="#{usuario.contrasena}" required="true" requiredMessage="Debe ingresar una Contraseña" validatorMessage="La contraseña requiere 1 de numero/letra mayuscula/letra minuscula y minimo 8 caracteres, sin espacio">
+								value="#{usuario.contrasena}" required="true" requiredMessage=" Debe ingresar una Contraseña" validatorMessage=" La contraseña requiere 1 de numero/letra mayuscula/letra minuscula y minimo 8 caracteres, sin espacios">
 								<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/></p:password>
 								<h:message for="contrasena" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -99,7 +99,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Correo:" />
 							<p:inputText id="correo"
-								value="#{usuario.correo}" required="true" requiredMessage="Debe ingresar un Correo" validatorMessage="El formato de correo es texto@texto.texto">
+								value="#{usuario.correo}" required="true" requiredMessage=" Debe ingresar un Correo" validatorMessage=" El formato de correo es texto@texto.texto">
 								<f:validateRegex pattern="[\w\.-]*[a-zA-ZÀ-ž0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/></p:inputText>
 								<h:message for="correo" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -114,9 +114,10 @@
 						<p:column colspan="1">  
 							<h:outputText value="Perfil:" />
 							<p:selectOneMenu id="perfil"
-								value="#{usuario.tipoPerfil}" effect="fold" editable="false" required="true" requiredMessage="Debe Seleccionar un Perfil">
+								value="#{usuario.tipoPerfil}" effect="fold" editable="false" required="true" requiredMessage=" Debe Seleccionar un Perfil">
 							<f:selectItem itemValue="#{null}" noSelectionOption="true"/>
     						<f:selectItems value="#{usuario.perfiles}" /></p:selectOneMenu>
+    						<h:message for="perfil" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

@@ -60,10 +60,11 @@ public class EntidadesLocBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 				resultado = "retPage";
-			} else if (direccion.isEmpty() || nombre.length() > 50) {
+//			La direccion puede ser vacio
+			} else if (direccion.length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Dirección no puede ser vacío o mayor a 50 caracteres");
-				resultado = "retPage";
+					"Campo Dirección no puede ser vacío o mayor a 50 caracteres");
+			resultado = "retPage";
 				
 			} else if (codigo <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",

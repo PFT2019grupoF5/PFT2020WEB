@@ -39,7 +39,9 @@ h3 {
 					<p:column colspan="1">
 						<h:outputText value="Nombre:" />
 						<p:inputText id="nombre" value="#{entidadLoc.nombre}"
-							required="true" requiredMessage="Debe ingresar un Nombre"></p:inputText>
+							required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
+							<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]{0,50}$"/>  </p:inputText>
+							<h:message for="nombre" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -52,8 +54,9 @@ h3 {
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Codigo:" />
-						<p:inputNumber id="codigo" value="#{entidadLoc.codigo}"
-							required="true" minValue="0"></p:inputNumber>
+						<p:inputNumber id="codigo" value="#{entidadLoc.codigo}"	required="true" minValue="0" requiredMessage=" Debe ingresar un codigo" validatorMessage=" El codigo debe ser mayor a 0" decimalPlaces="0">
+							<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+							<h:message for="codigo" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -65,7 +68,9 @@ h3 {
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Direccion:" />
-						<p:inputText id="direccion" value="#{entidadLoc.direccion}"></p:inputText>
+						<p:inputText id="direccion" value="#{entidadLoc.direccion}" validatorMessage=" La direccion solo puede contener letras y numeros (con espacios). Hasta 50 caracteres">
+						<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
+						<h:message for="direccion" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -78,10 +83,11 @@ h3 {
 					<p:column colspan="1">
 						<h:outputText value="Tipo de Local:" />
 						<p:selectOneMenu id="tipoLoc" value="#{entidadLoc.tipoLoc}"
-							effect="fold" editable="false">
-							<f:selectItem itemValue="#{null}" noSelectionOption="true" />
-							<f:selectItems value="#{entidadLoc.tiposDeLocal}" />
+							effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar un Tipo de Local">
+							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{entidadLoc.tiposDeLocal}" required="true"/>
 						</p:selectOneMenu>
+						 <p:message for="tipoLoc" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -93,14 +99,13 @@ h3 {
 				<p:row>
 					<p:column colspan="1">
 						<h:outputText value="Ciudad:" />
-						<p:selectOneMenu id="ciudad" value="#{entidadLoc.idCiudad}"  required="true" requiredMessage="Debe seleccionar una Ciudad">
-							<f:selectItem itemLabel="Seleccione..." itemValue="-1"
+						<p:selectOneMenu id="ciudad" value="#{entidadLoc.idCiudad}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar una Ciudad">
+							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}"
 								noSelectionOption="true" />
 							<f:selectItems var="c" value="#{ciudad.ciudadesList}"
-								itemLabel="#{c.nombre}" itemValue="${c.id}" required="true"
-								requiredMessage="Debe seleccionar una opción" />
-							<p:message for="ciudad" style="color:red" />
+								itemLabel="#{c.nombre}" itemValue="${c.id}" required="true"/>
 						</p:selectOneMenu>
+						<p:message for="ciudad" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
 				</p:row>
@@ -113,7 +118,7 @@ h3 {
 					<p:column colspan="1" style="text-align: center;">
 						<h:commandButton value="Confirmar" ajax="false"
 							action="#{entidadLoc.add()}" style="float: left;" />
-						<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
+						
 					</p:column>
 				</p:row>
 			</h:form>

@@ -37,11 +37,11 @@
 	
 					<p:row>
 						<p:column colspan="1">  
-							<p:selectOneMenu  id="pedido" value="#{renglonPedido.idPedido}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" required="true" requiredMessage="Debe seleccionar un Pedido"/>
-				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="pedido" style="color:red" />
+							<p:selectOneMenu  id="pedido" value="#{renglonPedido.idPedido}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Pedido">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
+				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" />
 							</p:selectOneMenu> 
+							<p:message for="pedido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -53,11 +53,11 @@
 	
 					<p:row>
 						<p:column colspan="1">  
-							<p:selectOneMenu  id="producto" value="#{renglonPedido.idProducto}">
-								<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" required="true" requiredMessage="Debe seleccionar un Producto"/>
-				 				<f:selectItems var="p" value="#{renglonPedido.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				 				<p:message for="producto" style="color:red" />
+							<p:selectOneMenu  id="producto" value="#{renglonPedido.idProducto}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto">
+								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
+				 				<f:selectItems var="p" value="#{renglonPedido.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 							</p:selectOneMenu> 
+							<p:message for="producto" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -71,7 +71,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Numero del Renglon:" />
 							<p:inputNumber id="rennro"
-								value="#{renglonPedido.rennro}" required="true" requiredMessage="Debe ingresar un Número de Renglón" minValue="0"></p:inputNumber>
+								value="#{renglonPedido.rennro}" required="true" requiredMessage=" Debe ingresar un Número de Renglón" minValue="0" decimalPlaces="0" validatorMessage=" El numero de renglon debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+								<h:message for="rennro" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -84,7 +86,9 @@
 						<p:column colspan="1">  
 							<h:outputText value="Cantidad del Producto:" />
 							<p:inputNumber id="rencant"
-								value="#{renglonPedido.rencant}" required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"></p:inputNumber>
+								value="#{renglonPedido.rencant}" required="true" requiredMessage=" Debe ingresar una Cantidad" minValue="0" decimalPlaces="0" validatorMessage=" La cantidad debe ser mayor a 0">
+								<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+								<h:message for="rencant" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>
@@ -97,7 +101,6 @@
 						<p:column colspan="1" style="text-align: center;">
 							<h:commandButton value="Confirmar" ajax="false"
 								action="#{renglonPedido.add()}" style="float: left;"/>
-							<!-- <h:commandButton value="Cancelar" action="Home?faces-redirect=true" style="float: right;"/> -->
 						</p:column>
 					</p:row>
 				</h:form>
