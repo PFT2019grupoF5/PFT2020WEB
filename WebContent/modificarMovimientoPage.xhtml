@@ -58,11 +58,12 @@
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar value="#{mov.fecha}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="felab">
+					<p:calendar id="fecha" value="#{mov.fecha}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="felab" required="true" requiredMessage=" Debe ingresar una Fecha">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
+					<h:message for="fecha" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -73,7 +74,9 @@
 					<h:outputText value="#{mov.cantidad}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{mov.cantidad}" style="width:100%" label="cantidad"  required="true" requiredMessage="Debe ingresar una Cantidad" minValue="0"/>
+					<p:inputNumber id="cantidad" value="#{mov.cantidad}" style="width:100%" label="cantidad"  required="true" requiredMessage=" Debe ingresar una Cantidad" minValue="0" decimalPlaces="0" validatorMessage=" La cantidad debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+					<h:message for="cantidad" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -85,7 +88,9 @@
 					<h:outputText value="#{mov.descripcion}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{mov.descripcion}" style="width:100%" label="descripcion" />
+					<p:inputText id="descripcion" value="#{mov.descripcion}" style="width:100%" label="descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Hasta 250 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,250}$"/> </p:inputText>
+					<h:message for="descripcion" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -96,31 +101,35 @@
 					<h:outputText value="#{mov.costo}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{mov.costo}" style="width:100%" label="volumen"  required="true" requiredMessage="Debe ingresar un Costo Operativo" minValue="0"/>
+					<p:inputNumber id="costo" value="#{mov.costo}" style="width:100%" label="volumen"  required="true" requiredMessage=" Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El costo operativo debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
+					<h:message for="costo" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Tipo Movimiento">
-			<p:selectOneMenu value="#{mov.tipoMov}"  required="true" requiredMessage="Debe seleccionar un Tipo de Movimiento">
-				<f:selectItem itemLabel="Seleccione..." itemValue=""
-					noSelectionOption="true" />
+			<p:selectOneMenu id="tipoMov" value="#{mov.tipoMov}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
+				<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true"/>
 				<f:selectItems value="#{movimiento.tiposDeMov}" />
 			</p:selectOneMenu>
+			<h:message for="tipoMov" style="color:white" />
 		</p:column>
 
 		<p:column headerText="Producto">
-			<p:selectOneMenu  id="prod" value="#{mov.producto.id}"  required="true" requiredMessage="Debe seleccionar un Producto">
+			<p:selectOneMenu  id="prod" value="#{mov.producto.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="p" value="#{producto.productosList}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 			</p:selectOneMenu>
+			<h:message for="prod" style="color:white" />
         </p:column>
 
 		<p:column headerText="Almacenamiento">
-			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}"  required="true" requiredMessage="Debe ingresar un Almacenamiento">
+			<p:selectOneMenu  id="alm" value="#{mov.almacenamiento.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe ingresar un Almacenamiento">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="a" value="#{almacenamiento.almacenamientosList}" itemLabel="#{a.nombre}" itemValue="${a.id}" />
 			</p:selectOneMenu>
+			<h:message for="almac" style="color:white" />
         </p:column> 
 
 		<p:column style="width:35px">

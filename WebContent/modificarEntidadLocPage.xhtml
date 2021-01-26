@@ -49,27 +49,33 @@
 				<h:outputLabel value="#{loc.id}" />
 		</p:column>
 
-		<p:column headerText="Codigo">
-			<p:cellEditor>
-				<f:facet name="output">
-					<h:outputText value="#{loc.codigo}" />
-				</f:facet>
-				<f:facet name="input">
-					<p:inputNumber value="#{loc.codigo}" style="width:100%" label="codigo" minValue="0"/>
-				</f:facet>
-			</p:cellEditor>
-		</p:column>
-
 		<p:column headerText="Nombre">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{loc.nombre}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{loc.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:inputText id="nombre" value="#{loc.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/>  </p:inputText>
+					<h:message for="nombre" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
+
+		<p:column headerText="Codigo">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{loc.codigo}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber id="codigo" value="#{loc.codigo}" required="true" style="width:100%" label="codigo" minValue="0" requiredMessage=" Debe ingresar un codigo" validatorMessage=" El codigo debe ser mayor a 0" decimalPlaces="0">
+					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+					<h:message for="codigo" style="color:white" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+
 
 		<p:column headerText="Dirección">
 			<p:cellEditor>
@@ -77,24 +83,28 @@
 					<h:outputText value="#{loc.direccion}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{loc.direccion}" style="width:100%" label="direccion" />
+					<p:inputText id="direccion" value="#{loc.direccion}" style="width:100%" label="direccion" validatorMessage=" La direccion solo puede contener letras y numeros (con espacios). Hasta 50 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
+					<h:message for="direccion" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Tipo Local">
-			<p:selectOneMenu value="#{loc.tipoloc}"  required="true" requiredMessage="Debe seleccionar un Tipo de Local">
-				<f:selectItem itemLabel="Seleccione..." itemValue="0"
+			<p:selectOneMenu id="tipoLoc" value="#{loc.tipoloc}"  required="true" requiredMessage=" Debe seleccionar un Tipo de Local">
+				<f:selectItem itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true" />
 				<f:selectItems value="#{entidadLoc.tiposDeLocal}" />
 			</p:selectOneMenu>
+			<h:message for="tipoLoc" style="color:white" />
 		</p:column>
  
 		<p:column headerText="Ciudad">
-			<p:selectOneMenu  id="ciu" value="#{loc.ciudad.id}"  required="true" requiredMessage="Debe ingresar una Ciudad">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="0" noSelectionOption="true"/>
+			<p:selectOneMenu  id="ciudad" value="#{loc.ciudad.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe ingresar una Ciudad">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="c" value="#{ciudad.ciudadesList}" itemLabel="#{c.nombre}" itemValue="${c.id}" />
 			</p:selectOneMenu>
+			<h:message for="ciudad" style="color:white" />
         </p:column> 
  
 		<p:column style="width:35px">

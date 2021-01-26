@@ -39,8 +39,8 @@ h3 {
 					<p:column colspan="1">
 						<h:outputText value="Nombre:" />
 						<p:inputText id="nombre" value="#{entidadLoc.nombre}"
-							required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
-							<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]{0,50}$"/>  </p:inputText>
+							required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
+							<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/>  </p:inputText>
 							<h:message for="nombre" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 					</p:column>
@@ -85,7 +85,7 @@ h3 {
 						<p:selectOneMenu id="tipoLoc" value="#{entidadLoc.tipoLoc}"
 							effect="fold" editable="false" required="true" requiredMessage=" Debe seleccionar un Tipo de Local">
 							<f:selectItem itemLabel="Seleccione..." itemValue="#{null}" noSelectionOption="true" />
-							<f:selectItems value="#{entidadLoc.tiposDeLocal}" required="true"/>
+							<f:selectItems value="#{entidadLoc.tiposDeLocal}" />
 						</p:selectOneMenu>
 						 <h:message for="tipoLoc" style="color:red" />
 						<p:spacer width="5px"></p:spacer>

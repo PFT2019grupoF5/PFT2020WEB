@@ -54,8 +54,9 @@
 					<h:outputText value="#{alm.nombre}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText id="nombre" value="#{alm.nombre}" style="width:100%" label="descripcion"  required="true" requiredMessage="Debe ingrear una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
+					<p:inputText id="descripcion" value="#{alm.nombre}" style="width:100%" label="descripcion"  required="true" requiredMessage=" Debe ingrear una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 1 y 250 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,250}$"/></p:inputText>
+					<h:message for="descripcion" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -66,9 +67,9 @@
 					<h:outputText value="#{alm.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="volumen" value="#{alm.volumen}" style="width:100%" label="volumen" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0" decimalPlaces="0">
-					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="volumen" style="color:red" />
+					<p:inputNumber id="volumen" value="#{alm.volumen}" style="width:100%" label="volumen" required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El volumen debe ser mayor a 0" decimalPlaces="0">
+					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+					<h:message for="volumen" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -79,9 +80,9 @@
 					<h:outputText value="#{alm.costoop}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="costoop" value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage="Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="costoop" value="#{alm.costoop}" style="width:100%" label="costoop"  required="true" requiredMessage=" Debe ingresar un Costo Operativo" minValue="0" validatorMessage=" El costo operativo debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="costoop" style="color:red" />
+					<h:message for="costoop" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -92,9 +93,9 @@
 					<h:outputText value="#{alm.capestiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="capestiba" value="#{alm.capestiba}" style="width:100%" label="capestiba"  required="true" requiredMessage="Debe ingresar una Capacidad de Estiba" minValue="0" validatorMessage=" La capacidad estiba debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="capestiba" style="color:red" />
+					<h:message for="capestiba" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -105,18 +106,19 @@
 					<h:outputText value="#{alm.cappeso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="cappeso" value="#{alm.cappeso}" style="width:100%" label="cappeso"  required="true" requiredMessage="Debe ingresar una Capacidad de Peso" minValue="0" validatorMessage=" La capacidad de peso debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="cappeso" style="color:red" />
+					<h:message for="cappeso" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Local">
-			<p:selectOneMenu  id="loc" value="#{alm.entidadLoc.id}"  required="true" requiredMessage="Debe seleccionar un Local">
+			<p:selectOneMenu  id="loc" value="#{alm.entidadLoc.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Debe seleccionar un Local">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems var="l" value="#{entidadLoc.entidadLocList}" itemLabel="#{l.nombre}" itemValue="${l.id}" />
 			</p:selectOneMenu>
+			<h:message for="loc" style="color:white" />
         </p:column>
 
 		<p:column style="width:35px">

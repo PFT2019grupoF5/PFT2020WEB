@@ -55,7 +55,9 @@
 					<h:outputText value="#{usu.nombre}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{usu.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:inputText id="nombre" value="#{usu.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
+					<h:message for="nombre" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -65,7 +67,9 @@
 					<h:outputText value="#{usu.apellido}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{usu.apellido}" style="width:100%" label="apellido"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:inputText id="apellido" value="#{usu.apellido}" style="width:100%" label="apellido"  required="true" requiredMessage=" Debe ingresar un Apellido" validatorMessage=" El Apellido solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
+					<h:message for="apellido" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -75,7 +79,9 @@
 					<h:outputText value="#{usu.nomAcceso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{usu.nomAcceso}" style="width:100%" label="nombre de acceso"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:inputText id="nomAcceso" value="#{usu.nomAcceso}" style="width:100%" label="nombre de acceso"  required="true" requiredMessage=" Debe ingresar un Nombre de Acceso" validatorMessage=" El Nombre de Acceso solo puede contener letras y numeros, sin espacios. Entre 3 y 50 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]){3,50}$"/> </p:inputText>
+					<h:message for="nomAcceso" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -85,7 +91,9 @@
 					<h:outputText value="#{usu.contrasena}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{usu.contrasena}" style="width:100%" label="contraseña"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:password id="contrasena" value="#{usu.contrasena}" style="width:100%" label="contraseña"  required="true" requiredMessage=" Debe ingresar una Contraseña" validatorMessage=" La contraseña requiere 1 de numero/letra mayuscula/letra minuscula y minimo 8 caracteres, sin espacios">
+					<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/></p:password>
+					<h:message for="contrasena" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -95,17 +103,20 @@
 					<h:outputText value="#{usu.correo}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText value="#{usu.correo}" style="width:100%" label="correo"  required="true" requiredMessage="Debe ingresar un Nombre"/>
+					<p:inputText id="correo" value="#{usu.correo}" style="width:100%" label="correo"  required="true" requiredMessage=" Debe ingresar un Correo" validatorMessage=" El formato de correo es texto@texto.texto">
+					<f:validateRegex pattern="[\w\.-]*[a-zA-ZÀ-ž0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/></p:inputText>
+					<h:message for="correo" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Tipo de Perfil">
-			<p:selectOneMenu value="#{usu.tipoPerfil}"  required="true" requiredMessage="Debe seleccionar un Tipo de Perfil">
+			<p:selectOneMenu id="perfil" value="#{usu.tipoPerfil}"  required="true" requiredMessage=" Debe seleccionar un Tipo de Perfil">
 				<f:selectItem itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true" />
 				<f:selectItems value="#{usuario.perfiles}" />
 			</p:selectOneMenu>
+			<h:message for="perfil" style="color:white" />
 		</p:column>
 
 		<p:column style="width:35px">

@@ -34,7 +34,7 @@
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
 		<p:panel>
-			<h3 align="center">Modificar Producto</h3>
+			<h3 align="center">Modificar Productos</h3>
 		</p:panel>
 		
 	<p:dataTable id="produc1" var="produc" value="#{producto.productosList}"
@@ -64,9 +64,9 @@
 					<h:outputText value="#{produc.lote}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputText id="lote" value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage="Debe ingresar un Lote" validatorMessage=" El Lote solo puede contener letras y numeros (con espacios). Entre 2 y 10 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]+(.)?[\s]*)$"/>  <f:validateLength maximum = "50" /></p:inputText>
-					<h:message for="lote" style="color:red" />
+					<p:inputText id="lote" value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios). Entre 1 y 10 caracteres">
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,10}$"/></p:inputText>
+					<h:message for="lote" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -77,9 +77,9 @@
 					<h:outputText value="#{produc.precio}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="precio" value="#{produc.precio}" style="width:100%" label="precio"  required="true" requiredMessage="Debe ingresar un Precio" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="precio" value="#{produc.precio}" style="width:100%" label="precio"  required="true" requiredMessage=" Debe ingresar un Precio" minValue="0" validatorMessage=" El precio debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="precio" style="color:red" />
+					<h:message for="precio" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -94,11 +94,12 @@
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar value="#{produc.felab}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="felab"  required="true" requiredMessage="Debe seleccionar una Fecha de Elaboración">
+					<p:calendar id="felab" value="#{produc.felab}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="felab"  required="true" requiredMessage=" Debe seleccionar una Fecha de Elaboración">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
+					<h:message for="felab" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -106,18 +107,19 @@
 		<p:column headerText="Fecha de Vencimiento">
 			<p:cellEditor>
 				<f:facet name="output">
-					<h:outputText value="#{produc.fven}" pattern="dd/MM/yy">
+					<h:outputText value="#{produc.fven}" pattern="dd/MM/yy" >
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</h:outputText>
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar value="#{produc.fven}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="fven"  required="true" requiredMessage="Debe seleccionar una Fecha de Vencimiento">
+					<p:calendar id="fven" value="#{produc.fven}" pattern="dd/MM/yy"
+						locale="es_ES" style="width:90%" label="fven"  required="true" requiredMessage=" Debe seleccionar una Fecha de Vencimiento">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
+					<h:message for="fven" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -129,9 +131,9 @@
 					<h:outputText value="#{produc.peso}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="peso" value="#{produc.peso}" style="width:100%" label="peso"   required="true" requiredMessage="Debe ingresar un Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="peso" value="#{produc.peso}" style="width:100%" label="peso"   required="true" requiredMessage=" Debe ingresar un Peso" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="peso" style="color:red" />
+					<h:message for="peso" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -142,9 +144,9 @@
 					<h:outputText value="#{produc.volumen}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="volumen" value="#{produc.volumen}" style="width:100%" label="volumen"   required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="volumen" value="#{produc.volumen}" style="width:100%" label="volumen"   required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="volumen" style="color:red" />
+					<h:message for="volumen" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -155,9 +157,9 @@
 					<h:outputText value="#{produc.estiba}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="estiba" value="#{produc.estiba}" style="width:100%" label="estiba" required="true" requiredMessage="Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
-					<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
-					<h:message for="estiba" style="color:red" />
+					<p:inputNumber id="estiba" value="#{produc.estiba}" style="width:100%" label="estiba" required="true" requiredMessage=" Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
+					<h:message for="estiba" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -168,9 +170,9 @@
 					<h:outputText value="#{produc.stkMin}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="stkMin" value="#{produc.stkMin}" style="width:100%" label="stkMin" required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="stkMin" value="#{produc.stkMin}" style="width:100%" label="stkMin" required="true" requiredMessage=" Debe ingresar un Stock Mínimo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
-					<h:message for="stkMin" style="color:red" />
+					<h:message for="stkMin" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
@@ -181,41 +183,44 @@
 					<h:outputText value="#{produc.stkTotal}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="stkTotal" value="#{produc.stkTotal}" style="width:100%" label="stkTotal" required="true" requiredMessage="Debe ingresar un Stock Máximo" minValue="0" decimalPlaces="0" validatorMessage=" El valor debe ser mayor a 0">
+					<p:inputNumber id="stkTotal" value="#{produc.stkTotal}" style="width:100%" label="stkTotal" required="true" requiredMessage=" Debe ingresar un Stock Máximo" minValue="0" validatorMessage=" El valor debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
-					<h:message for="stkTotal" style="color:red" />
+					<h:message for="stkTotal" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
 
 		<p:column headerText="Segmentable">
-			<p:selectOneMenu value="#{produc.segmentac}">
-				<f:selectItem itemLabel="Seleccione..." itemValue=""
-					noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar si es Segmentable"/>
+			<p:selectOneMenu value="#{produc.segmentac}" required="true" requiredMessage=" Debe seleccionar si es Segmentable">
+				<f:selectItem id="segmentac" itemLabel="Seleccione..." itemValue=""
+					noSelectionOption="true"   />
 				<f:selectItems value="#{producto.segmentacion}" />
 			</p:selectOneMenu>
+			<h:message for="segmentac" style="color:white" />
 		</p:column>
 
 		<p:column headerText="Usuario">
-			<p:selectOneMenu  id="usu" value="#{produc.usuario.id}">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   required="true" requiredMessage="Debe seleccionar un Usuario"/>
+			<p:selectOneMenu  id="usuario" value="#{produc.usuario.id}" required="true" requiredMessage=" Debe seleccionar un Usuario">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   />
  				<f:selectItems var="u" 
  					value="#{usuario.usuariosList}" 
  					itemLabel="#{u.nombre}" 
- 					itemValue="#{u.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
-				<p:message for="usu" style="color:red" />
+ 					itemValue="#{u.id}" />
+				
 			</p:selectOneMenu>
+			<p:message for="usuario" style="color:white" />
         </p:column>
 
 		<p:column headerText="Familia">
-			<p:selectOneMenu  id="fam" value="#{produc.familia.id}"   required="true" requiredMessage="Debe seleccionar una Familia">
+			<p:selectOneMenu  id="familia" value="#{produc.familia.id}"   required="true" requiredMessage=" Debe seleccionar una Familia">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems value="#{familia.familiasList}" 
  					var="f" 
  					itemLabel="#{f.nombre}" 
- 					itemValue="#{f.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
- 				<p:message for="fam" style="color:red" />	
+ 					itemValue="#{f.id}" />
+ 				
  			</p:selectOneMenu>
+ 			<p:message for="familia" style="color:white" />	
         </p:column> 
  
 		<p:column style="width:35px">

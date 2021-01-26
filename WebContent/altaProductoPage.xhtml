@@ -38,8 +38,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
-								value="#{producto.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 2 y 50 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,50}$"/> </p:inputText>
+								value="#{producto.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/> </p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -53,8 +53,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Lote:" />
 							<p:inputText id="lote"
-								value="#{producto.lote}" required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios). Entre 2 y 10 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,10}$"/></p:inputText>
+								value="#{producto.lote}" required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios). Entre 1 y 10 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,10}$"/></p:inputText>
 								<h:message for="lote" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -68,7 +68,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Precio:" />
 							<p:inputNumber id="precio"
-								value="#{producto.precio}" required="true" requiredMessage=" Debe ingresar un Precio"  minValue="0" validatorMessage=" El valor debe ser mayor a 0">
+								value="#{producto.precio}" required="true" requiredMessage=" Debe ingresar un Precio"  minValue="0" validatorMessage=" El precio debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 							<h:message for="precio" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -86,7 +86,7 @@
 							<p:calendar id="felab" value="#{producto.felab}" 
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
 								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha de Elaborado">
-								<span style="color:red">*</span>
+								
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
 							<h:message for="felab" style="color:red" />
@@ -105,7 +105,7 @@
 								pattern="dd/MM/yy" mask="?99/99/99" placeholder="__/__/__" 
 								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha de Vencimiento">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
-									<span style="color:red">*</span>
+									
 							</p:calendar>
 							<h:message for="fven" style="color:red" />
 							<p:spacer width="5px"></p:spacer>

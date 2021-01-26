@@ -25,7 +25,7 @@
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
 				<h:outputText value="Usuario" />
 				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un nombre de acceso" styleClass="form-control" placeholder="Usuario" validatorMessage=" Revise el formato de su nombre de usuario">
-				<f:validateRegex pattern="^([A-zÀ-ž0-9]){3,50}$"/> </p:inputText>
+				<f:validateRegex pattern="^([A-zÀ-ž0-9]*){3,50}$"/> </p:inputText>
 				<p:spacer />
 				<h:message for="nomAcceso" style="color:red" />
 

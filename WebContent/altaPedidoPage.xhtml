@@ -86,10 +86,10 @@
 					</p:row>
 					<p:row>
 						<p:column colspan="1">  
-							<h:outputText value="Fecha del Pedido:" />
+							<h:outputText value="Fecha Recepcion del Pedido:" />
 							<p:calendar id="pedrecfecha" value="#{pedido.pedrecfecha}"
 								pattern="dd/MM/yy" mask="?99-99-99" placeholder="__/__/__" 
-								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha de Pedido">
+								locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha de Recepcion del Pedido">
 									<f:convertDateTime pattern="dd/MM/yy" locale="es_ES" timeZone="America/Mexico_City" />
 							</p:calendar>
 							<h:message for="pedrecfecha" style="color:red" />
@@ -105,8 +105,8 @@
 						<p:column colspan="1">  
 							<h:outputText value="Comentario:" />
 							<p:inputText id="pedreccomentario"
-								value="#{pedido.pedreccomentario}" required="true" requiredMessage=" Debe ingresar un Comentario" validatorMessage=" El comentario solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]){0,250}$"/> </p:inputText>
+								value="#{pedido.pedreccomentario}" required="true" requiredMessage=" Debe ingresar un Comentario" validatorMessage=" El comentario solo puede contener letras y numeros (con espacios). Entre 1 y 250 caracteres">
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,250}$"/> </p:inputText>
 								<h:message for="pedreccomentario" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
