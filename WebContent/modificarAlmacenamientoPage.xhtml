@@ -55,7 +55,7 @@
 				</f:facet>
 				<f:facet name="input">
 					<p:inputText id="nombre" value="#{alm.nombre}" style="width:100%" label="descripcion"  required="true" requiredMessage="Debe ingrear una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
+					<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
 				</f:facet>
 			</p:cellEditor>
 		</p:column>

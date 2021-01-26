@@ -36,7 +36,7 @@
 							<h:outputText value="Descripcion:" />
 							<p:inputText id="nombre"
 								value="#{almacenamiento.nombre}" required="true" requiredMessage=" Debe ingresar una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 2 y 250 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9][A-zÀ-ž0-9\s]+(.)?[\s]*)$"/>  <f:validateLength maximum = "250" /></p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
