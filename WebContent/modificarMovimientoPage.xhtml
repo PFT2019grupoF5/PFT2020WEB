@@ -48,7 +48,7 @@
 				<h:outputLabel value="#{mov.id}" />
 		</p:column>
 
-		<p:column headerText="Fecha">
+		<p:column headerText="Fecha" filterBy="#{mov.fecha}" filterMatchMode="contains" > 
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{mov.fecha}" pattern="dd/MM/yy">
@@ -82,7 +82,7 @@
 		</p:column>
 
 
-		<p:column headerText="Descripcion">
+		<p:column headerText="Descripcion" filterBy="#{mov.descripcion}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{mov.descripcion}" />

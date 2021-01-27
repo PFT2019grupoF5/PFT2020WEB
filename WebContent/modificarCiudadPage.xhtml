@@ -49,7 +49,7 @@
 				<h:outputLabel value="#{ciu.id}" />
 		</p:column>
 
-		<p:column headerText="Nombre">
+		<p:column headerText="Nombre" filterBy="#{ciu.nombre}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{ciu.nombre}" />

@@ -35,7 +35,7 @@
 		</p:panel>
 		        
 
-	<p:dataTable id="pedi1" var="ped" value="#{pedido.listaPedido}"
+	<p:dataTable id="ped1" var="ped" value="#{pedido.listaPedido}"
 		editable="true" >
  		
 		<p:column headerText="Id">
@@ -96,12 +96,12 @@
 			<f:facet name="output">
 				<h:outputLabel value="Usuario" />
 			</f:facet>
-			<h:outputText value="#{ped.usuario.nomAcceso}" />
+			<h:outputText value="#{ped.usuario.id}" />
         </p:column>
 		
 		<p:column style="width:100px;text-align: center">
         	<p:commandButton immediate="true" action="#{pedido.delete(ped)}" icon="fa fa-trash" 
-        		ajax="false"  update=":form:pedi1">
+        		ajax="false"  update=":form:ped1">
         	</p:commandButton>
         </p:column>
 	</p:dataTable>

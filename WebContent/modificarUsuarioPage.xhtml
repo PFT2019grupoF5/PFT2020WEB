@@ -49,7 +49,7 @@
 				<h:outputLabel value="#{usu.id}" />
 		</p:column>
 
-		<p:column headerText="Nombre">
+		<p:column headerText="Nombre" filterBy="#{usu.nombre}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{usu.nombre}" />
@@ -61,7 +61,7 @@
 				</f:facet>
 			</p:cellEditor>
 		</p:column>
-		<p:column headerText="Apellido">
+		<p:column headerText="Apellido" filterBy="#{usu.apellido}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{usu.apellido}" />

@@ -33,7 +33,7 @@
 			<h3 align="center">Modificar Pedidos</h3>
 		</p:panel>
 		        
-	<p:dataTable id="pedi1" var="ped" value="#{pedido.listaPedido}"
+	<p:dataTable id="ped1" var="ped" value="#{pedido.listaPedido}"
 		editable="true" style="margin-bottom:20px">
 
 
@@ -48,7 +48,7 @@
 				<h:outputLabel value="#{ped.id}" />
 		</p:column>
 
-		<p:column headerText="Fecha Estimada Pedido">
+		<p:column headerText="Fecha Estimada de Salida">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{ped.pedfecestim}" pattern="dd/MM/yy">
@@ -58,8 +58,8 @@
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar id="pedfecestim" value="#{ped.pedfecestim}" pattern="dd/MM/yy"
-						locale="es_ES" style="width:90%" label="Fecha Estimada Pedido" required="true" requiredMessage=" Debe ingresar una Fecha Estimada de Entrega">
+					<p:calendar id="pedfecestim" value="#{ped.pedfecestim}" pattern="dd/MM/yy" mask="?99/99/99"
+						locale="es_ES" style="width:90%" label="Fecha Estimada de Salida" required="true" requiredMessage=" Debe ingresar una Fecha Estimada de Salida">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
 					</p:calendar>
@@ -68,7 +68,7 @@
 			</p:cellEditor>
 		</p:column>
 		
-		<p:column headerText="Fecha del Pedido">
+		<p:column headerText="Fecha Actual" filterBy="#{ped.fecha}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{ped.fecha}" pattern="dd/MM/yy">
@@ -78,7 +78,7 @@
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar id="fecha" value="#{ped.fecha}" pattern="dd/MM/yy"
+					<p:calendar id="fecha" value="#{ped.fecha}" pattern="dd/MM/yy" mask="?99/99/99"
 						locale="es_ES" style="width:90%" label="Fecha Actual" required="true" requiredMessage=" Debe ingresar una Fecha Actual">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
@@ -111,7 +111,7 @@
 				</f:facet>
 
 				<f:facet name="input">
-					<p:calendar id="pedrecfecha" value="#{ped.pedrecfecha}" pattern="dd/MM/yy"
+					<p:calendar id="pedrecfecha" value="#{ped.pedrecfecha}" pattern="dd/MM/yy" mask="?99/99/99"
 						locale="es_ES" style="width:90%" label="Fecha Recepcion del Pedido" required="true" requiredMessage=" Debe ingresar una Fecha de Recepcion del Pedido">
 						<f:convertDateTime pattern="dd/MM/yy" locale="es_ES"
 							timeZone="America/Mexico_City" />
@@ -121,7 +121,7 @@
 			</p:cellEditor>
 		</p:column>
 
-		<p:column headerText="Commentario">
+		<p:column headerText="Commentario" filterBy="#{ped.pedreccomentario}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{ped.pedreccomentario}" />
@@ -145,8 +145,8 @@
 		</p:column>
 
 		<p:column headerText="Usuario">
-			<p:selectOneMenu  id="usuario" value="#{ped.usuario.id}">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" required="true" requiredMessage=" Debe seleccionar un Usuario"/>
+			<p:selectOneMenu  id="usuario" value="#{ped.usuario.id}" required="true" requiredMessage=" Debe seleccionar un Usuario">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" />
  				<f:selectItems var="u" 
  					value="#{usuario.usuariosList}" 
  					itemLabel="#{u.nombre}" 

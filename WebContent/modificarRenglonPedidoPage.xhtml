@@ -51,7 +51,7 @@
 			
 		</p:column>
 		
-			<p:column headerText="Pedido">
+			<p:column headerText="Pedido" filterBy="#{red.pedido.id}" filterMatchMode="contains">
 			<p:selectOneMenu  id="pedido" value="#{red.pedido.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Pedido">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
  				<f:selectItems value="#{renglonPedido.listaPedido}" 
@@ -62,7 +62,7 @@
  			<p:message for="pedido" style="color:white" />	
         </p:column> 
         
-        	<p:column headerText="Producto">
+        	<p:column headerText="Producto" filterBy="#{red.producto.nombre}" filterMatchMode="contains">
 			<p:selectOneMenu  id="producto" value="#{ren.producto.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto"/>
  				<f:selectItems var="p" 
