@@ -13,6 +13,7 @@ import org.primefaces.event.RowEditEvent;
 
 import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
+import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.AlmacenamientoBeanRemote;
@@ -37,6 +38,8 @@ public class AlmacenamientosBean {
 	private Long idEntidadLoc;
 	private List<Almacenamiento> almacenamientosList;
 	private boolean operacionOK;
+	
+	private EntidadLoc idLoc;
 	
 	@EJB
 	private AlmacenamientoBeanRemote almacenamientosEJBBean;
@@ -88,7 +91,7 @@ public class AlmacenamientosBean {
 		}
 	}
 
-	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso, EntidadLoc entidadLoc) {
+	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso, long entidadLocIdNuevo) {
 		FacesMessage message ;
 		String resultado="";
 		
@@ -120,7 +123,7 @@ public class AlmacenamientosBean {
 					a.setCostoop(costoop);
 					a.setCapestiba(capestiba);
 					a.setCappeso(cappeso);
-					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(entidadLocIdNuevo));
 					almacenamientosEJBBean.update(a);
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 							"Almacenamiento " + nombre + " fue modificado!");
@@ -191,13 +194,24 @@ public class AlmacenamientosBean {
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
 	    
+	    FacesMessage message;
+	    
 	   try {
-			if (a != null) {
-				this.update(a.getId(), a.getVolumen(), a.getNombre(), a.getCostoop(), a.getCapestiba(), a.getCappeso(), a.getEntidadLoc());
-			}
+		 //Traigo clase local completa por el ID que se seleccionó en el desplegable
+			Long locId = a.getEntidadLoc().getId();
+			
+			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
+
+			
+			almacenamientosEJBBean.update(a);
+		    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+					"Producto modificado exitosamente!");
+
+	   FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
 		}
 	}
+
 	
 	
 	@PostConstruct
@@ -205,6 +219,9 @@ public class AlmacenamientosBean {
 		try {
 			// Carga la lista de Almacenamientos
 			almacenamientosList = this.getAll();
+			
+			idLoc = entidadLocEJBBean.getId(id);
+			
 		} catch (Exception e) {
 		}
 	}
