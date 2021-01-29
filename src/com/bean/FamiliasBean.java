@@ -116,16 +116,19 @@ public class FamiliasBean {
 			if (familia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione una familia a borrar!");
-			}else if (productosEJBBean.getProductosxFamilia(familia.getId()) < 0){
+			}else {
+				if (productosEJBBean.getProductosxFamilia(familia.getId()) < 0){
+			
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"No se puede eliminar la Familia porque tiene Productos asociados. Elimine primero los Productos que tienen la Familia " + familia.getNombre());
-			} else {
-				familiasEJBBean.delete(familia.getId());
-				familiasList.remove(familia);
+				} else {
+					familiasEJBBean.delete(familia.getId());
+					familiasList.remove(familia);
 				
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 						"Familia borrada exitosamente!");
 				retPage ="bajaFamiliaPage";
+			}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;

@@ -289,7 +289,7 @@ public class PedidosBean {
 		}
 	}
 
-	@PostConstruct
+
 	public void cargoLista() {
 		try {
 			pedidosList = this.getAll();
