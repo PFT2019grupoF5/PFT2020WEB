@@ -136,10 +136,10 @@
 
 
 		<p:column headerText="Estado del Pedido">
-			<p:selectOneMenu id="pedestado" value="#{ped.pedestado}"  required="true" requiredMessage=" Debe seleccionar un Estado de Pedido">
-				<f:selectItem itemLabel="Seleccione..." itemValue=""
+			<p:selectOneMenu  value="#{ped.pedestado}"  required="true" requiredMessage=" Debe seleccionar un Estado de Pedido">
+				<f:selectItem id="pedestado" itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true" />
-				<f:selectItems value="#{pedido.pedestado}" />
+				<f:selectItems value="#{pedido.estadoDelPedido}" />
 			</p:selectOneMenu>
 			<h:message for="pedestado" style="color:white" />
 		</p:column>

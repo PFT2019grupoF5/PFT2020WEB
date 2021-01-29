@@ -17,6 +17,7 @@ import org.primefaces.event.RowEditEvent;
 
 import com.entities.Familia;
 import com.entities.Pedido;
+import com.entities.Producto;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
@@ -47,8 +48,11 @@ public class PedidosBean {
 
 	private Long idUsuario;
 	private Usuario idUsu;
-
-	private List<Pedido> listaPedido;
+	
+	//edit
+	private Pedido ped;
+	private List<Pedido> pedidosList;
+	
 	private List<Pedido> listaPedidoReporteFechas;
 	
 	private boolean confirmarBorrado = false;
@@ -160,7 +164,7 @@ public class PedidosBean {
 								"Seleccione la casilla de confirmación!");
 					} else {
 						pedidosEJBBean.delete(pedido.getId());
-						listaPedido.remove(pedido);
+						pedidosList.remove(pedido);
 			}
 		}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -184,6 +188,10 @@ public class PedidosBean {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public List<Pedido> obtenerTodosPedidos() throws ServiciosException {
+		return pedidosList = pedidosEJBBean.getAllPedidos();
 	}
 
 	public String getPedidosFechas() {
@@ -240,6 +248,12 @@ public class PedidosBean {
 			esP.add(new SelectItem(estadoPedido.E, estadoPedido.E.toString()));
 			esP.add(new SelectItem(estadoPedido.L, estadoPedido.L.toString()));
 			estadoDelPedido = esP;
+			
+			// rowEdit
+						if (pedidosList==null) {
+							ped = new Pedido();
+							pedidosList = obtenerTodosPedidos();
+						}	
 		} catch (Exception e) {
 		}
 	}
@@ -396,11 +410,11 @@ public class PedidosBean {
 
 
 	public List<Pedido> getListaPedido() {
-		return listaPedido;
+		return pedidosList;
 	}
 
 	public void setListaPedido(List<Pedido> listaPedido) {
-		this.listaPedido = listaPedido;
+		this.pedidosList = listaPedido;
 	}
 
 	public List<Pedido> getListaPedidoReporteFechas() {
