@@ -112,9 +112,6 @@ public class UsuariosBean {
 				} else if (nombre.length() > 50 || apellido.length() > 50) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
-				} else if (contrasena.length() < 8 || contrasena.length() > 16) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-							"La contraseña debe tener por lo menos 8 dígitos y no superar los 16.  Por favor revise el dato ingresado");
 				} else if (nomAcceso.length() > 30) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 							"Campo nomAcceso no puede ser mayor a 30 caracteres");
@@ -130,7 +127,6 @@ public class UsuariosBean {
 					u.setNombre(nombre);
 					u.setApellido(apellido);
 					u.setNomAcceso(nomAcceso);
-					u.setContrasena(DigestUtils.md5Hex(contrasena));
 					u.setCorreo(correo);
 					u.setTipoPerfil(tipoPerfil);
 					usuariosEJBBean.update(u);
@@ -233,7 +229,7 @@ public class UsuariosBean {
 	    FacesMessage message;
 	    
 	   try {
-			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getContrasena().isEmpty() || u.getContrasena().length() < 8 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
+			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Debe ingresar todos los datos correctamente");
 			} else {

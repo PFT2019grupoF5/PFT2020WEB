@@ -37,9 +37,10 @@
 	
 					<p:row>
 						<p:column colspan="1">  
+						<h:outputText value="Pedido: " />
 							<p:selectOneMenu  id="pedido" value="#{renglonPedido.idPedido}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Pedido">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
-				 				<f:selectItems var="r" value="#{renglonPedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" />
+				 				<f:selectItems var="r" value="#{pedido.listaPedido}" itemLabel="#{r.id}" itemValue="${r.id}" />
 							</p:selectOneMenu> 
 							<h:message for="pedido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -52,10 +53,11 @@
 					</p:row>
 	
 					<p:row>
-						<p:column colspan="1">  
+						<p:column colspan="1"> 
+						<h:outputText value="Producto: " />
 							<p:selectOneMenu  id="producto" value="#{renglonPedido.idProducto}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto">
 								<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true" />
-				 				<f:selectItems var="p" value="#{renglonPedido.listaProducto}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
+				 				<f:selectItems var="p" value="#{producto.productosList}" itemLabel="#{p.nombre}" itemValue="${p.id}" />
 							</p:selectOneMenu> 
 							<h:message for="producto" style="color:red" />
 							<p:spacer width="5px"></p:spacer>

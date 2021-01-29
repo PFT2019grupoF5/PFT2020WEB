@@ -191,8 +191,8 @@
 		</p:column>
 
 		<p:column headerText="Segmentable">
-			<p:selectOneMenu value="#{produc.segmentac}" required="true" requiredMessage=" Debe seleccionar si es Segmentable">
-				<f:selectItem id="segmentac" itemLabel="Seleccione..." itemValue=""
+			<p:selectOneMenu id="segmentac" value="#{produc.segmentac}" required="true" requiredMessage=" Debe seleccionar si es Segmentable">
+				<f:selectItem  itemLabel="Seleccione..." itemValue=""
 					noSelectionOption="true"   />
 				<f:selectItems value="#{producto.segmentacion}" />
 			</p:selectOneMenu>

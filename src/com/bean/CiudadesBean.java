@@ -95,7 +95,7 @@ public class CiudadesBean {
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			ciudadesList = obtenerTodosCiudades();
+			ciudadesList = obtenerTodasCiudades();
 			
 			return resultado;
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class CiudadesBean {
 	
 	public String delete(Ciudad ciudad) {
 		FacesMessage message ;
-		String retPage = "";
+		String retPage = "bajaCiudadPage";
 		
 		try {
 			if (ciudad == null) {
@@ -193,17 +193,14 @@ public class CiudadesBean {
 		return "Login?faces-redirect=true";
 	}
 
-	public List<Ciudad> obtenerTodosCiudades() throws ServiciosException {
-		return ciudadesList = ciudadesEJBBean.getAllCiudades();
-
-	}
+	
 	
 	@PostConstruct
 	public void segm() {
 		try {
 			// rowEdit
 			if (ciudadesList==null) {
-				ciudadesList = obtenerTodosCiudades();
+				ciudadesList = obtenerTodasCiudades();
 			}	
 		} catch (Exception e) {
 		}

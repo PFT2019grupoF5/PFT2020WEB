@@ -17,6 +17,9 @@
     </style>
 </h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
 
 <h:body>
 <div style="clear:both">
@@ -31,45 +34,65 @@
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
 		<p:panel>
-			<h3 align="center">Eliminar Familias</h3>
+			<h3 align="center">Eliminar Almacenamientos</h3>
 		</p:panel>
 		        
 
-	<p:dataTable id="fam1" var="fam" value="#{familia.familiasList}"
+	<p:dataTable id="alma1" var="alma" value="#{almacenamiento.almacenamientosList}"
 		editable="true" >
  		
 		<p:column headerText="Id">
 			<f:facet name="output">
 				<h:outputLabel value="ID" />
 			</f:facet>
-			<h:outputLabel value="#{fam.id}" />
+			<h:outputLabel value="#{alma.id}" />
 		</p:column>
 		
-		<p:column headerText="Nombre" filterBy="#{fam.nombre}" filterMatchMode="contains">
+		<p:column headerText="Nombre" filterBy="#{alma.nombre}" filterMatchMode="contains">
 			<f:facet name="output">
 				<h:outputLabel value="Nombre" />
 			</f:facet>
-			<h:outputLabel value="#{fam.nombre}" />
+			<h:outputLabel value="#{alma.nombre}" />
 		</p:column>
 
-		<p:column headerText="Descripcion">
+		<p:column headerText="Volumen">
 			<f:facet name="output">
-				<h:outputLabel value="Descripcion" />
+				<h:outputLabel value="Volumen" />
 			</f:facet>
-			<h:outputText value="#{fam.descrip}" />
+			<h:outputText value="#{alma.volumen}" />
 		</p:column>
 
-		<p:column headerText="Incompatibles">
+		<p:column headerText="Costo Operativo">
 			<f:facet name="output">
-				<h:outputLabel value="Incompatibles" />
+				<h:outputLabel value="Costo Operativo" />
 			</f:facet>
-			<h:outputText value="#{fam.incompat}" />
+			<h:outputText value="#{alma.costoop}" />
 		</p:column>
 
+		<p:column headerText="Capacidad Estiba">
+			<f:facet name="output">
+				<h:outputLabel value="Capacidad Estiba" />
+			</f:facet>
+				<h:outputText value="#{alma.capestiba}" />
+		</p:column>
+
+		<p:column headerText="Capacidad Peso">
+			<f:facet name="output">
+				<h:outputLabel value="Capacidad Peso" />
+			</f:facet>
+			<h:outputText value="#{alma.cappeso}" />
+		</p:column>
+
+		<p:column headerText="Localidad">
+			<f:facet name="output">
+				<h:outputLabel value="Localidad" />
+			</f:facet>
+			<h:outputText value="#{alma.entidadLoc.nombre}" />
+		</p:column>
  
 		<p:column style="width:100px;text-align: center">
-        	<p:commandButton immediate="true" action="#{familia.delete(fam)}" icon="fa fa-trash" 
-        		ajax="false"  update=":form:fam1">
+        	<p:commandButton immediate="true" action="#{almacenamiento.delete(alma)}" icon="fa fa-trash" 
+        		ajax="false"  update=":form:alma1">
         	</p:commandButton>
         </p:column>
 	</p:dataTable>

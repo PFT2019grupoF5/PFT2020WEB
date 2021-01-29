@@ -136,8 +136,9 @@
 					<p:column colspan="1">
 					<h:outputText value="Usuario:" />
 						<p:selectOneMenu id="usuario" value="#{pedido.idUsuario}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Usuario">
-							<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
-			 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}"/></p:selectOneMenu>
+							<f:selectItem itemLabel="Seleccione..."  itemValue="#{null}" noSelectionOption="true"/>
+			 				<f:selectItems var="u" value="#{usuario.usuariosList}" 
+			 				itemLabel="#{u.nombre}" itemValue="${u.id}"/></p:selectOneMenu>
 						<h:message for="usuario" style="color:red" />
 						<p:spacer width="5px"></p:spacer>
 						</p:column>

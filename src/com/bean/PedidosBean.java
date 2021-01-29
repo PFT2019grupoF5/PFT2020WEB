@@ -79,7 +79,7 @@ public class PedidosBean {
 						"Los campos no pueden estar vacios!");
 				
 			}else { 
-				if (get() == null) {
+				if (getId(id) == null) {
 			
 					Pedido pe = new Pedido();
 					pe.setPedfecestim(pedfecestim);
@@ -93,7 +93,7 @@ public class PedidosBean {
 
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Pedido:",
 							"El Pedido se creo correctamente");
-					retPage = "altaPedidoPage";
+
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"El Pedido ya existe");
@@ -108,32 +108,34 @@ public class PedidosBean {
 
 	
 	public String update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha,
-			String pedreccomentario, estadoPedido pedestado, Usuario usuario) {
+			String pedreccomentario, estadoPedido pedestado, long usuarioIdNuevo) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Pedido Modificado exitosamente!");
 		String retPage = "modificarPedidoPage";
 		try {
 			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
-					|| pedestado == null || usuario == null) {
+					|| pedestado == null || usuario.getId() <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
-			} else if (estadoPedido.E.equals(pedestado)) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
+//			} else if (estadoPedido.E.equals(pedestado)) {
+//				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+//						"El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado");
 			} else {
 				if (getId(id) != null) {
 					Pedido pe = new Pedido();
+					pe.setId(id);
 					pe.setPedfecestim(pedfecestim);
 					pe.setFecha(fecha);
 					pe.setPedreccodigo(pedreccodigo);
 					pe.setPedrecfecha(pedrecfecha);
 					pe.setPedreccomentario(pedreccomentario);
 					pe.setPedestado(pedestado);
-					pe.setUsuario(usuario);
+					pe.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
 					pedidosEJBBean.update(pe);
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+							"Pedido modificado exitosamente!");
+					retPage = "modificarPedidoPage";
+					
 				}else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 							"Pedido no existe");
@@ -154,9 +156,6 @@ public class PedidosBean {
 			if (pedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione un Pedido a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
 				} else {
 					if (renglonesPedidoEJBBean.getRenglonxPedido(pedido.getId()) >0 ) {
 			
@@ -165,6 +164,10 @@ public class PedidosBean {
 					} else {
 						pedidosEJBBean.delete(pedido.getId());
 						pedidosList.remove(pedido);
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+								"Pedido borrado exitosamente!");
+						
+						retPage = "bajaPedidoPage";
 			}
 		}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -185,6 +188,14 @@ public class PedidosBean {
 	public Pedido getId(Long id) {
 		try {
 			return pedidosEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	public List<Pedido> getAll() {
+		
+		try {
+				return pedidosEJBBean.getAllPedidos();
 		} catch (Exception e) {
 			return null;
 		}
@@ -218,14 +229,7 @@ public class PedidosBean {
 		return "resultadoReportePedidosFecha";
 	}
 
-	public List<Pedido> getAll() {
-		
-		try {
-				return pedidosEJBBean.getAllPedidos();
-		} catch (Exception e) {
-			return null;
-		}
-	}
+	
 
 
 	public void validarFechas() throws Exception {
@@ -254,6 +258,7 @@ public class PedidosBean {
 							ped = new Pedido();
 							pedidosList = obtenerTodosPedidos();
 						}	
+						idUsu = usuariosEJBBean.getId(id);
 		} catch (Exception e) {
 		}
 	}
@@ -265,13 +270,14 @@ public class PedidosBean {
 	    FacesMessage message;
 	    
 	   try {
-			if (pe != null) {
-				this.update(pe.getId(), pe.getPedfecestim(), pe.getFecha(), pe.getPedreccodigo(), pe.getPedrecfecha(), pe.getPedreccomentario(),pe.getPedestado(),   pe.getUsuario());
+			if (pe.getFecha() == null || pe.getPedfecestim() == null || pe.getPedrecfecha() == null || pe.getPedreccomentario().isEmpty() || pe.getPedreccodigo() == 0 || pe.getPedestado() == null) {
+				
 				
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Debe ingresar todos los datos correctamente");
 			} else {
-					
+				Long usuId = pe.getUsuario().getId();
+				pe.setUsuario(usuariosEJBBean.getId(usuId));
 
 				pedidosEJBBean.update(pe);
 			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
@@ -283,7 +289,15 @@ public class PedidosBean {
 		}
 	}
 
-	
+	@PostConstruct
+	public void cargoLista() {
+		try {
+			pedidosList = this.getAll();
+			ped = pedidosEJBBean.getId(id);
+		}catch(Exception e) {
+			
+		}
+	}
 
 	
 
@@ -423,6 +437,26 @@ public class PedidosBean {
 
 	public void setListaPedidoReporteFechas(List<Pedido> listaPedidoReporteFechas) {
 		this.listaPedidoReporteFechas = listaPedidoReporteFechas;
+	}
+
+
+	public List<Pedido> getPedidosList() {
+		return pedidosList;
+	}
+
+
+	public void setPedidosList(List<Pedido> pedidosList) {
+		this.pedidosList = pedidosList;
+	}
+
+
+	public Pedido getPed() {
+		return ped;
+	}
+
+
+	public void setPed(Pedido ped) {
+		this.ped = ped;
 	}
 
 

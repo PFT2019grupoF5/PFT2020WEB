@@ -15,6 +15,7 @@ import com.entities.Ciudad;
 import com.entities.EntidadLoc;
 import com.enumerated.tipoLoc;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.AlmacenamientoBeanRemote;
 import com.services.CiudadBeanRemote;
 import com.services.EntidadLocBeanRemote;
@@ -37,6 +38,7 @@ public class EntidadesLocBean {
 	private List<SelectItem> tiposDeLocal;
 	
 	private Long idCiudad;
+	private EntidadLoc entLoc;
 	private List <EntidadLoc> entidadLocList;
 	
 	
@@ -108,7 +110,7 @@ public class EntidadesLocBean {
 		}
 	}
 	
-	public String update(int codigo, String nombre, String direccion, tipoLoc tipoLoc, Ciudad ciudad) {
+	public String update(Long id, int codigo, String nombre, String direccion, tipoLoc tipoLoc, long ciudadIdNuevo) {
 		FacesMessage message = null;
 		String resultado="";
 		
@@ -144,14 +146,13 @@ public class EntidadesLocBean {
 				
 			} else {
 				
-				if (entidadLocEJBBean.getId(id) != null) {// si existe el Local, lo modifico
+				if (getId(id) != null) {// si existe el Local, lo modifico
 						EntidadLoc e = new EntidadLoc();
-						e.setId(id);
 						e.setCodigo(codigo);
 						e.setNombre(nombre);
 						e.setDireccion(direccion);
 						e.setTipoloc(tipoLoc);
-						e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
+						e.setCiudad(ciudadEJBBean.getCiudad(ciudadIdNuevo));
 						entidadLocEJBBean.update(e);
 	
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
@@ -165,7 +166,6 @@ public class EntidadesLocBean {
 				}
 			}
 		
-			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return resultado;
 			
@@ -213,7 +213,19 @@ public class EntidadesLocBean {
 		} catch (Exception e) {
 			return null;
 		}
+		
 	}
+	
+	public EntidadLoc getId(Long id) {
+		try {
+			return entidadLocEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+		
+		
+	}
+
 
 	public List<EntidadLoc> getAll() {
 		try {
@@ -222,16 +234,28 @@ public class EntidadesLocBean {
 			return null;
 		}
 	}
+	
+	public List<EntidadLoc> obtenerTodosEntidadLoc() throws ServiciosException{
+		return entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+	}
 
 	
 	public void onRowEdit(RowEditEvent event) {
 	    EntidadLoc el = (EntidadLoc) event.getObject();
-	    
+	    FacesMessage message;
 	   try {
-			if (el != null) {
-				this.update(el.getCodigo(), el.getNombre(), el.getDireccion(), el.getTipoloc(), el.getCiudad());
-				
-			}
+		   if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
+						"Es necesario ingresar todos los datos requeridos");
+		   }else {
+		   Long entLocId = el.getCiudad().getId();
+		   el.setCiudad(ciudadEJBBean.getId(entLocId));
+			
+		   entidadLocEJBBean.update(el);
+		   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+					"Local modificado exitosamente!");
+		   }
+		   FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
 		}
 	}
@@ -247,6 +271,10 @@ public class EntidadesLocBean {
 			tipL.add(new SelectItem(com.enumerated.tipoLoc.OTRO, com.enumerated.tipoLoc.OTRO.toString()));
 			tiposDeLocal =  tipL;
 			
+			if (entidadLocList==null) {
+				entLoc = new EntidadLoc();
+				entidadLocList = obtenerTodosEntidadLoc();
+			}
 			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 		} catch (Exception e) {
 		}

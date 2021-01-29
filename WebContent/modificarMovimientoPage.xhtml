@@ -17,6 +17,10 @@
    		 </style>
 </h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
 <h:body>
 <div style="clear:both">
 	  <ui:include src="header.xhtml" />
@@ -109,7 +113,7 @@
 		</p:column>
 
 		<p:column headerText="Tipo Movimiento">
-			<p:selectOneMenu id="tipoMov" value="#{mov.tipoMov}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
+			<p:selectOneMenu id="tipoMov" value="#{mov.tipoMov}" required="true" requiredMessage=" Debe seleccionar un Tipo de Movimiento">
 				<f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true"/>
 				<f:selectItems value="#{movimiento.tiposDeMov}" />
 			</p:selectOneMenu>

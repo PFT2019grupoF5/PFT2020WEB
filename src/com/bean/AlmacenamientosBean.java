@@ -205,7 +205,7 @@ public class AlmacenamientosBean {
 			
 			almacenamientosEJBBean.update(a);
 		    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-					"Producto modificado exitosamente!");
+					"Almacenamiento modificado exitosamente!");
 
 	   FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {

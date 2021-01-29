@@ -26,7 +26,7 @@
 <div style="clear:both">
 
 <h:form id="form">
-	<p:growl id="msgs" showDetail="true" />
+	<p:growl id="msgs" showDetail="true"  globalOnly="false"/>
 
  
 		<p:panel>
@@ -39,7 +39,7 @@
 
 
 		<p:ajax event="rowEdit" listener="#{pedido.onRowEdit}"
-			update=":form:msgs" />
+			update=":form:msgs" immediate="true"/>
 
 		<p:column headerText="Id">
 				<f:facet name="output">

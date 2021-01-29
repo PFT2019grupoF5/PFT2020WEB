@@ -16,6 +16,10 @@
     </style>
 </h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
 <h:body>
 <div style="clear:both">
 	  <ui:include src="header.xhtml" />
@@ -34,10 +38,10 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Descripcion:" />
-							<p:inputText id="descripcion"
+							<p:inputText id="nombre"
 								value="#{almacenamiento.nombre}" required="true" requiredMessage=" Debe ingresar una Descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 1 y 250 caracteres">
 								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,250}$"/> </p:inputText>
-								<h:message for="descripcion" style="color:red" />
+								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
 					</p:row>

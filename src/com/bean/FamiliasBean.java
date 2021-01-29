@@ -14,7 +14,9 @@ import org.primefaces.event.RowEditEvent;
 import com.entities.Familia;
 import com.entities.Producto;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.FamiliaBeanRemote;
+import com.services.ProductoBeanRemote;
 
 @ManagedBean(name = "familia")
 @ViewScoped
@@ -37,6 +39,9 @@ public class FamiliasBean {
 
 	@EJB
 	private FamiliaBeanRemote familiasEJBBean;
+	
+	@EJB
+	private ProductoBeanRemote productosEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Familia:",
@@ -104,20 +109,23 @@ public class FamiliasBean {
 	}
 
 	public String delete(Familia familia) {
-		FacesMessage message;
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
+				"Familia borrada exitosamente!");
 		String retPage = "bajaFamiliaPage";
 		try {
 			if (familia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione una Familia a borrar!");
-			} else if (!confirmarBorrado) {
+						"Seleccione una familia a borrar!");
+			}else if (productosEJBBean.getProductosxFamilia(familia.getId()) < 0){
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione la casilla de confirmación!");
+						"No se puede eliminar la Familia porque tiene Productos asociados. Elimine primero los Productos que tienen la Familia " + familia.getNombre());
 			} else {
 				familiasEJBBean.delete(familia.getId());
 				familiasList.remove(familia);
+				
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 						"Familia borrada exitosamente!");
+				retPage ="bajaFamiliaPage";
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -134,6 +142,8 @@ public class FamiliasBean {
 		}
 	}
 
+	
+	
 	public Familia getNombre(String nombre) {
 		try {
 			return familiasEJBBean.getNombre(nombre);
@@ -149,6 +159,11 @@ public class FamiliasBean {
 			return null;
 		}
 	}
+	
+	public List<Familia> obtenerTodasFamilias() throws ServiciosException{
+		return familiasList = familiasEJBBean.getAllFamilias();
+	}
+	
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Familia f = (Familia) event.getObject();
@@ -196,8 +211,9 @@ public class FamiliasBean {
 	@PostConstruct
 	public void cargoLista() {
 		try {
-			// Carga la lista de Familias
-			familiasList = this.getAll();
+			if(familiasList == null) {
+			familiasList = obtenerTodasFamilias();
+			}
 		} catch (Exception e) {
 		}
 	}
@@ -242,4 +258,5 @@ public class FamiliasBean {
 		this.familiasList = familiasList;
 	}
 
+	
 }

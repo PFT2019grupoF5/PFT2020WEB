@@ -17,6 +17,10 @@
     </style>
 </h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
 
 <h:body>
 <div style="clear:both">
@@ -30,10 +34,9 @@
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true" globalOnly="false"/>
 
-		<p:panel>
-			<h3 align="center">Eliminar Pedidos</h3>
-		</p:panel>
-		        
+		<f:facet name="header">
+            Eliminar Pedidos
+        </f:facet>
 
 	<p:dataTable id="ped1" var="ped" value="#{pedido.listaPedido}"
 		editable="true" >
@@ -69,7 +72,8 @@
 			</f:facet>
 			<h:outputText value="#{ped.pedreccodigo}" />
 			</p:column>
-				<p:column headerText="Fecha Recepcion del Pedido">
+			
+		<p:column headerText="Fecha Recepcion del Pedido">
 			<f:facet name="output">
 				<h:outputLabel value="Fecha Recepcion del Pedido" />
 			</f:facet>
@@ -79,7 +83,7 @@
 			</h:outputText>
 		</p:column>
 
-				<p:column headerText="Commentario">
+		<p:column headerText="Commentario">
 			<f:facet name="output">
 				<h:outputLabel value="Commentario" />
 			</f:facet>
@@ -92,7 +96,8 @@
 			</f:facet>
 			<h:outputText value="#{pedido.pedestado.toString()}" />
 		</p:column>
-				<p:column headerText="Usuario">
+		
+		<p:column headerText="Usuario">
 			<f:facet name="output">
 				<h:outputLabel value="Usuario" />
 			</f:facet>

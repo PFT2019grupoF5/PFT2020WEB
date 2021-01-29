@@ -17,6 +17,9 @@
     </style>
 </h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
 
 <h:body>
 <div style="clear:both">
@@ -75,11 +78,11 @@
 			</f:facet>
 			<h:outputText value="#{usu.correo}" />
 		</p:column>
-		<p:column headerText="Estado del Pedido">
+		<p:column headerText="Tipo de Perfil">
 			<f:facet name="output">
 				<h:outputLabel value="Tipo de Perfil" />
 			</f:facet>
-			<h:outputText value="#{usuario.tipoPerfil.toString()}" />
+			<h:outputText value="#{usu.tipoPerfil.toString()}" />
 		</p:column>
 				
 		<p:column style="width:100px;text-align: center">

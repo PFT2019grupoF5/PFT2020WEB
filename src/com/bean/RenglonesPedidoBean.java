@@ -38,8 +38,7 @@ public class RenglonesPedidoBean {
 	private Long idProducto;
 	private Long idPedido;
 
-	private List<Producto> listaProducto;
-	private List<Pedido> listaPedido;
+
 	private List<RenglonPedido> listaRenglonPedido;
 	private boolean confirmarBorrado = false;
 	private boolean confirmarModificar = false;
@@ -51,7 +50,7 @@ public class RenglonesPedidoBean {
 	private ProductoBeanRemote productoEJBBean;
 
 	@EJB
-	private PedidoBeanRemote pedidoEJBBean;
+	private PedidoBeanRemote pedidosEJBBean;
 
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear el Renglón:",
@@ -67,7 +66,7 @@ public class RenglonesPedidoBean {
 					r.setRennro(rennro);
 					r.setRencant(rencant);
 					r.setProducto(productoEJBBean.getProducto(idProducto));
-					r.setPedido(pedidoEJBBean.getPedido(idPedido));
+					r.setPedido(pedidosEJBBean.getPedido(idPedido));
 					renglonesPedidoEJBBean.add(r);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
@@ -81,12 +80,12 @@ public class RenglonesPedidoBean {
 		}
 	}
 
-	public String update(Long id, int rennro, int rencant, Producto producto, Pedido pedido) {
+	public String update(Long id, int rennro, int rencant, long productoIdNuevo, long pedidoIdNuevo) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Renglon Modificado exitosamente!");
 		String retPage = "modificarRenglonPage";
 		try {
-			if (rennro <= 0 || rencant <= 0 || producto == null || pedido == null) {
+			if (rennro <= 0 || rencant <= 0 || producto.getId() <= 0 || pedido.getId() <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else if (!confirmarModificar) {
@@ -97,8 +96,8 @@ public class RenglonesPedidoBean {
 				RenglonPedido r = new RenglonPedido();
 				r.setRennro(rennro);
 				r.setRencant(rencant);
-				r.setProducto(productoEJBBean.getProducto(idProducto));
-				r.setPedido(pedidoEJBBean.getPedido(idPedido));
+				r.setProducto(productoEJBBean.getProducto(productoIdNuevo));
+				r.setPedido(pedidosEJBBean.getPedido(pedidoIdNuevo));
 				renglonesPedidoEJBBean.update(r);
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
@@ -183,7 +182,7 @@ public class RenglonesPedidoBean {
 				Long pedId = rp.getPedido().getId();
 				
 				rp.setProducto(productoEJBBean.getId(proId));
-				rp.setPedido(pedidoEJBBean.getId(pedId));
+				rp.setPedido(pedidosEJBBean.getId(pedId));
 				
 				renglonesPedidoEJBBean.update(rp);
 			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
@@ -274,21 +273,6 @@ public class RenglonesPedidoBean {
 		this.idPedido = idPedido;
 	}
 
-	public List<Producto> getListaProducto() {
-		return listaProducto;
-	}
-
-	public void setListaProducto(List<Producto> listaProducto) {
-		this.listaProducto = listaProducto;
-	}
-
-	public List<Pedido> getListaPedido() {
-		return listaPedido;
-	}
-
-	public void setListaPedido(List<Pedido> listaPedido) {
-		this.listaPedido = listaPedido;
-	}
 
 	public List<RenglonPedido> getListaRenglonPedido() {
 		return listaRenglonPedido;
