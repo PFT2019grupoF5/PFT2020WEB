@@ -9,44 +9,43 @@
 <f:view contentType="text/html">
 
 	<h:head>
-		<f:facet name="first">
-			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
-			<title>Reporte de Pedidos entre Fechas</title>
-		</f:facet>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:body>
+<h:body>
 		<div style="clear: both">
 			<ui:include src="header.xhtml" />
 			<p:spacer width="10px"></p:spacer>
 
 		</div>
 		<div style="clear: both">
-
-
+		
+			<p:panel>
+			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
+       		</p:panel>
 			<h:form id="ReporteFamiliasForm">
 				<h:panelGrid id="grid" columns="1" cellpadding="1">
 					<p:messages id="messages" showDetail="true" autoUpdate="true"
 						closable="true" />
 
 					<p:column colspan="1">  
-						Fecha Desde:
-						<h:inputText id="fechaIni" value="#{pedido.fechaIni}"
-							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
-							styleClass="form-control"   required="true" requiredMessage="Debe ingresar una Fecha Desde">
+						<h:outputText value="Fecha Inicio:" /> 
+						<p:calendar id="fini" value="#{pedido.fechaIni}"
+       					pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
+       					locale="es_ES" required="true" >
 							<f:convertDateTime pattern="yyyy-MM-dd" />
-						</h:inputText>
-						<h:message for="fechaIni" styleClass="text-danger" />
+						</p:calendar>
+						<h:message for="fini" styleClass="text-danger" />
 					</p:column>
 
 					<p:column colspan="1">  
-						Fecha Hasta:
-						<h:inputText id="fechaFin" value="#{pedido.fechaFin}"
-							converterMessage="Por favor ingrese un valor con formato 'yyyy-MM-dd'"
-							styleClass="form-control"   required="true" requiredMessage="Debe ingresar una Fecha Hasta">
-							<f:convertDateTime pattern="yyyy-MM-dd" />
-						</h:inputText>
-						<h:message for="fechaFin" styleClass="text-danger" />
+						<h:outputText value="Fecha Final:" />
+			       		<p:calendar id="ffin" value="#{pedido.fechaFin}" 
+			       		pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
+			       		locale="es_ES" required="true">
+			       		<f:convertDateTime pattern="yyyy-MM-dd" />
+			       	</p:calendar>
+						<h:message for="ffin" styleClass="text-danger" />
 					</p:column>
 				</h:panelGrid>
 
