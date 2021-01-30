@@ -49,6 +49,18 @@ public class RenglonPedidosRest {
 		}
     }
 		
+	@GET
+    @Path("/getRenglonesDelPedido/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RenglonPedido>  getRenglonesDelPedido(@PathParam("id") Long id) throws ServiciosException {
+		try{
+			List<RenglonPedido> listaRenglonPedidos = renglonPedidosBeans.getRenglonesDelPedido(id); 
+			return listaRenglonPedidos;
+		}catch(ServiciosException e){
+			throw new ServiciosException("No se pudo obtener los renglones del Pedido con id " + id.toString());
+		}
+    }
+		
     @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
