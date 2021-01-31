@@ -15,6 +15,7 @@ import javax.ws.rs.PUT;
 
 import com.services.PedidoBeanRemote;
 import com.entities.Pedido;
+import com.entities.RenglonReporte;
 import com.exception.ServiciosException;
 
 
@@ -98,6 +99,18 @@ public class PedidosRest {
 		try{
 			List<Pedido> listaPedidos = pedidosBeans.getPedidosEntreFechas(fechaDesde, fechaHasta); 
 			return listaPedidos;
+		}catch(ServiciosException e){
+			throw new ServiciosException("No se pudo obtener el reporte de pedidos");
+		}
+    }
+    
+	@GET
+    @Path("/getReporteEntreFechas/{fechaDesde}/{fechaHasta}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RenglonReporte> getReporteEntreFechas(@PathParam("fechaDesde") String fechaDesde, @PathParam("fechaHasta") String fechaHasta) throws ServiciosException {
+		try{
+			List<RenglonReporte> listaREnglonesReporte = pedidosBeans.getReporteEntreFechas(fechaDesde, fechaHasta); 
+			return listaREnglonesReporte;
 		}catch(ServiciosException e){
 			throw new ServiciosException("No se pudo obtener el reporte de pedidos");
 		}
