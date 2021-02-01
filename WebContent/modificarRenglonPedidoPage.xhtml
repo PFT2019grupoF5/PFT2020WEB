@@ -51,10 +51,10 @@
 			
 		</p:column>
 		
-			<p:column headerText="Pedido" filterBy="#{red.pedido.id}" filterMatchMode="contains">
-			<p:selectOneMenu  id="pedido" value="#{red.pedido.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Pedido">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems value="#{renglonPedido.listaPedido}" 
+			<p:column headerText="Pedido" filterBy="#{ren.pedido.id}" filterMatchMode="contains">
+			<p:selectOneMenu  id="pedido" value="#{ren.pedido.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Pedido">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   />
+ 				<f:selectItems value="#{pedido.listaPedido}" 
  					var="p" 
  					itemLabel="#{p.id}" 
  					itemValue="#{p.id}" />
@@ -62,11 +62,11 @@
  			<p:message for="pedido" style="color:white" />	
         </p:column> 
         
-        	<p:column headerText="Producto" filterBy="#{red.producto.nombre}" filterMatchMode="contains">
+        	<p:column headerText="Producto" filterBy="#{ren.producto.id}" filterMatchMode="contains">
 			<p:selectOneMenu  id="producto" value="#{ren.producto.id}">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto"/>
  				<f:selectItems var="p" 
- 					value="#{renglonPedido.listaProducto}" 
+ 					value="#{producto.productosList}" 
  					itemLabel="#{p.nombre}" 
  					itemValue="#{p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 			</p:selectOneMenu>

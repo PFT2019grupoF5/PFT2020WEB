@@ -2,6 +2,7 @@ package com.bean;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,7 @@ import com.entities.Pedido;
 import com.entities.Producto;
 import com.entities.RenglonPedido;
 import com.enumerated.tipoPerfil;
+import com.exception.ServiciosException;
 import com.services.PedidoBeanRemote;
 import com.services.ProductoBeanRemote;
 import com.services.RenglonPedidoBeanRemote;
@@ -57,7 +59,7 @@ public class RenglonesPedidoBean {
 				"El Renglón se creo correctamente");
 		String retPage = "altaRenglonesPedidoPage";
 		try {
-			if (rennro <= 0 || rencant <= 0 || producto == null || pedido == null) {
+			if (rennro <= 0 || rencant <= 0 || idProducto == null || idPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Es necesario ingresar todos los datos requeridos");
 			} else {
@@ -119,10 +121,10 @@ public class RenglonesPedidoBean {
 			if (renglonPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione un Renglón a borrar!");
-			} else if (!confirmarBorrado) {
+			} /*else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
-			} else {
+			} */else {
 				renglonesPedidoEJBBean.delete(renglonPedido.getId());
 				listaRenglonPedido.remove(renglonPedido);
 				
@@ -164,6 +166,11 @@ public class RenglonesPedidoBean {
 		}catch (Exception e) {
 			return 0;
 		}
+	}
+	
+	public List<RenglonPedido> obtenerTodosRenglonesPedidos() throws ServiciosException {
+		return listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
+
 	}
 	
 	
@@ -211,6 +218,16 @@ public class RenglonesPedidoBean {
 	public String logout() {
 		perfilLogeado = null;
 		return "Login?faces-redirect=true";
+	}
+	
+	@PostConstruct
+	public void cargoLista() {
+		try {
+			if (listaRenglonPedido == null) {
+				listaRenglonPedido = obtenerTodosRenglonesPedidos();
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	/***********************************************************************************************************************************/
