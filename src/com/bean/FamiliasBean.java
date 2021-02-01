@@ -23,7 +23,6 @@ import com.services.ProductoBeanRemote;
 
 public class FamiliasBean {
 
-	
 	private Long id;
 	private String nombre;
 	private String descrip;
@@ -39,7 +38,7 @@ public class FamiliasBean {
 
 	@EJB
 	private FamiliaBeanRemote familiasEJBBean;
-	
+
 	@EJB
 	private ProductoBeanRemote productosEJBBean;
 
@@ -62,12 +61,12 @@ public class FamiliasBean {
 					Familia f = new Familia();
 					f.setNombre(nombre);
 					f.setDescrip(descrip);
-					f.setIncompat(incompat);	
+					f.setIncompat(incompat);
 					familiasEJBBean.add(f);
-					
+
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Familia:",
 							"La Familia se creo correctamente");
-					
+
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
 							"La Familia ya existe");
@@ -86,7 +85,8 @@ public class FamiliasBean {
 		String retPage = "modificarFamiliaPage";
 		try {
 
-			if (nombre.isEmpty() || nombre.length() > 50 || descrip.isEmpty() || descrip.length() > 100 || incompat.isEmpty() || incompat.length() > 60) {
+			if (nombre.isEmpty() || nombre.length() > 50 || descrip.isEmpty() || descrip.length() > 100
+					|| incompat.isEmpty() || incompat.length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
 						"Debe llenar todos los datos!");
 			} else {
@@ -94,12 +94,11 @@ public class FamiliasBean {
 					Familia f = new Familia();
 					f.setNombre(nombre);
 					f.setDescrip(descrip);
-					f.setIncompat(incompat);	
+					f.setIncompat(incompat);
 					familiasEJBBean.update(f);
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-							"Familia no existe");
-				}	
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ", "Familia no existe");
+				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
@@ -108,33 +107,33 @@ public class FamiliasBean {
 		}
 	}
 
-	public String delete(Familia familia) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Familia borrada exitosamente!");
+	public String delete(Familia familia) throws ServiciosException {
+		FacesMessage message;
 		String retPage = "bajaFamiliaPage";
 		try {
 			if (familia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione una familia a borrar!");
-			}else {
-				if (productosEJBBean.getProductosxFamilia(familia.getId()) < 0){
-			
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"No se puede eliminar la Familia porque tiene Productos asociados. Elimine primero los Productos que tienen la Familia " + familia.getNombre());
-				} else {
-					familiasEJBBean.delete(familia.getId());
-					familiasList.remove(familia);
-				
+			} else {
+				familiasEJBBean.delete(familia.getId());
+				familiasList.remove(familia);
+
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 						"Familia borrada exitosamente!");
-				retPage ="bajaFamiliaPage";
+				retPage = "bajaFamiliaPage";
 			}
-			}
+			// }
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
+					"No se puede eliminar la Familia porque tiene Productos asociados. Elimine primero los Productos que tienen la Familia "
+							+ familia.getNombre());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			// throw new ServiciosException("Error en delete ProductoBean : " +
+			// e.getMessage());
 		}
+		return retPage;
 	}
 
 	public Familia get() {
@@ -145,8 +144,6 @@ public class FamiliasBean {
 		}
 	}
 
-	
-	
 	public Familia getNombre(String nombre) {
 		try {
 			return familiasEJBBean.getNombre(nombre);
@@ -162,25 +159,25 @@ public class FamiliasBean {
 			return null;
 		}
 	}
-	
-	public List<Familia> obtenerTodasFamilias() throws ServiciosException{
+
+	public List<Familia> obtenerTodasFamilias() throws ServiciosException {
 		return familiasList = familiasEJBBean.getAllFamilias();
 	}
-	
-	
+
 	public void onRowEdit(RowEditEvent event) {
-	    Familia f = (Familia) event.getObject();
-	   
-	    FacesMessage message;
-	    
-	   try {
-			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty() || f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
+		Familia f = (Familia) event.getObject();
+
+		FacesMessage message;
+
+		try {
+			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
+					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
 						"Debe ingresar todos los datos correctamente");
 			} else {
-					
+
 				familiasEJBBean.update(f);
-			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 						"Familia modificada exitosamente!");
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
@@ -188,7 +185,6 @@ public class FamiliasBean {
 
 		}
 	}
-
 
 	/***********************************************************************************************************************************/
 
@@ -214,8 +210,8 @@ public class FamiliasBean {
 	@PostConstruct
 	public void cargoLista() {
 		try {
-			if(familiasList == null) {
-			familiasList = obtenerTodasFamilias();
+			if (familiasList == null) {
+				familiasList = obtenerTodasFamilias();
 			}
 		} catch (Exception e) {
 		}
@@ -261,5 +257,4 @@ public class FamiliasBean {
 		this.familiasList = familiasList;
 	}
 
-	
 }
