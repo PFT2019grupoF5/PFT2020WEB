@@ -23,16 +23,16 @@
 			<p:panel>
 			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
        		</p:panel>
-			<h:form id="ReporteFamiliasForm">
+			<h:form id="ReporteForm">
 				<h:panelGrid id="grid" columns="1" cellpadding="1">
-					<p:messages id="messages" showDetail="true" autoUpdate="true"
+					<p:messages id="messages"  autoUpdate="true"
 						closable="true" />
 
 					<p:column colspan="1">  
 						<h:outputText value="Fecha Inicio:" /> 
-						<p:calendar id="fini" value="#{pedido.fechaIni}"
+						<p:calendar id="fini" value="#{renglonReporte.fechaIni}"
        					pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
-       					locale="es_ES" required="true" >
+       					locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Inicial">
 							<f:convertDateTime pattern="yyyy-MM-dd" />
 						</p:calendar>
 						<h:message for="fini" styleClass="text-danger" />
@@ -40,9 +40,9 @@
 
 					<p:column colspan="1">  
 						<h:outputText value="Fecha Final:" />
-			       		<p:calendar id="ffin" value="#{pedido.fechaFin}" 
+			       		<p:calendar id="ffin" value="#{renglonReporte.fechaFin}" 
 			       		pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
-			       		locale="es_ES" required="true">
+			       		locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Final">
 			       		<f:convertDateTime pattern="yyyy-MM-dd" />
 			       	</p:calendar>
 						<h:message for="ffin" styleClass="text-danger" />
@@ -50,7 +50,7 @@
 				</h:panelGrid>
 
 				<p:commandButton id="submit" value="Obtener Reporte"
-					action="#{pedido.getPedidosFechas}">
+					action="#{renglonReporte.reporteFechas()}" >
 				</p:commandButton>
 
 			</h:form>

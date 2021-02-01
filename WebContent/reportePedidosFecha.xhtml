@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+ 
+ 
+ <f:view contentType="text/html">
+ 
+	<h:head>
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+	</h:head>
+
+		<p:panel>
+			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
+		</p:panel>
+
+
+	<h:body>
+			<div style="clear: both">
+			<ui:include src="header.xhtml" />
+			<p:spacer width="10px"></p:spacer>
+
+		</div>
+		<h:form id="frm">
+
+		<p:growl id="msg" showDetail="true" life="4000" />
+			<p:panel id="panelReporte">
+
+				<p:dataTable id="table" var="ped"
+					value="#{renglonReporte.arrayReporte}" border="2" cellspacing="1" cellpadding="1"
+					emptyMessage=" No hay nada para mostrar" style="margin-bottom:20px">
+					
+					<p:column headerText="Fecha">
+						<h:outputText value="#{ped.fecha}"><f:convertDateTime type="date" pattern="dd/MM/yy" /></h:outputText>
+							
+					</p:column>
+					
+					<p:column headerText="Fecha Estimada">
+						<h:outputText value="#{ped.pedfecestim}"><f:convertDateTime type="date" pattern="dd/MM/yy" /></h:outputText>
+
+					</p:column>
+					
+					<p:column headerText="Estado">
+						<h:outputText value="#{ped.pedestado}"></h:outputText>
+
+					</p:column>
+					
+					<p:column headerText="Codigo">
+						<h:outputText value="#{ped.pedreccodigo}"></h:outputText>
+
+					</p:column>
+					
+					<p:column headerText="Producto">
+						<h:outputText value="#{ped.producto.nombre}"></h:outputText>
+
+					</p:column>
+					
+					<p:column headerText="Cantidad">
+						<h:outputText value="#{ped.rencant}"></h:outputText>
+
+					</p:column>
+					
+					
+				</p:dataTable>
+				</p:panel>
+		</h:form>
+	</h:body>		
+</f:view>
+</html>

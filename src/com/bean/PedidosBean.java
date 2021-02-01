@@ -17,6 +17,7 @@ import org.primefaces.event.RowEditEvent;
 import com.entities.Familia;
 import com.entities.Pedido;
 import com.entities.Producto;
+import com.entities.RenglonReporte;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
@@ -213,6 +214,30 @@ public class PedidosBean {
 
 		return "resultadoReportePedidosFecha";
 	}
+	
+//	public String getReporteFechas() {
+//		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
+//		FacesContext.getCurrentInstance().addMessage(null, message);
+//
+//		if (fechaIni.compareTo(fechaFin) < 0) {
+//
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			String SfechaIni = sdf.format(fechaIni);
+//			String SfechaFin = sdf.format(fechaFin);
+//
+//			System.out.println("sfechaIni : " + SfechaIni);
+//			System.out.println("sfechaIni : " + SfechaFin);
+//
+//			try {
+//				listaPedidoReporteFechas = pedidosEJBBean.getReporteEntreFechas(SfechaIni, SfechaFin);
+//			} catch (ServiciosException e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
+//
+//		return "reportePedidosFecha";
+//	}
 
 	public List<Pedido> getAll() {
 
@@ -405,5 +430,15 @@ public class PedidosBean {
 	public void setListaPedidoReporteFechas(List<Pedido> listaPedidoReporteFechas) {
 		this.listaPedidoReporteFechas = listaPedidoReporteFechas;
 	}
+
+//	public List<RenglonReporte> getListaPedidoReporteFechas() {
+//		return listaPedidoReporteFechas;
+//	}
+//
+//	public void setListaPedidoReporteFechas(List<RenglonReporte> listaPedidoReporteFechas) {
+//		this.listaPedidoReporteFechas = listaPedidoReporteFechas;
+//	}
+	
+	
 
 }

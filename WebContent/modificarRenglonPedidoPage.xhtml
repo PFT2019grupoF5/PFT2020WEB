@@ -73,7 +73,7 @@
 			<p:message for="producto" style="color:white" />
         </p:column>
 		
-		<p:column headerText="Numero de Renglon">
+		<p:column headerText="Numero de Renglon"  filterBy="#{ren.rennro}" filterMatchMode="contains">
 			<p:cellEditor>
 				<f:facet name="output">
 					<h:outputText value="#{ren.rennro}" />
