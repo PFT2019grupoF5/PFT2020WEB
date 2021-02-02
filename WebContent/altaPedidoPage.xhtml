@@ -72,9 +72,9 @@
 					<p:row>
 						<p:column colspan="1">  
 							<h:outputText value="Codigo del Pedido:" />
-							<p:inputText id="pedreccodigo"
-								value="#{pedido.pedreccodigo}" required="true" requiredMessage=" Debe ingresar un Codigo de Pedido" validatorMessage=" El codigo debe ser mayor a 0" >
-								</p:inputText>
+							<p:inputNumber id="pedreccodigo"
+								value="#{pedido.pedreccodigo}" required="true" minValue="0" decimalPlaces="0" converterMessage=" Debe ingresar un Codigo de Pedido" validatorMessage=" El codigo debe ser mayor a 0" >
+								<f:validateDoubleRange minimum = "1"/></p:inputNumber>
 								<h:message for="pedreccodigo" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>

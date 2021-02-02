@@ -39,11 +39,9 @@ public class RenglonReporteBean {
 	private RenglonPedidoBeanRemote renglonesPedidoEJBBean;
 	
 	public String reporteFechas(){
-		
 
-	
 			if (this.fechaIni.compareTo(this.fechaFin) > 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Error!", "La Fecha Inicial no puede ser anterior a la Fecha Final"));
 			}else {
 
@@ -72,20 +70,23 @@ public class RenglonReporteBean {
 								rr.setRencant(renglonPedido.getRencant());
 								arrayReporte.add(rr);
 							
-								return "reportePedidosFecha";
-						}
+								
+							}
+							
+						
 						}catch (ServiciosException e) {
 							e.printStackTrace();
 						}
 					}
-					
+					return "reportePedidosFecha";
 				} catch (ServiciosException e) {
 					e.printStackTrace();
-				}
+			
 			}
-			return "reportePedidosFechasPage";
-		
 		}
+		return "reportePedidosFechasPage";
+		
+	}
 
 	public Date getFechaIni() {
 		return fechaIni;

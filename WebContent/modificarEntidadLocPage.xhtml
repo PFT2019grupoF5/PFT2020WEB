@@ -72,7 +72,7 @@
 					<h:outputText value="#{loc.codigo}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="codigo" value="#{loc.codigo}" required="true" style="width:100%" label="codigo" minValue="0" requiredMessage=" Debe ingresar un codigo" validatorMessage=" El codigo debe ser mayor a 0" decimalPlaces="0">
+					<p:inputNumber id="codigo" value="#{loc.codigo}" required="true" style="width:100%" label="codigo" minValue="0" converterMessage=" Debe ingresar un codigo" validatorMessage=" El codigo debe ser mayor a 0" decimalPlaces="0">
 					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
 					<h:message for="codigo" style="color:white" />
 				</f:facet>

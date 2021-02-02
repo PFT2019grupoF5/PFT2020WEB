@@ -57,7 +57,7 @@ public class RenglonesPedidoBean {
 	public String add() {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear el Renglón:",
 				"El Renglón se creo correctamente");
-		String retPage = "altaRenglonesPedidoPage";
+		String retPage = "altaRenglonPedidoPage";
 		try {
 			if (rennro <= 0 || rencant <= 0 || idProducto == null || idPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
@@ -85,7 +85,7 @@ public class RenglonesPedidoBean {
 	public String update(Long id, int rennro, int rencant, long productoIdNuevo, long pedidoIdNuevo) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
 				"Renglon Modificado exitosamente!");
-		String retPage = "modificarRenglonPage";
+		String retPage = "modificarRenglonPedidoPage";
 		try {
 			if (rennro <= 0 || rencant <= 0 || producto.getId() <= 0 || pedido.getId() <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
@@ -116,7 +116,7 @@ public class RenglonesPedidoBean {
 	public String delete(RenglonPedido renglonPedido) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
 				"Renglon borrado exitosamente!");
-		String retPage = "bajaRenglonPage";
+		String retPage = "bajaRenglonPedidoPage";
 		try {
 			if (renglonPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",

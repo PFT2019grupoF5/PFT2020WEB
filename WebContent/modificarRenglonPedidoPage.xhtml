@@ -59,18 +59,18 @@
  					itemLabel="#{p.id}" 
  					itemValue="#{p.id}" />
  			</p:selectOneMenu>
- 			<p:message for="pedido" style="color:white" />	
+ 			<h:message for="pedido" style="color:white" />	
         </p:column> 
         
-        	<p:column headerText="Producto" filterBy="#{ren.producto.id}" filterMatchMode="contains">
-			<p:selectOneMenu  id="producto" value="#{ren.producto.id}">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto"/>
+        	<p:column headerText="Producto" filterBy="#{ren.producto.nombre}" filterMatchMode="contains">
+			<p:selectOneMenu  id="producto" value="#{ren.producto.id}"  filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Producto">
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true" />
  				<f:selectItems var="p" 
  					value="#{producto.productosList}" 
  					itemLabel="#{p.nombre}" 
  					itemValue="#{p.id}" required="true" requiredMessage="Debe seleccionar una opción"/>
 			</p:selectOneMenu>
-			<p:message for="producto" style="color:white" />
+			<h:message for="producto" style="color:white" />
         </p:column>
 		
 		<p:column headerText="Numero de Renglon"  filterBy="#{ren.rennro}" filterMatchMode="contains">
@@ -79,7 +79,7 @@
 					<h:outputText value="#{ren.rennro}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="rennro" value="#{ren.rennro}" style="width:100%" label="numero de renglon"  required="true" requiredMessage=" Debe ingresar un Numero de Renglon" minValue="0" decimalPlaces="0" validatorMessage=" El numero de renglon debe ser mayor a 0">
+					<p:inputNumber id="rennro" value="#{ren.rennro}" style="width:100%" label="numero de renglon"  required="true" converterMessage=" Debe ingresar un Numero de Renglon" minValue="0" decimalPlaces="0" validatorMessage=" El numero de renglon debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
 					<h:message for="rennro" style="color:white" />
 				</f:facet>
@@ -92,7 +92,7 @@
 					<h:outputText value="#{ren.rencant}" />
 				</f:facet>
 				<f:facet name="input">
-					<p:inputNumber id="rencant" value="#{ren.rencant}" style="width:100%" label="cantidad de un producto"  required="true" requiredMessage=" Debe ingresar una Cantidad" minValue="0" decimalPlaces="0" validatorMessage=" La cantidad debe ser mayor a 0">
+					<p:inputNumber id="rencant" value="#{ren.rencant}" style="width:100%" label="cantidad de un producto"  required="true" converterMessage=" Debe ingresar una Cantidad" minValue="0" decimalPlaces="0" validatorMessage=" La cantidad debe ser mayor a 0">
 					<f:validateDoubleRange minimum = "1"/></p:inputNumber>
 					<h:message for="rencant" style="color:white" />
 				</f:facet>

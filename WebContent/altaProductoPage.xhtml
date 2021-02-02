@@ -135,7 +135,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Volumen:" />
 							<p:inputNumber id="volumen"
-								value="#{producto.volumen}" required="true" requiredMessage="Debe ingresar un Volumen" minValue="0" validatorMessage=" El volumen debe ser mayor a 0">
+								value="#{producto.volumen}" required="true" requiredMessage=" Debe ingresar un Volumen" minValue="0" validatorMessage=" El volumen debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="volumen" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -150,7 +150,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Estiba:" />
 							<p:inputNumber id="estiba"
-								value="#{producto.estiba}" required="true" requiredMessage="Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" La estiba debe ser mayor a 0"> 
+								value="#{producto.estiba}" required="true" converterMessage=" Debe ingresar una Estiba" minValue="0" decimalPlaces="0" validatorMessage=" La estiba debe ser mayor a 0"> 
 								<f:validateDoubleRange minimum = "1"/></p:inputNumber>
 								<h:message for="estiba" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -165,7 +165,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Minimo:" />
 							<p:inputNumber id="stkMin"
-								value="#{producto.stkMin}" required="true" requiredMessage="Debe ingresar un Stock Mínimo" minValue="0" validatorMessage=" El stock minimo debe ser mayor a 0">
+								value="#{producto.stkMin}" required="true" requiredMessage=" Debe ingresar un Stock Mínimo" minValue="0" validatorMessage=" El stock minimo debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/> </p:inputNumber>
 								<h:message for="stkMin" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
@@ -180,7 +180,7 @@
 						<p:column colspan="1">  
 							<h:outputText value="Stock Total:" />
 							<p:inputNumber id="stkTotal"
-								value="#{producto.stkTotal}" required="true" requiredMessage="Debe ingresar un Stock Total" minValue="0" validatorMessage=" El stock maximo debe ser mayor a 0">
+								value="#{producto.stkTotal}" required="true" requiredMessage=" Debe ingresar un Stock Total" minValue="0" validatorMessage=" El stock maximo debe ser mayor a 0">
 								<f:validateDoubleRange minimum = "0.01"/></p:inputNumber>
 								<h:message for="stkTotal" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
