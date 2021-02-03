@@ -128,26 +128,26 @@
 				<p:submenu label="Renglon de Pedido">
 					<p:menuitem value=" Alta de Renglon de Pedido"
 						action="altaRenglonPedidoPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" />
 					<p:menuitem value=" Modificacion de Renglon de Pedido"
 						action="modificarRenglonPedidoPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" />
 					<p:menuitem value=" Baja de Renglon de Pedido"
 						action="bajaRenglonPedidoPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" />
+					
 				</p:submenu>
 				<p:submenu label="Usuario">
 					<p:menuitem value=" Alta de Usuario"
 						action="altaUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
 					<p:menuitem value=" Modificacion de Usuario"
 						action="modificarUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
 					<p:menuitem value=" Baja de Usuario"
 						action="bajaUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" endered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
+					<p:menuitem value="" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
 				</p:submenu>
 				<p:submenu label=" Reportes de Pedidos">
 					<p:menuitem value="Pedidos entre fechas"
