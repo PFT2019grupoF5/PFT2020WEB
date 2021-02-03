@@ -17,6 +17,7 @@ import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.FamiliaBeanRemote;
 import com.services.ProductoBeanRemote;
+import com.sun.media.jfxmedia.logging.Logger;
 
 @ManagedBean(name = "familia")
 @ViewScoped
@@ -43,19 +44,19 @@ public class FamiliasBean {
 	private ProductoBeanRemote productosEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Familia:",
-				"La Familia se creo correctamente");
+		FacesMessage message;
 		String retPage = "altaFamiliaPage";
+		
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 			} else if (descrip.isEmpty() || descrip.length() > 100) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Descripcion no puede ser vacío o mayor a 100 caracteres");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Descripcion no puede ser vacío o mayor a 100 caracteres", null);
+				System.out.println("Campo Descripcion no puede ser vacío o mayor a 100 caracteres");
 			} else if (incompat.isEmpty() || incompat.length() > 60) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Incompatible no puede ser vacío o mayor a 60 caracteres", null);
+				System.out.println("Campo Incompatible no puede ser vacío o mayor a 60 caracteres");
 			} else {
 				if (getNombre(nombre) == null) {
 					Familia f = new Familia();
@@ -63,48 +64,60 @@ public class FamiliasBean {
 					f.setDescrip(descrip);
 					f.setIncompat(incompat);
 					familiasEJBBean.add(f);
+					
+					
+					System.out.println("Se crea una familia con los datos:" + "\n" + nombre + "\n" + descrip + "\n" + incompat);
 
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear Familia:",
-							"La Familia se creo correctamente");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se creo correctamente la familia: " +nombre, null);
 
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"La Familia ya existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ya existe una Familia con ese nombre: " + nombre, null);
+					System.out.println("Se intento crear una familia ya existente con el nombre:" + nombre);
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar familias", null);
+			System.out.println("No se ejecuto correctamente familiasEJBBean.add");
+			
 		}
+		return retPage;
 	}
 
 	public String update(Long id, String nombre, String descrip, String incompat) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-				"Familia Modificada exitosamente!");
+		FacesMessage message;
 		String retPage = "modificarFamiliaPage";
 		try {
 
 			if (nombre.isEmpty() || nombre.length() > 50 || descrip.isEmpty() || descrip.length() > 100
 					|| incompat.isEmpty() || incompat.length() > 60) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Debe llenar todos los datos!");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe llenar todos los datos!", null);
+				System.out.println("Debe llenar todos los datos!");
 			} else {
 				if (getNombre(nombre) != null) {
 					Familia f = new Familia();
+
 					f.setNombre(nombre);
 					f.setDescrip(descrip);
 					f.setIncompat(incompat);
 					familiasEJBBean.update(f);
+					
+					System.out.println("Se modifico correctamente la familia");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ", "Familia no existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar. Familia no existe", null);
+					System.out.println("Se intento modificar una familia que no existe:");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar la familia: ", null);
+			System.out.println("No se pudo modificar la familia: ");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		return retPage;
 	}
 
 	public String delete(Familia familia) throws ServiciosException {
@@ -112,26 +125,23 @@ public class FamiliasBean {
 		String retPage = "bajaFamiliaPage";
 		try {
 			if (familia == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione una familia a borrar!");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione una familia a borrar!", null);
+				System.out.println("Familia borrada exitosamente!");
 			} else {
 				familiasEJBBean.delete(familia.getId());
 				familiasList.remove(familia);
 
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-						"Familia borrada exitosamente!");
-				retPage = "bajaFamiliaPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Familia borrada exitosamente!", null);
+				System.out.println("Familia borrada exitosamente!");
+				return retPage;
 			}
-			// }
+
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-					"No se puede eliminar la Familia porque tiene Productos asociados. Elimine primero los Productos que tienen la Familia "
-							+ familia.getNombre());
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Asegurese que la familia no tenga Productos asociados" , null);
+			System.out.println("No se puede eliminar la Familia. Asegurese que no tenga Productos asociados");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			// throw new ServiciosException("Error en delete ProductoBean : " +
-			// e.getMessage());
 		}
 		return retPage;
 	}
@@ -172,16 +182,18 @@ public class FamiliasBean {
 		try {
 			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
 					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Debe ingresar todos los datos correctamente");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente", null);
+				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
 
 				familiasEJBBean.update(f);
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-						"Familia modificada exitosamente!");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Familia modificada exitosamente!", null);
+				System.out.println("Familia modificada exitosamente!");
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar la familia.", null);
+			System.out.println("No se pudo modificar la familia.");
 
 		}
 	}
@@ -214,7 +226,10 @@ public class FamiliasBean {
 				familiasList = obtenerTodasFamilias();
 			}
 		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo obtener todas las familias", null);
+			System.out.println("No se pudo obtener todas las familias");
 		}
+		
 	}
 
 	public Long getId() {

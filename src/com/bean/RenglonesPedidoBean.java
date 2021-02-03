@@ -55,13 +55,12 @@ public class RenglonesPedidoBean {
 	private PedidoBeanRemote pedidosEJBBean;
 
 	public String add() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito al crear el Renglón:",
-				"El Renglón se creo correctamente");
+		FacesMessage message ;
 		String retPage = "altaRenglonPedidoPage";
 		try {
 			if (rennro <= 0 || rencant <= 0 || idProducto == null || idPedido == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
 			} else {
 				if (get() == null) {
 					RenglonPedido r = new RenglonPedido();
@@ -70,29 +69,35 @@ public class RenglonesPedidoBean {
 					r.setProducto(productoEJBBean.getProducto(idProducto));
 					r.setPedido(pedidosEJBBean.getPedido(idPedido));
 					renglonesPedidoEJBBean.add(r);
+					
+					
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Renglón se creo correctamente", null);
+					System.out.println("El Renglón se creo correctamente" + "\n" + rennro + "\n" + rencant + "\n" + idProducto + "\n" + idPedido);
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El Renglon ya existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Renglon ya existe", null);
+					System.out.println("El Renglon ya existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar renglon de pedidos", null);
+			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.add");
+			
 		}
+		return retPage;
 	}
 
 	public String update(Long id, int rennro, int rencant, long productoIdNuevo, long pedidoIdNuevo) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-				"Renglon Modificado exitosamente!");
+		FacesMessage message;
 		String retPage = "modificarRenglonPedidoPage";
 		try {
 			if (rennro <= 0 || rencant <= 0 || producto.getId() <= 0 || pedido.getId() <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
 			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-						"Seleccione la casilla de confirmación!");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione la casilla de confirmación!", null);
+				System.out.println("Seleccione la casilla de confirmación!");
 			} else {
 				if (getId(id) != null) {
 				RenglonPedido r = new RenglonPedido();
@@ -101,26 +106,34 @@ public class RenglonesPedidoBean {
 				r.setProducto(productoEJBBean.getProducto(productoIdNuevo));
 				r.setPedido(pedidosEJBBean.getPedido(pedidoIdNuevo));
 				renglonesPedidoEJBBean.update(r);
+				
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null);
+				System.out.println("Renglon Modificado exitosamente!");
+				
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Modificar: ",
-							"RengloPedido no existe");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "RengloPedido no existe", null);
+					System.out.println("RengloPedido no existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. El renglon de pedidos no se pudo modificar" , null);
+			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.update");
+			
+			
 		}
+		return retPage;
 	}
 
 	public String delete(RenglonPedido renglonPedido) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-				"Renglon borrado exitosamente!");
+		FacesMessage message;
 		String retPage = "bajaRenglonPedidoPage";
 		try {
 			if (renglonPedido == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
-						"Seleccione un Renglón a borrar!");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione un Renglón a borrar!" , null);
+				System.out.println("Seleccione un Renglón a borrar!");
+				
 			} /*else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Borrar: ",
 						"Seleccione la casilla de confirmación!");
@@ -128,12 +141,17 @@ public class RenglonesPedidoBean {
 				renglonesPedidoEJBBean.delete(renglonPedido.getId());
 				listaRenglonPedido.remove(renglonPedido);
 				
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon borrado exitosamente!", null);
+				System.out.println("Renglon borrado exitosamente!");
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al borrar el renglon de pedidos" , null);
+			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.delete");
+			
 		}
+		return retPage;
 	}
 
 	public RenglonPedido get() {
@@ -181,8 +199,8 @@ public class RenglonesPedidoBean {
 	    
 	   try {
 			if (rp.getRencant() < 0 || rp.getRennro() <0 || rp.getPedido() == null || rp.getProducto() == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Debe ingresar todos los datos correctamente");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null);
+				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
 					
 				Long proId = rp.getProducto().getId();
@@ -192,11 +210,14 @@ public class RenglonesPedidoBean {
 				rp.setPedido(pedidosEJBBean.getId(pedId));
 				
 				renglonesPedidoEJBBean.update(rp);
-			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-						"Renglon de Pedido modificado exitosamente!");
+			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon de Pedido modificado exitosamente!" , null);
+			    System.out.println("Renglon de Pedido modificado exitosamente!");
+			    
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. El renglon de pedidos no se pudo modificar" , null);
+			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.update");
 
 		}
 	}
@@ -225,8 +246,11 @@ public class RenglonesPedidoBean {
 		try {
 			if (listaRenglonPedido == null) {
 				listaRenglonPedido = obtenerTodosRenglonesPedidos();
+				System.out.println("Se creo la lista de renglones de pedidos");
 			}
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se creo la lista de renglones de pedidos" , null));
+			System.out.println("No se creo la lista de renglones de pedidos");
 		}
 	}
 

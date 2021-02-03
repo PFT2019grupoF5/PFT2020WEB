@@ -42,7 +42,8 @@ public class RenglonReporteBean {
 
 			if (this.fechaIni.compareTo(this.fechaFin) > 0) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Error!", "La Fecha Inicial no puede ser anterior a la Fecha Final"));
+						"La Fecha Inicial no puede ser anterior a la Fecha Final", null));
+				System.out.println("La Fecha Inicial no puede ser anterior a la Fecha Final");
 			}else {
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,16 +72,25 @@ public class RenglonReporteBean {
 								arrayReporte.add(rr);
 							
 								
+								FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+										"Mostrando reporte entre fechas", null));
+								System.out.println("Mostrando reporte entre" + SfechaIni + "y" + SfechaFin);
 							}
 							
 						
 						}catch (ServiciosException e) {
-							e.printStackTrace();
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"No hay renglones para los pedidos entre estas fechas" + SfechaIni + "y" + SfechaFin, null));
+							System.out.println("No hay renglones para los pedidos entre estas fechas" + SfechaIni + "y" + SfechaFin);
+						
 						}
 					}
 					return "reportePedidosFecha";
 				} catch (ServiciosException e) {
-					e.printStackTrace();
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Contacte al administrador. No hay pedidos para mostrar", null));
+					System.out.println("No hay pedidos para mostrar");
+				
 			
 			}
 		}

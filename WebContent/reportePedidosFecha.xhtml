@@ -12,6 +12,11 @@
 			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
 	</h:head>
 
+<f:metadata>
+    <f:viewAction action="#{usuario.chequearPerfil()}" />
+</f:metadata>
+
+
 		<p:panel>
 			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
 		</p:panel>
@@ -25,7 +30,7 @@
 		</div>
 		<h:form id="frm">
 
-		<p:growl id="msg" showDetail="true" life="4000" />
+		
 			<p:panel id="panelReporte">
 
 				<p:dataTable id="table" var="ped"

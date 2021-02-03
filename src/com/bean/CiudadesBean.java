@@ -37,111 +37,117 @@ public class CiudadesBean {
 
 	public String add() {
 
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
-				"Ciudad ingresada exitosamente!");
+		FacesMessage message;
 		String retPage = "altaCiudadPage";
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 			} else {
 				if (get2() == null) {
 					Ciudad c = new Ciudad();
 					c.setNombre(nombre);
 					ciudadesEJBBean.add(c);
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Registrar: ",
-							"El nombre de ciudad provisto ya existe");
 					
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se creo la ciudad" + nombre, null);
+					System.out.println("Se creo la ciudad" + nombre);
+					
+				} else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El nombre de ciudad provisto ya existe", null);
+					System.out.println("El nombre de ciudad provisto ya existe");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al ejecutar agregar ciudad", null);
+			System.out.println("No se ejecuto correctamente ciudadesEJBBean.add");
 
 		}
-
+		return retPage;
 	}
 
 	public String update(Long id, String nombre) {
 		FacesMessage message;
-		String resultado = "modificarCiudadPage";
+		String retPage = "modificarCiudadPage";
 		
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50 || nombre.trim() == "") {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios", null);
+				System.out.println("Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
 			} else if (ciudadesEJBBean.getNombre(nombre) != null) { //ya hay una ciudad con ese nombre
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Ya existe una ciudad con el nombre " + nombre + ". Por favor utilice otro.");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una ciudad con ese nombre", null);
+				System.out.println("Ya existe una ciudad con ese nombre");
 			} else {	
-				if (ciudadesEJBBean.getId(id) != null) { //existe la ciudad
+				if (ciudadesEJBBean.getId(id) != null) { 
 					Ciudad c = new Ciudad();
 					c.setId(id);
 					c.setNombre(nombre);
 					ciudadesEJBBean.update(c);
 				
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-							"Ciudad modificada exitosamente!");
-					resultado="modificacionCiudadPage";
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);
+					System.out.println("Ciudad modificada exitosamente!");
 					
 				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ", "Ciudad no existe");
-					resultado = "retPage";	
+					System.out.println("Se intento modificar una ciudad que no existe:");
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			ciudadesList = obtenerTodasCiudades();
-			
-			return resultado;
+			return retPage;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar la ciudad: ", null);
+			System.out.println("No se pudo modificar la ciudad: ");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
+		return retPage;
 	}
 
 	
 	public String delete(Ciudad ciudad) {
-		FacesMessage message ;
+		FacesMessage message;
 		String retPage = "bajaCiudadPage";
 		
 		try {
 			if (ciudad == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
-						"Seleccione una Ciudad a borrar!");
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione una Ciudad a borrar!", null);
+				System.out.println("Seleccione una Ciudad a borrar!");
 			} else {
 				if (entidadLocEJBBean.getLocalesxCiu(ciudad.getId()) > 0) {
-					// No se puede eliminar la Ciudad porque hay Locales que la tienen asociada
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
-							"No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad " + ciudad.getNombre());
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad", null);
+					System.out.println("No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad");
 				} else {
 					ciudadesEJBBean.delete(ciudad.getId());
-					ciudadesList.remove(ciudad); //elimino la CIudad de la lista para que se refleje en la página
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-							"Ciudad borrada exitosamente!");
-					
-					retPage = "bajaCiudadPage";
+					ciudadesList.remove(ciudad); 
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad borrada exitosamente!",  null);
+					System.out.println("Ciudad borrada exitosamente!");
+
 				}	
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador.. Asegurese que la ciudad no tenga Locales asociados",  null);
+			System.out.println("No se puede eliminar la Ciudad. Asegurese que no tenga Locales asociados");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		return retPage;
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Ciudad c = (Ciudad) event.getObject();
-	    
+	    FacesMessage message;
 	   try {
 			if (c != null) {
 				this.update(c.getId(), c.getNombre());
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);
+				System.out.println("Ciudad modificada exitosamente!");
 			}
 		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar la ciudad: ", null);
+			System.out.println("No se pudo modificar la ciudad: ");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 	

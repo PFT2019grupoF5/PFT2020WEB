@@ -55,36 +55,31 @@ public class EntidadesLocBean {
 
 	public String add() {
 		FacesMessage message;
-		String resultado = "altaLocalPage";
+		String retPage = "altaLocalPage";
 		
 		try {
 			if (nombre.isEmpty() || nombre.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 //			La direccion puede ser vacio
 			} else if (direccion.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-					"Campo Dirección no puede ser vacío o mayor a 50 caracteres");
-			resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,  "Campo Dirección no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Dirección no puede ser vacío o mayor a 50 caracteres");
 				
 			} else if (codigo <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Código no puede ser menor a 0");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Código no puede ser menor a 0", null);
+				System.out.println("Campo Código no puede ser menor a 0");
 			} else if (tipoLoc == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo tipoLoc no puede ser vacío");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo tipoLoc no puede ser vacío", null);
+				System.out.println("Campo tipoLoc no puede ser vacío");
 			} else if (idCiudad <= 0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo ciudad no puede ser vacío");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo ciudad no puede ser vacío", null);
+				System.out.println("Campo ciudad no puede ser vacío");
 			} else if (entidadLocEJBBean.getNombre(nombre.trim()) != null) {
-					//ya existe otro Local con el mismo nombre
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Ya existe un Local con ese nombre. Por favor ingrese otro.");
-				resultado = "retPage";
+					
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
+				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
+				
 			} else {
 				if (get() == null) {
 					EntidadLoc e = new EntidadLoc();
@@ -94,59 +89,60 @@ public class EntidadesLocBean {
 					e.setTipoloc(tipoLoc);
 					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
 					entidadLocEJBBean.add(e);
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Registrar: ",
-							"Local ingresado exitosamente!");
-					resultado ="altaEntidadLocPage";
+					
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local ingresado exitosamente!" + nombre, null);
+					System.out.println("Local ingresado exitosamente!" + "\n" + nombre + "\n" + codigo + "\n" + direccion + "\n" + tipoLoc + "\n" + idCiudad);
+	
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Registrar: ",
-							"El nombre del local provisto ya existe");
-					resultado = "retPage";
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un local con el nombre: " + nombre, null);
+					System.out.println("Ya existe un local con el nombre: " + nombre);
+					
 				}
 			}
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return resultado;
+			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar Locales", null);
+			System.out.println("No se ejecuto correctamente entidadLocEJBBean.add");
 		}
+		return retPage;
 	}
 	
 	public String update(Long id, int codigo, String nombre, String direccion, tipoLoc tipoLoc, long ciudadIdNuevo) {
-		FacesMessage message = null;
-		String resultado="";
+		FacesMessage message;
+		String retPage="modificarEntidadLocPage";
 		
 		try {
 			if (codigo <=0 ) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"EL código no puede ser menor a 0");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Código no puede ser menor a 0", null);
+				System.out.println("Campo Código no puede ser menor a 0");
+				
 			} else if (nombre.length() > 50 || nombre.length()==0 || nombre.trim().length()==0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Nombre no puede ser vacío, mayor a 50 caracteres ni contener solo espacios");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
 			} else if (direccion.isEmpty() || direccion.length() > 50 || direccion.length()==0 || direccion.trim().length()==0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar: ",
-						"Campo Direccion no puede ser vacío, mayor a 50 caracteres ni contener solo espacios");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,  "Campo Dirección no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Dirección no puede ser vacío o mayor a 50 caracteres");
+			
 			} else if (tipoLoc != com.enumerated.tipoLoc.LOCAL && tipoLoc != com.enumerated.tipoLoc.OTRO && tipoLoc != com.enumerated.tipoLoc.PUNTODEVENTA && tipoLoc != com.enumerated.tipoLoc.REGIONAL) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Local no puede ser vacío");
-				resultado = "retPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo tipoLoc no puede ser vacío", null);
+				System.out.println("Campo tipoLoc no puede ser vacío");
+				
 			} else if (ciudad.getId()<=0) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Campo Ciudad no puede ser vacío");
-				resultado = "retPage";
-			} else if (entidadLocEJBBean.getNombre(nombre.trim()) != null) { //ya existe otro Local con el mismo nombre
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Ya existe un Local con ese nombre. Por favor ingrese otro.");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo ciudad no puede ser vacío", null);
+				System.out.println("Campo ciudad no puede ser vacío");
+			
+			} else if (entidadLocEJBBean.getNombre(nombre.trim()) != null) { 
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
+				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
 
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				resultado = "modificarEntidadLocPage";
+				
 				entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
-				return resultado;
+			
 				
 			} else {
 				
-				if (getId(id) != null) {// si existe el Local, lo modifico
+				if (getId(id) != null) {
 						EntidadLoc e = new EntidadLoc();
 						e.setCodigo(codigo);
 						e.setNombre(nombre);
@@ -155,56 +151,59 @@ public class EntidadesLocBean {
 						e.setCiudad(ciudadEJBBean.getCiudad(ciudadIdNuevo));
 						entidadLocEJBBean.update(e);
 	
-						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-								"Local modificado exitosamente!");
-						resultado = "modificarEntidadLocPage";
+						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente!" + nombre, null);
+						System.out.println("Local ingresado exitosamente!" + "\n" + nombre + "\n" + codigo + "\n" + direccion + "\n" + tipoLoc + "\n" + ciudadIdNuevo);
+		
 				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: ",
-							"Local no existe");
-					resultado = "retPage";
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Local no existe", null);
+					System.out.println("Local no existe");
 					
 				}
 			}
 		
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return resultado;
+			return retPage;
 			
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el local.", null);
+			System.out.println("No se ejecuto correctamente entidadLocEJBBean.update");
+			
 		}
+		return retPage;
 	}
 
 	public String delete(EntidadLoc entidadLoc) {
 		FacesMessage message;
-		String retPage="";
+		String retPage="bajaEntidadLocPage";
 		
 		try {
 			if (entidadLoc == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
-						"Seleccione un Local a borrar!");
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione un Local a borrar!", null);
+				System.out.println("Seleccione un Local a borrar!");
 			} else {
 				
 			if (almacenamientoEJBBean.getAlmacenamientoxLoc(entidadLoc.getId()) > 0) {
-				//No se puede eliminar el Local porque hay Almacenamientos que lo tienen asociado
-
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Borrar: ",
-						"No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local " + entidadLoc.getNombre());
+				
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local", null);
+				System.out.println("No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local");
 			} else {
 				
 				entidadLocEJBBean.delete(entidadLoc.getId());
-				entidadLocList.remove(entidadLoc); //elimino el local de la lista para que se refleje en la página
+				entidadLocList.remove(entidadLoc); 
 				
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Borrar: ",
-						"Local borrado exitosamente!");
-				retPage ="bajaLocalPage";
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Local borrado exitosamente!", null);
+				System.out.println("Local borrado exitosamente!");
 			}
 		}	
 		
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return retPage;
 		} catch (Exception e) {
-			return null;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Contacte al administrador. Asegurese que el local no tenga movimientos asociados", null);
+			System.out.println("No se ejecuto correctamente entidadLocEJBBean.delete");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		return retPage;
 	}
 
 	public EntidadLoc get() {
@@ -245,18 +244,20 @@ public class EntidadesLocBean {
 	    FacesMessage message;
 	   try {
 		   if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Registrar: ",
-						"Es necesario ingresar todos los datos requeridos");
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
+				 System.out.println("Es necesario ingresar todos los datos requeridos");
 		   }else {
 		   Long entLocId = el.getCiudad().getId();
 		   el.setCiudad(ciudadEJBBean.getId(entLocId));
 			
 		   entidadLocEJBBean.update(el);
-		   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar: ",
-					"Local modificado exitosamente!");
+		   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente!", null);
+		   System.out.println("Local modificada exitosamente!");
 		   }
 		   FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar el local", null);
+			System.out.println("No se pudo modificar el local");
 		}
 	}
 	
@@ -274,9 +275,14 @@ public class EntidadesLocBean {
 			if (entidadLocList==null) {
 				entLoc = new EntidadLoc();
 				entidadLocList = obtenerTodosEntidadLoc();
+				
+				System.out.println("Se carga la lista de tipos de locales");
 			}
 			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo cargar la lista tipo de locales", null);
+			System.out.println("No se pudo cargar la lista de tipos de locales");
+			
 		}
 	}
 	
