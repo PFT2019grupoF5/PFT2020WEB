@@ -41,7 +41,7 @@
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
 								value="#{familia.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/> </p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,50}$"/> </p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -56,7 +56,7 @@
 							<h:outputText value="Descripcion:" />
 							<p:inputText id="descrip"
 								value="#{familia.descrip}" required="true" requiredMessage=" Debe ingresar una Descripción" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Entre 1 y 100 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,100}$"/></p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,100}$"/></p:inputText>
 								<h:message for="descrip" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -71,7 +71,7 @@
 							<h:outputText value="Familias Incompatibles:" />
 							<p:inputText id="incompat"
 								value="#{familia.incompat}" required="true" requiredMessage=" Debe ingresar Familias Incompatibles" validatorMessage=" Las familias incompatibles solo puede contener letras y numeros (con espacios). Entre 1 y 60 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,60}$"/></p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,60}$"/></p:inputText>
 								<h:message for="incompat" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>

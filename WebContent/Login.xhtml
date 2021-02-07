@@ -19,20 +19,20 @@
 	</h:panelGroup>
 
 	<h:form id="loginForm">
-		<p:growl id="msgs" showDetail="true" globalOnly="false"/>
+		<p:growl id="msgs" globalOnly="false"/>
 		<p:panel id="loginPan" header="Login"
 			style="width: 400px; margin: 0 auto;">
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
 				<h:outputText value="Usuario" />
 				<p:inputText id="nomAcceso" value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un nombre de acceso" styleClass="form-control" placeholder="Usuario" validatorMessage=" Revise el formato de su nombre de usuario">
-				<f:validateRegex pattern="^([A-zÀ-ž0-9]*){3,50}$"/> </p:inputText>
+				<f:validateRegex pattern="^([A-zÀ-ž0-9]*).{3,50}$"/> </p:inputText>
 				<p:spacer />
 				<h:message for="nomAcceso" style="color:red" />
 
 				<h:outputText value="Contraseña" />
 				<p:password id="contrasena" value="#{usuario.contrasena}" label="Contraseña" requiredMessage=" Debe ingresar una contraseña"
-					feedback="false" required="true" styleClass="form-control" minlength="8" placeholder="Contraseña" validatorMessage=" Revise el formato de su contraseña">
-					<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/></p:password>
+					feedback="false" required="true" styleClass="form-control" minlength="8" placeholder="Contraseña" validatorMessage=" Revise el formato de su contraseña. Si se olvido de su contraseña, contacte a un administrador">
+					<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}"/></p:password>
 				<p:spacer />
 				<h:message for="contrasena" style="color:red" />
 			</h:panelGrid>

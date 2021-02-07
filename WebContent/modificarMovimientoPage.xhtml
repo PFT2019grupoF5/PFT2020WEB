@@ -93,7 +93,7 @@
 				</f:facet>
 				<f:facet name="input">
 					<p:inputText id="descripcion" value="#{mov.descripcion}" style="width:100%" label="descripcion" validatorMessage=" La descripcion solo puede contener letras y numeros (con espacios). Hasta 250 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,250}$"/> </p:inputText>
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,250}$"/> </p:inputText>
 					<h:message for="descripcion" style="color:white" />
 				</f:facet>
 			</p:cellEditor>

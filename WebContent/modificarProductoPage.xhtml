@@ -65,7 +65,7 @@
 				</f:facet>
 				<f:facet name="input">
 					<p:inputText id="lote" value="#{produc.lote}" style="width:100%" label="lote"  required="true" requiredMessage=" Debe ingresar un Lote" validatorMessage=" El lote solo puede contener letras y numeros (con espacios). Entre 1 y 10 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,10}$"/></p:inputText>
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,10}$"/></p:inputText>
 					<h:message for="lote" style="color:white" />
 				</f:facet>
 			</p:cellEditor>

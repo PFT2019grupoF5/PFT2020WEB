@@ -60,7 +60,7 @@
 				</f:facet>
 				<f:facet name="input">
 					<p:inputText id="nombre" value="#{loc.nombre}" style="width:100%" label="nombre"  required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/>  </p:inputText>
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,50}$"/>  </p:inputText>
 					<h:message for="nombre" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
@@ -88,7 +88,7 @@
 				</f:facet>
 				<f:facet name="input">
 					<p:inputText id="direccion" value="#{loc.direccion}" style="width:100%" label="direccion" validatorMessage=" La direccion solo puede contener letras y numeros (con espacios). Hasta 50 caracteres">
-					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/> </p:inputText>
+					<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,50}$"/> </p:inputText>
 					<h:message for="direccion" style="color:white" />
 				</f:facet>
 			</p:cellEditor>
