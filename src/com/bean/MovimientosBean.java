@@ -67,7 +67,7 @@ public class MovimientosBean {
 		FacesMessage message;
 		
 		try {
-			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0) {
+			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0 || descripcion == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
 			} else if (descripcion.length() > 250) {
@@ -145,7 +145,7 @@ public class MovimientosBean {
 		try {
 
 			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
-					|| almacenamiento == null) {
+					|| almacenamiento == null || descripcion == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
 			} else if (descripcion.length() > 250) {
@@ -269,7 +269,7 @@ public class MovimientosBean {
 	    FacesMessage message;
 	    
 	   try {
-			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null) {
+			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null || m.getDescripcion() == null) {
 				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				 System.out.println("Es necesario ingresar todos los datos requeridos");
 			} else {
