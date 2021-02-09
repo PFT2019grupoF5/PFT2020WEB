@@ -55,7 +55,7 @@ public class EntidadesLocBean {
 
 	public String add() {
 		FacesMessage message;
-		String retPage = "altaLocalPage";
+		String retPage = "altaEntidadLocPage";
 		
 		try {
 			if (nombre.trim().isEmpty() || nombre.trim().length() > 50) {
@@ -67,6 +67,9 @@ public class EntidadesLocBean {
 			} else if (codigo <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Código no puede ser menor a 0", null);
 				System.out.println("Campo Código no puede ser menor a 0");
+			} else if (getCodigo(codigo) != null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un local con ese codigo", null);
+				System.out.println("Ya existe un local con ese codigo");
 			} else if (tipoLoc == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo tipoLoc no puede ser vacío", null);
 				System.out.println("Campo tipoLoc no puede ser vacío");
@@ -85,7 +88,7 @@ public class EntidadesLocBean {
 					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
 					entidadLocEJBBean.add(e);
 					
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local ingresado exitosamente!" + nombre, null);
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local ingresado exitosamente! " + nombre, null);
 					System.out.println("Local ingresado exitosamente!" + "\n" + nombre + "\n" + codigo + "\n" + direccion + "\n" + tipoLoc + "\n" + idCiudad);
 					FacesContext.getCurrentInstance().addMessage(null, message);
 					return retPage;
@@ -119,6 +122,9 @@ public class EntidadesLocBean {
 			} else if (ciudad.getId()<=0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo ciudad no puede ser vacío", null);
 				System.out.println("Campo ciudad no puede ser vacío");
+			} else if (getCodigo(codigo) != null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un local con ese codigo", null);
+				System.out.println("Ya existe un local con ese codigo");
 			} else if (getNombre(nombre.trim()) != null) { 
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
 				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
@@ -158,6 +164,7 @@ public class EntidadesLocBean {
 			} else if (almacenamientoEJBBean.getAlmacenamientoxLoc(entidadLoc.getId()) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local", null);
 				System.out.println("No se puede eliminar el Local porque tiene Almacenamientos asociados. ELimine primero los Almacenamientos que tienen el Local");
+				
 			} else {
 				entidadLocEJBBean.delete(entidadLoc.getId());
 				entidadLocList.remove(entidadLoc); 
@@ -196,6 +203,14 @@ public class EntidadesLocBean {
 	public EntidadLoc getNombre(String nombre) {
 		try {
 			return entidadLocEJBBean.getNombre(nombre);
+		}catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public EntidadLoc getCodigo (int codigo) {
+		try {
+			return entidadLocEJBBean.getCodigo(codigo);
 		}catch (Exception e) {
 			return null;
 		}

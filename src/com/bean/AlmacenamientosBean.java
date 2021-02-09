@@ -77,8 +77,8 @@ public class AlmacenamientosBean {
 					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
 					almacenamientosEJBBean.add(a);
 
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento ingresado exitosamente!" + nombre, null);
-					System.out.println("Almacenamiento ingresado exitosamente!" + "\n" + nombre + "\n" + volumen + "\n" + costoop + "\n" + capestiba + "\n" + cappeso + "\n" + idEntidadLoc);
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento ingresado exitosamente! " + nombre, null);
+					System.out.println("Almacenamiento ingresado exitosamente! " + "\n" + nombre + "\n" + volumen + "\n" + costoop + "\n" + capestiba + "\n" + cappeso + "\n" + idEntidadLoc);
 					FacesContext.getCurrentInstance().addMessage(null, message);
 					return retPage;
 			}
@@ -121,8 +121,9 @@ public class AlmacenamientosBean {
 					a.setCappeso(cappeso);
 					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(entidadLocIdNuevo));
 					almacenamientosEJBBean.update(a);
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar el almacenamiento." , null);
-					System.out.println("Éxito al Modificar el almacenamiento." );
+					
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente" , null);
+					System.out.println("Almacenamiento modificado exitosamente" );
 					FacesContext.getCurrentInstance().addMessage(null, message);
 					return retPage;
 				}
@@ -206,7 +207,7 @@ public class AlmacenamientosBean {
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
 			almacenamientosEJBBean.update(a);
 
-		    System.out.println("Modificacion de Familia pasa por row edit");
+		    System.out.println("Modificacion de Almacenamiento pasa por row edit");
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el almacenamiento", null);
 			System.out.println("No se pudo modificar el almacenamiento en row edit");
