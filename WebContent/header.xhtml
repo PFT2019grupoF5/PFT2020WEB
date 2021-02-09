@@ -43,7 +43,7 @@
 						action="Home?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" />
 				
-				<p:submenu label="Almacenamiento">
+				<p:submenu label="Almacenamiento" rendered="#{!usuario.chequearOperario()}">
 					<p:menuitem value=" Alta de Almacenamiento"
 						action="altaAlmacenamientoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
@@ -53,9 +53,8 @@
 					<p:menuitem value=" Baja de Almacenamiento"
 						action="bajaAlmacenamientoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
-				<p:submenu label="Ciudad">
+				<p:submenu label="Ciudad" rendered="#{!usuario.chequearOperario()}">
 					<p:menuitem value=" Alta de Ciudad"
 						action="altaCiudadPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
@@ -65,9 +64,8 @@
 					<p:menuitem value=" Baja de Ciudad"
 						action="bajaCiudadPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
-				<p:submenu label="Locales">
+				<p:submenu label="Locales" rendered="#{!usuario.chequearOperario()}">
 					<p:menuitem value=" Alta de Local"
 						action="altaEntidadLocPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
@@ -77,9 +75,8 @@
 					<p:menuitem value=" Baja de Local"
 						action="bajaEntidadLocPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
-				<p:submenu label="Familia">
+				<p:submenu label="Familia" rendered="#{!usuario.chequearOperario()}">
 					<p:menuitem value=" Alta de Familia"
 						action="altaFamiliaPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
@@ -89,9 +86,8 @@
 					<p:menuitem value=" Baja de Familia"
 						action="bajaFamiliaPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
-				<p:submenu label="Movimiento">
+				<p:submenu label="Movimiento" >
 					<p:menuitem value=" Alta de Movimiento"
 						action="altaMovimientoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" />
@@ -113,7 +109,7 @@
 						action="bajaPedidoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" />
 				</p:submenu>
-				<p:submenu label="Producto">
+				<p:submenu label="Producto" rendered="#{!usuario.chequearOperario()}">
 					<p:menuitem value=" Alta de Producto"
 						action="altaProductoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
@@ -123,7 +119,6 @@
 					<p:menuitem value=" Baja de Producto"
 						action="bajaProductoPage?faces-redirect=true"
 						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario()}"/>
-					<p:menuitem value="" rendered="#{usuario.chequearOperario()}"/>
 				</p:submenu>
 				<p:submenu label="Renglon de Pedido">
 					<p:menuitem value=" Alta de Renglon de Pedido"
@@ -137,17 +132,16 @@
 						icon="fa fa-navicon" style="width: 250px !important;" />
 					
 				</p:submenu>
-				<p:submenu label="Usuario">
+				<p:submenu label="Usuario" rendered="#{usuario.chequearAdministrador()}">
 					<p:menuitem value=" Alta de Usuario"
 						action="altaUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{usuario.chequearAdministrador()}"/>
 					<p:menuitem value=" Modificacion de Usuario"
 						action="modificarUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{usuario.chequearAdministrador()}"/>
 					<p:menuitem value=" Baja de Usuario"
 						action="bajaUsuarioPage?faces-redirect=true"
-						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{!usuario.chequearOperario() || usuario.chequearSupervisor()}"/>
-					<p:menuitem value="" rendered="#{!usuario.chequearOperario() || !usuario.chequearSupervisor()}"/>
+						icon="fa fa-navicon" style="width: 250px !important;" rendered="#{usuario.chequearAdministrador()}"/>
 				</p:submenu>
 				<p:submenu label=" Reportes de Pedidos">
 					<p:menuitem value="Pedidos entre fechas"

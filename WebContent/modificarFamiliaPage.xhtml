@@ -32,18 +32,18 @@
 
 <h:form id="form">
 	
-		
+<p:growl id="msgs" globalOnly="false"/>		
  
 		<p:panel>
 			<h3 align="center">Modificar Familias</h3>
 		</p:panel>
 		        
-	<p:dataTable id="fam1" var="fam" value="#{familia.familiasList}"
+	<p:dataTable id="fam1" var="fam" value="#{familia.familiasList}" 
 		editable="true" style="margin-bottom:20px">
 
 
 
-		<p:ajax event="rowEdit" listener="#{familia.onRowEdit}"
+		<p:ajax event="rowEdit" listener="#{familia.onRowEdit}" update=":form:msgs"
 			 />
 
 		<p:column headerText="Id">

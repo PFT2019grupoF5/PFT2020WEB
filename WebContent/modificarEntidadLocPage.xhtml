@@ -32,18 +32,18 @@
 
 <h:form id="form">
 	
-
+<p:growl id="msgs" globalOnly="false"/>
  
 		<p:panel>
 			<h3 align="center">Modificar Locales</h3>
 		</p:panel>
 		        
-	<p:dataTable id="loc1" var="loc" value="#{entidadLoc.entidadLocList}"
+	<p:dataTable id="loc1" var="loc" value="#{entidadLoc.entidadLocList}" 
 		editable="true" style="margin-bottom:20px">
 
 
 
-		<p:ajax event="rowEdit" listener="#{entidadLoc.onRowEdit}"
+		<p:ajax event="rowEdit" listener="#{entidadLoc.onRowEdit}" update=":form:msgs"
 			 />
 
 		<p:column headerText="Id">

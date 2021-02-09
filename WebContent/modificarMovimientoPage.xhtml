@@ -31,7 +31,7 @@
 
 <h:form id="form">
 	
-
+<p:growl id="msgs" globalOnly="false"/>
  
 		<p:panel>
 			<h3 align="center">Modificar Movimientos</h3>
@@ -42,7 +42,7 @@
 
 
 
-		<p:ajax event="rowEdit" listener="#{movimiento.onRowEdit}"
+		<p:ajax event="rowEdit" listener="#{movimiento.onRowEdit}" update=":form:msgs"
 			 />
 
 		<p:column headerText="Id">

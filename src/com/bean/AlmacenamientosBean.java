@@ -65,8 +65,10 @@ public class AlmacenamientosBean {
 			} else if (idEntidadLoc  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Local no puede ser vacío", null);
 				System.out.println("Campo Local no puede ser vacío");
+			} else if(almacenamientosEJBBean.getNombre(nombre) != null){
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un almacenamiento con el nombre: " + nombre, null);
+				System.out.println("Ya existe un almacenamiento con el nombre: " + nombre);
 			} else {
-				if (almacenamientosEJBBean.getNombre(nombre) == null) { 
 					Almacenamiento a = new Almacenamiento();
 					a.setVolumen(volumen);
 					a.setNombre(nombre);
@@ -78,20 +80,15 @@ public class AlmacenamientosBean {
 
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento ingresado exitosamente!" + nombre, null);
 					System.out.println("Almacenamiento ingresado exitosamente!" + "\n" + nombre + "\n" + volumen + "\n" + costoop + "\n" + capestiba + "\n" + cappeso + "\n" + idEntidadLoc);
-
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un almacenamiento con el nombre: " + nombre, null);
-					System.out.println("Ya existe un almacenamiento con el nombre: " + nombre);
-				}
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar almacenamiento", null);
 			System.out.println("No se ejecuto correctamente almacenamientosEJBBean.add");
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public String update(Long id, int volumen, String nombre, double costoop, double capestiba, double cappeso, long entidadLocIdNuevo) {
@@ -112,9 +109,10 @@ public class AlmacenamientosBean {
 			} else if (almacenamientosEJBBean.getNombre(nombre.trim()) ==null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
 				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
+			} else 	if (almacenamientosEJBBean.getId(id) == null ) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Almacenamiento no existe",	null);
+				System.out.println("Almacenamiento no existe" );
 			} else {
-					
-				if (almacenamientosEJBBean.getId(id) != null ) { 
 					Almacenamiento a = new Almacenamiento();
 					a.setId(id);
 					a.setVolumen(volumen);
@@ -126,21 +124,15 @@ public class AlmacenamientosBean {
 					almacenamientosEJBBean.update(a);
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al Modificar el almacenamiento." , null);
 					System.out.println("Éxito al Modificar el almacenamiento." );
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Almacenamiento no existe",	null);
-					System.out.println("Almacenamiento no existe" );
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 				}
-	
-			}
-					
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 			} catch (ServiciosException e) {
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo modificar el almacenamiento.", null);
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el almacenamiento.", null);
 				System.out.println("No se ejecuto correctamente familiasEJBBean.update");
-				
 			}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 	
 	
@@ -149,34 +141,27 @@ public class AlmacenamientosBean {
 		String retPage = "bajaAlmacenamientoPage";
 		
 		try {
-			if (almacenamiento == null) {
+				if (almacenamiento == null){
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione Un Movimiento a borrar!", null);
 					System.out.println("Seleccione Un Movimiento a borrar!");
-				} else {
-				
-				if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) > 0) {
-					// No se puede eliminar el Almacenamiento porque hay Movimientos que lo tienen asociado
+				}else if (movimientosEJBBean.getMovimientoxAlmac(almacenamiento.getId()) > 0){
 					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento",  null);
 					System.out.println("No se puede eliminar el Almacenamiento porque tiene Movimientos asociados. Elimine primero los Movimientos que tienen el Almacenamiento");
-				} else {
+				}else{
 					almacenamientosEJBBean.delete(almacenamiento.getId());
 					almacenamientosList.remove(almacenamiento); 
+					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento borrado exitosamente!", null);
 					System.out.println("Almacenamiento borrado exitosamente!");
-					
+					FacesContext.getCurrentInstance().addMessage(null, message);
 					return retPage;
-					
 				}
-			}
-			
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Asegurese que la familia no tenga Productos asociados" , null);
 			System.out.println("No se puede eliminar la Familia. Asegurese que no tenga Productos asociados");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public Almacenamiento get() {
@@ -199,50 +184,48 @@ public class AlmacenamientosBean {
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
 	    
-	    FacesMessage message;
+	    FacesMessage message = null;
 	    
 	   try {
 		 //Traigo clase local completa por el ID que se seleccionó en el desplegable
 			Long locId = a.getEntidadLoc().getId();
 			
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
-
-			
 			almacenamientosEJBBean.update(a);
-		    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente!", null);
-		    System.out.println("Familia modificada exitosamente!");
-		    
-	   FacesContext.getCurrentInstance().addMessage(null, message);
+
+		    System.out.println("Modificacion de Familia pasa por row edit");
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar el almacenamiento ", null);
-			System.out.println("No se pudo modificar el almacenamiento ");
-			
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el almacenamiento", null);
+			System.out.println("No se pudo modificar el almacenamiento en row edit");
 		}
+	   FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	
 	
 	@PostConstruct
 	public void cargoLista() {
+		 FacesMessage message = null;
 		try {
 			// Carga la lista de Almacenamientos
 			almacenamientosList = this.getAll();
-			
 			idLoc = entidadLocEJBBean.getId(id);
-			
+			System.out.println("Se carga la lista de almacenamientos");
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo cargar la lista de almacenamientos", null);
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de almacenamientos", null);
 			System.out.println("No se pudo cargar la lista de almacenamientos");
-			
-			
 		}
+		 FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/
 
 	public String chequearPerfil() {
+		
 		try {
 			if (perfilLogeado == null) {
+				System.out.println("Usuario no esta logeado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario no esta logeado correctamente", null);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -250,6 +233,7 @@ public class AlmacenamientosBean {
 		} catch (Exception e) {
 			return "Login?faces-redirect=true";
 		}
+		
 	}
 
 	public String logout() {

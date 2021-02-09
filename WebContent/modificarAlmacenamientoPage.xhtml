@@ -31,18 +31,18 @@
 
 <h:form id="form">
 	
-
+<p:growl id="msgs" globalOnly="false"/>
  
 		<p:panel>
 			<h3 align="center">Modificar Almacenamientos</h3>
 		</p:panel>
 		        
-	<p:dataTable id="almac1" var="alm" value="#{almacenamiento.almacenamientosList}"
+	<p:dataTable id="almac1" var="alm" value="#{almacenamiento.almacenamientosList}" 
 		editable="true" style="margin-bottom:20px">
 
 
 
-		<p:ajax event="rowEdit" listener="#{almacenamiento.onRowEdit}"
+		<p:ajax event="rowEdit" listener="#{almacenamiento.onRowEdit}" update=":form:msgs"
 			 />
 
 		<p:column headerText="Id">

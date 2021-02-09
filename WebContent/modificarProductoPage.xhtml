@@ -32,7 +32,7 @@
 
 <h:form id="form">
 	
-
+<p:growl id="msgs" globalOnly="false"/>
 		<p:panel>
 			<h3 align="center">Modificar Productos</h3>
 		</p:panel>
@@ -40,7 +40,7 @@
 	<p:dataTable id="produc1" var="produc" value="#{producto.productosList}"
 		editable="true" >
  
-		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}"  
+		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}"   update=":form:msgs" 
 						immediate="true" />
 		
 		<p:column headerText="Id">

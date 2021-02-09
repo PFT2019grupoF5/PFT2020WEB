@@ -32,15 +32,16 @@
 
 <h:form id="form">
 	
+	<p:growl id="msgs" globalOnly="false"/>
 
 		<p:panel>
 			<h3 align="center">Modificar Renglones de Pedidos</h3>
 		</p:panel>
 		
-	<p:dataTable id="ren1" var="ren" value="#{renglonPedido.listaRenglonPedido}"
+	<p:dataTable id="ren1" var="ren" value="#{renglonPedido.listaRenglonPedido}" 
 		editable="true" >
  
-		<p:ajax event="rowEdit" listener="#{renglonPedido.onRowEdit}" 
+		<p:ajax event="rowEdit" listener="#{renglonPedido.onRowEdit}" update=":form:msgs"
 						immediate="true" />
 		
 		<p:column headerText="Id">

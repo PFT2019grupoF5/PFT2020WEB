@@ -72,13 +72,13 @@ public class PedidosBean {
 		FacesMessage message;
 		String retPage = "altaPedidoPage";
 		try {
-			if (pedfecestim == null || fecha == null || pedrecfecha == null || pedreccomentario.isEmpty()
-					|| pedreccodigo <= 0 || pedestado == null || idUsuario == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos no pueden estar vacios!", null);
-				System.out.println("Los campos no pueden estar vacios!");
+			if (pedfecestim == null || fecha == null || pedrecfecha == null || pedreccomentario.isEmpty() || pedreccodigo <= 0 || pedestado == null || idUsuario == null) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos no pueden estar vacios!", null);
+					System.out.println("Los campos no pueden estar vacios!");
+			}else if (get() != null) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Pedido ya existe" , null);
+					System.out.println("El Pedido ya existe");
 			} else {
-				if (get() == null) {
-
 					Pedido pe = new Pedido();
 					pe.setPedfecestim(pedfecestim);
 					pe.setFecha(fecha);
@@ -91,19 +91,15 @@ public class PedidosBean {
 
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Pedido se creo correctamente" , null);
 					System.out.println("El Pedido se creo correctamente" + "\n" + pedfecestim + "\n" + fecha + "\n" + pedreccodigo + "\n" + pedrecfecha + "\n" + pedreccomentario + "\n" + pedestado + "\n" + idUsuario);
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Pedido ya existe" , null);
-					System.out.println("El Pedido ya existe");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 				}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar pedido", null);
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.add");
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public String update(Long id, Date pedfecestim, Date fecha, int pedreccodigo, Date pedrecfecha,
@@ -205,7 +201,7 @@ public class PedidosBean {
 	}
 
 	public String getPedidosFechas() {
-		FacesMessage message;
+		FacesMessage message = null;
 		
 
 		if (fechaIni.compareTo(fechaFin) < 0) {
@@ -219,16 +215,17 @@ public class PedidosBean {
 
 			try {
 				listaPedidoReporteFechas = pedidosEJBBean.getPedidosEntreFechas(SfechaIni, SfechaFin);
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos: Entre Fechas", null);
+				// se desabilita el mensaje porque muestra uno por cada linea del listado
+				// message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos: Entre Fechas", null);
 				System.out.println("Mostrando Pedidos: Entre Fechas");
 			} catch (ServiciosException e) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al mostrar los pedidos" , null);
 				System.out.println("No se ejecuto correctamente el listado de reportes de pedidos");
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 
 		}
-
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "resultadoReportePedidosFecha";
 	}
 	

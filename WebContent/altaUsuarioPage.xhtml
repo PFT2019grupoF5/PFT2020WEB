@@ -40,7 +40,7 @@
 							<h:outputText value="Nombre:" />
 							<p:inputText id="nombre"
 								value="#{usuario.nombre}" required="true" requiredMessage=" Debe ingresar un Nombre" validatorMessage=" El nombre solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres" >
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/> </p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,50}$"/> </p:inputText>
 								<h:message for="nombre" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -55,7 +55,7 @@
 							<h:outputText value="Apellido:" />
 							<p:inputText id="apellido"
 								value="#{usuario.apellido}" required="true" requiredMessage=" Debe ingresar un Apellido" validatorMessage=" El Apellido solo puede contener letras y numeros (con espacios). Entre 1 y 50 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*){0,50}$"/> </p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]+[A-zÀ-ž0-9\s]*).{0,50}$"/> </p:inputText>
 								<h:message for="apellido" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>
@@ -70,7 +70,7 @@
 							<h:outputText value="Nombre de Acceso:" />
 							<p:inputText id="nomAcceso"
 								value="#{usuario.nomAcceso}" required="true" requiredMessage=" Debe ingresar un Nombre de Acceso" validatorMessage=" El Nombre de Acceso solo puede contener letras y numeros, sin espacios. Entre 3 y 50 caracteres">
-								<f:validateRegex pattern="^([A-zÀ-ž0-9]*){3,50}$"/> </p:inputText>
+								<f:validateRegex pattern="^([A-zÀ-ž0-9]*).{3,50}$"/> </p:inputText>
 								<h:message for="nomAcceso" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>

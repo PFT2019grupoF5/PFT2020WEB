@@ -163,9 +163,10 @@ public class UsuariosBean {
 			if (usuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione un Usuario a borrar!" , null);
 				System.out.println("Seleccione un Usuario a borrar!");
-			} else if (!confirmarBorrado) {
+			/*} else if (!confirmarBorrado) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione la casilla de confirmación!" , null);
 				System.out.println("Seleccione la casilla de confirmación!");
+			*/
 			} else {
 				usuariosEJBBean.delete(usuario.getId());
 				usuariosList.remove(usuario);
@@ -178,7 +179,7 @@ public class UsuariosBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al borrar el usuario" , null);
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.delete");
-			
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}
 		return retPage;
@@ -234,8 +235,7 @@ public class UsuariosBean {
 			if(usuariosList == null) {
 				usu = new Usuario();
 			usuariosList = getAllUsuarios();
-			System.out.println("La lista de tipos de perfil se cargo correctamente!");
-			
+
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se creo la lista de tipos de perfil" , null));
@@ -345,6 +345,16 @@ public class UsuariosBean {
 	public boolean chequearSupervisor() {
 
 			if (perfilLogeado == tipoPerfil.SUPERVISOR) {
+				return true;
+			} else {
+				return false;
+			}
+	}
+	
+	@SuppressWarnings("static-access")
+	public boolean chequearAdministrador() {
+
+			if (perfilLogeado == tipoPerfil.ADMINISTRADOR) {
 				return true;
 			} else {
 				return false;
