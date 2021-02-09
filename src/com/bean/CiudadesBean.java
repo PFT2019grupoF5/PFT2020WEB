@@ -41,15 +41,15 @@ public class CiudadesBean {
 		FacesMessage message;
 		String retPage = "altaCiudadPage";
 		try {
-			if (nombre.isEmpty() || nombre.length() > 50) {
+			if (nombre.trim().isEmpty() || nombre.trim().length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
 				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
-			}else if (get2(nombre) != null){
+			}else if (get2(nombre.trim()) != null){
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El nombre de ciudad provisto ya existe", null);
 				System.out.println("El nombre de ciudad provisto ya existe");
 			}else{
 					Ciudad c = new Ciudad();
-					c.setNombre(nombre);
+					c.setNombre(nombre.trim());
 					ciudadesEJBBean.add(c);
 					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se creo la ciudad: " + nombre, null);
@@ -64,7 +64,6 @@ public class CiudadesBean {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		return null;
 	}
-
 	
 
 	public String update(Long id, String nombre) {
@@ -72,10 +71,10 @@ public class CiudadesBean {
 		String retPage = "modificarCiudadPage";
 		
 		try {
-			if (nombre.isEmpty() || nombre.length() > 50 || nombre.trim() == "") {
+			if (nombre.isEmpty() || nombre.length() > 50 || nombre.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios", null);
 				System.out.println("Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
-			}else if (get2(nombre) != null) { 
+			}else if (get2(nombre.trim()) != null) { 
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una ciudad con el nombre " + nombre, null);
 				System.out.println("Ya existe una ciudad con el nombre " + nombre);
 			}else if (ciudadesEJBBean.getId(id) == null){
@@ -84,7 +83,7 @@ public class CiudadesBean {
 			}else{ 
 					Ciudad c = new Ciudad();
 					c.setId(id);
-					c.setNombre(nombre);
+					c.setNombre(nombre.trim());
 					ciudadesEJBBean.update(c);
 				
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);
@@ -97,7 +96,7 @@ public class CiudadesBean {
 			System.out.println("No se pudo modificar la ciudad: ");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return retPage;
+		return null;
 	}
 
 	
@@ -158,7 +157,7 @@ public class CiudadesBean {
 	}
 
 	
-	// se agrego String nombre
+	
 	public Ciudad get2(String nombre) {
 		try {
 			return ciudadesEJBBean.getNombre(nombre);
@@ -186,6 +185,8 @@ public class CiudadesBean {
 	public String chequearPerfil() {
 		try {
 			if (perfilLogeado == null) {
+				System.out.println("Usuario no esta logueado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -197,6 +198,8 @@ public class CiudadesBean {
 
 	public String logout() {
 		perfilLogeado = null;
+		System.out.println("Usuario se deslogueo");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
 		return "Login?faces-redirect=true";
 	}
 
@@ -204,13 +207,18 @@ public class CiudadesBean {
 	
 	@PostConstruct
 	public void segm() {
+		FacesMessage message = null;
 		try {
 			// rowEdit
 			if (ciudadesList==null) {
 				ciudadesList = obtenerTodasCiudades();
+				System.out.println("Se carga la lista de ciudades");
 			}	
 		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de ciudades", null);
+			System.out.println("No se pudo cargar la lista de ciudades");
 		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
 	

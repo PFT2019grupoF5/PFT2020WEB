@@ -13,7 +13,6 @@ import org.primefaces.event.RowEditEvent;
 
 import com.entities.Almacenamiento;
 import com.entities.EntidadLoc;
-import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.AlmacenamientoBeanRemote;
@@ -59,19 +58,19 @@ public class AlmacenamientosBean {
 			if (volumen <= 0 || costoop <= 0 || capestiba <= 0 || cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.", null);
 				System.out.println("Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
-			} else if (nombre.length() > 250 || nombre.length()==0 || nombre.trim().length()==0) {
+			} else if (nombre.trim().length() > 250 || nombre.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener simbolos y espacios", null);
 				System.out.println("Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
 			} else if (idEntidadLoc  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Local no puede ser vacío", null);
 				System.out.println("Campo Local no puede ser vacío");
-			} else if(almacenamientosEJBBean.getNombre(nombre) != null){
-				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un almacenamiento con el nombre: " + nombre, null);
+			} else if(getNombre(nombre.trim()) != null){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un almacenamiento con el nombre: " + nombre, null);
 				System.out.println("Ya existe un almacenamiento con el nombre: " + nombre);
 			} else {
 					Almacenamiento a = new Almacenamiento();
 					a.setVolumen(volumen);
-					a.setNombre(nombre);
+					a.setNombre(nombre.trim());
 					a.setCostoop(costoop);
 					a.setCapestiba(capestiba);
 					a.setCappeso(cappeso);
@@ -100,23 +99,23 @@ public class AlmacenamientosBean {
 			if (volumen <= 0 || costoop <= 0 || capestiba <= 0 || cappeso <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.", null);
 				System.out.println("Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
-			} else if (nombre.length() > 250 || nombre.length()==0 || nombre.trim().length()==0) {
+			} else if (nombre.trim().length() > 250 || nombre.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios", null);
 				System.out.println("Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
 			} else if (entidadLoc.getId()  <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Local no puede ser vacío", null);
 				System.out.println("Campo Local no puede ser vacío");
-			} else if (almacenamientosEJBBean.getNombre(nombre.trim()) ==null) {
+			} else if (getNombre(nombre.trim()) != null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
 				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
-			} else 	if (almacenamientosEJBBean.getId(id) == null ) {
+			} else 	if (getId(id) == null ) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Almacenamiento no existe",	null);
 				System.out.println("Almacenamiento no existe" );
 			} else {
 					Almacenamiento a = new Almacenamiento();
 					a.setId(id);
 					a.setVolumen(volumen);
-					a.setNombre(nombre);
+					a.setNombre(nombre.trim());
 					a.setCostoop(costoop);
 					a.setCapestiba(capestiba);
 					a.setCappeso(cappeso);
@@ -171,6 +170,22 @@ public class AlmacenamientosBean {
 			return null;
 		}
 	}
+	
+	public Almacenamiento getId(Long id) {
+		try {
+			return almacenamientosEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Almacenamiento getNombre(String nombre) {
+		try {
+			return almacenamientosEJBBean.getNombre(nombre);
+		}catch (Exception e) {
+			return null;
+		}
+	}
 
 	public List<Almacenamiento> getAll() {
 		try {
@@ -183,11 +198,9 @@ public class AlmacenamientosBean {
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
-	    
 	    FacesMessage message = null;
-	    
-	   try {
-		 //Traigo clase local completa por el ID que se seleccionó en el desplegable
+	    try {
+		
 			Long locId = a.getEntidadLoc().getId();
 			
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
@@ -205,7 +218,7 @@ public class AlmacenamientosBean {
 	
 	@PostConstruct
 	public void cargoLista() {
-		 FacesMessage message = null;
+		FacesMessage message = null;
 		try {
 			// Carga la lista de Almacenamientos
 			almacenamientosList = this.getAll();
@@ -215,7 +228,7 @@ public class AlmacenamientosBean {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de almacenamientos", null);
 			System.out.println("No se pudo cargar la lista de almacenamientos");
 		}
-		 FacesContext.getCurrentInstance().addMessage(null, message);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/
@@ -224,8 +237,8 @@ public class AlmacenamientosBean {
 		
 		try {
 			if (perfilLogeado == null) {
-				System.out.println("Usuario no esta logeado correctamente");
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario no esta logeado correctamente", null);
+				System.out.println("Usuario no esta logueado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -233,11 +246,12 @@ public class AlmacenamientosBean {
 		} catch (Exception e) {
 			return "Login?faces-redirect=true";
 		}
-		
 	}
 
 	public String logout() {
 		perfilLogeado = null;
+		System.out.println("Usuario se deslogueo");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
 		return "Login?faces-redirect=true";
 	}
 
