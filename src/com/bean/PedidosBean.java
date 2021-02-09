@@ -72,19 +72,19 @@ public class PedidosBean {
 		FacesMessage message;
 		String retPage = "altaPedidoPage";
 		try {
-			if (pedfecestim == null || fecha == null || pedrecfecha == null || pedreccomentario.isEmpty() || pedreccodigo <= 0 || pedestado == null || idUsuario == null) {
+			if (pedfecestim == null || fecha == null || pedrecfecha == null || pedreccomentario.trim().isEmpty() || pedreccodigo <= 0 || pedestado == null || idUsuario == null) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos no pueden estar vacios!", null);
 					System.out.println("Los campos no pueden estar vacios!");
-			}else if (get() != null) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Pedido ya existe" , null);
-					System.out.println("El Pedido ya existe");
+			}else if(pedreccomentario.trim().length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El comentario no puede ser mayor a 250 caracteres", null);
+				System.out.println("El comentario no puede ser mayor a 250 caracteres");
 			} else {
 					Pedido pe = new Pedido();
 					pe.setPedfecestim(pedfecestim);
 					pe.setFecha(fecha);
 					pe.setPedreccodigo(pedreccodigo);
 					pe.setPedrecfecha(pedrecfecha);
-					pe.setPedreccomentario(pedreccomentario);
+					pe.setPedreccomentario(pedreccomentario.trim());
 					pe.setPedestado(pedestado);
 					pe.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
 					pedidosEJBBean.add(pe);
@@ -108,43 +108,41 @@ public class PedidosBean {
 		
 		String retPage = "modificarPedidoPage";
 		try {
-			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.isEmpty()
-					|| pedestado == null || idUsuario == null) {
+			if (pedfecestim == null || fecha == null || pedreccodigo <= 0 || pedreccomentario.trim().isEmpty() || pedestado == null || idUsuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
+			}else if(pedreccomentario.trim().length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El comentario no puede ser mayor a 250 caracteres", null);
+				System.out.println("El comentario no puede ser mayor a 250 caracteres");
 			} else if (estadoPedido.E.equals(pedestado)) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado" , null);
 				System.out.println("El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione la casilla de confirmación!" , null);
-				System.out.println("No se ejecuto correctamente pedidosEJBBean.update");
+				//faltaria una division, para que permita modificar a tipo E y no desde tipo E (solo modificar el estado en el segundo caso, desde E a otro tipo)??
+			} else if (getId(id) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido no existe" , null);
+				System.out.println("Pedido no existe");
 			} else {
-				if (getId(id) != null) {
 					Pedido pe = new Pedido();
 					pe.setPedfecestim(pedfecestim);
 					pe.setFecha(fecha);
 					pe.setPedreccodigo(pedreccodigo);
 					pe.setPedrecfecha(pedrecfecha);
-					pe.setPedreccomentario(pedreccomentario);
+					pe.setPedreccomentario(pedreccomentario.trim());
 					pe.setPedestado(pedestado);
 					pe.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
 					pedidosEJBBean.update(pe);
+					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
 					System.out.println("Pedido Modificado exitosamente!");
-					
-					
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido no existe" , null);
-					System.out.println("Pedido no existe");
-				}
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. El pedido no se pudo modificar" , null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El pedido no se pudo modificar" , null);
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.update");
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public String delete(Pedido pedido) {
@@ -155,29 +153,24 @@ public class PedidosBean {
 			if (pedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione un Pedido a borrar!" , null);
 				System.out.println("Seleccione un Pedido a borrar!");
-			} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Seleccione la casilla de confirmación!" , null);
+			} else if (renglonesPedidoEJBBean.getRenglonxPedido(pedido.getId()) > 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El pedido tiene renglones asociados, no se puede borrar", null);
 				System.out.println("Seleccione la casilla de confirmación!");
 			} else {
-				if (renglonesPedidoEJBBean.getRenglonxPedido(pedido.getId()) > 0) {
-
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione la casilla de confirmación!", null);
-					System.out.println("Seleccione la casilla de confirmación!");
-				} else {
 					pedidosEJBBean.delete(pedido.getId());
 					pedidosList.remove(pedido);
 					
-					 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido borrado exitosamente!" , null);
-					 System.out.println("Pedido borrado exitosamente!");
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido borrado exitosamente!" , null);
+					System.out.println("Pedido borrado exitosamente!");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 				}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al borrar el pedido" , null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al borrar el pedido" , null);
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.delete");
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public Pedido get() {
@@ -197,15 +190,18 @@ public class PedidosBean {
 	}
 
 	public List<Pedido> obtenerTodosPedidos() throws ServiciosException {
-		return pedidosList = pedidosEJBBean.getAllPedidos();
+		try {
+			return pedidosList = pedidosEJBBean.getAllPedidos();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	public String getPedidosFechas() {
-		FacesMessage message = null;
+		FacesMessage message;
+		String retPage = "reportePedidosFecha";
 		
-
-		if (fechaIni.compareTo(fechaFin) < 0) {
-
+		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String SfechaIni = sdf.format(fechaIni);
 			String SfechaFin = sdf.format(fechaFin);
@@ -213,46 +209,21 @@ public class PedidosBean {
 			System.out.println("sfechaIni : " + SfechaIni);
 			System.out.println("sfechaIni : " + SfechaFin);
 
-			try {
-				listaPedidoReporteFechas = pedidosEJBBean.getPedidosEntreFechas(SfechaIni, SfechaFin);
-				// se desabilita el mensaje porque muestra uno por cada linea del listado
-				// message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos: Entre Fechas", null);
-				System.out.println("Mostrando Pedidos: Entre Fechas");
-			} catch (ServiciosException e) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al mostrar los pedidos" , null);
-				System.out.println("No se ejecuto correctamente el listado de reportes de pedidos");
-			}
 			
-
+				listaPedidoReporteFechas = pedidosEJBBean.getPedidosEntreFechas(SfechaIni, SfechaFin);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos: Entre Fechas: " + fechaIni + " y " + fechaFin, null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				System.out.println("Se envia listado entre fechas");
+				return retPage;
+			
+		} catch (ServiciosException e) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al mostrar los pedidos" , null);
+				System.out.println("No se ejecuto correctamente el listado de reportes de pedidos");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return "resultadoReportePedidosFecha";
+		return null;
 	}
 	
-//	public String getReporteFechas() {
-//		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mostrando Pedidos:", "Entre Fechas");
-//		FacesContext.getCurrentInstance().addMessage(null, message);
-//
-//		if (fechaIni.compareTo(fechaFin) < 0) {
-//
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//			String SfechaIni = sdf.format(fechaIni);
-//			String SfechaFin = sdf.format(fechaFin);
-//
-//			System.out.println("sfechaIni : " + SfechaIni);
-//			System.out.println("sfechaIni : " + SfechaFin);
-//
-//			try {
-//				listaPedidoReporteFechas = pedidosEJBBean.getReporteEntreFechas(SfechaIni, SfechaFin);
-//			} catch (ServiciosException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//		return "reportePedidosFecha";
-//	}
-
 	public List<Pedido> getAll() {
 
 		try {
@@ -263,16 +234,25 @@ public class PedidosBean {
 	}
 
 	public void validarFechas() throws Exception {
+		FacesMessage message;
+		try {
 		if (this.fechaIni != null && this.fechaFin != null) {
 			if (this.fechaIni.compareTo(this.fechaFin) > 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"La Fecha Inicial no puede ser anterior a la Fecha Final", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La Fecha Inicial no puede ser anterior a la Fecha Final", null));
 				System.out.println("La Fecha Inicial no puede ser anterior a la Fecha Final");
 			}
 		}
+		}catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo validar las fechas" , null);
+			System.out.println("No se pudo validar las fechas");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		
 	}
 
 	@PostConstruct
 	public void esP() {
+		FacesMessage message;
 		try {
 			ArrayList<SelectItem> esP = new ArrayList<>();
 			esP.add(new SelectItem(estadoPedido.G, estadoPedido.G.toString()));
@@ -289,9 +269,11 @@ public class PedidosBean {
 				System.out.println("Se construyo el listado de estados de pedido");
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se construyo el listado de estados de pedido", null));
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Contacte al administrador. No se construyo el listado de estados de pedido", null);
 			System.out.println("No se construyo el listado de estados de pedido");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		
 	}
 
 	public void onRowEdit(RowEditEvent event) {
@@ -306,21 +288,25 @@ public class PedidosBean {
 			pe.setUsuario(usuariosEJBBean.getId(usuId));
 
 			pedidosEJBBean.update(pe);
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido modificado exitosamente!", null);
-			System.out.println("Pedido modificado exitosamente!");
-
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			System.out.println("Se envia modificacion de pedido de row edit");
+			
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al modificar un pedido", null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar un pedido", null);
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.update en rowedit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		
 	}
 
 	/***********************************************************************************************************************************/
 
 	public String chequearPerfil() {
+		
 		try {
 			if (perfilLogeado == null) {
+				System.out.println("Usuario no esta logueado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null,  message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -332,6 +318,9 @@ public class PedidosBean {
 
 	public String logout() {
 		perfilLogeado = null;
+		System.out.println("Usuario se deslogueo");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null,  message);
 		return "Login?faces-redirect=true";
 	}
 

@@ -211,21 +211,18 @@ public class EntidadesLocBean {
 	}
 	
 	public List<EntidadLoc> obtenerTodosEntidadLoc() throws ServiciosException{
-		try {
 			return entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
-		}catch (Exception e) {
-			return null;
-		}
 	}
 
 	
 	public void onRowEdit(RowEditEvent event) {
 	    EntidadLoc el = (EntidadLoc) event.getObject();
-	    FacesMessage message = null;
+	    FacesMessage message;
 	   try {
 		   if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos - row edit");
+				FacesContext.getCurrentInstance().addMessage(null, message);
 		   }else {
 			   Long entLocId = el.getCiudad().getId();
 			   el.setCiudad(ciudadEJBBean.getId(entLocId));
@@ -235,14 +232,15 @@ public class EntidadesLocBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el local", null);
 			System.out.println("No se pudo modificar el local en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-	   FacesContext.getCurrentInstance().addMessage(null, message);
+	   
 	}
 	
 	
 	@PostConstruct
 	public void tipL() {
-		FacesMessage message = null;
+		FacesMessage message;
 		try {
 			ArrayList<SelectItem> tipL = new ArrayList<>();
 			tipL.add(new SelectItem(com.enumerated.tipoLoc.REGIONAL, com.enumerated.tipoLoc.REGIONAL.toString()));
@@ -256,12 +254,14 @@ public class EntidadesLocBean {
 				entidadLocList = obtenerTodosEntidadLoc();
 				System.out.println("Se carga la lista de tipos de locales");
 			}
+			entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo cargar la lista tipo de locales", null);
 			System.out.println("No se pudo cargar la lista de tipos de locales");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		
 	}
 	
 
@@ -274,6 +274,7 @@ public class EntidadesLocBean {
 			if (perfilLogeado == null) {
 				System.out.println("Usuario no esta logueado correctamente");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -287,6 +288,7 @@ public class EntidadesLocBean {
 		perfilLogeado = null;
 		System.out.println("Usuario se deslogueo");
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "Login?faces-redirect=true";
 	}
 

@@ -174,18 +174,23 @@ public class FamiliasBean {
 	}
 
 	public List<Familia> obtenerTodasFamilias() throws ServiciosException {
-		return familiasList = familiasEJBBean.getAllFamilias();
+		try {
+			return familiasList = familiasEJBBean.getAllFamilias();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void onRowEdit(RowEditEvent event) {
 		Familia f = (Familia) event.getObject();
 
-		FacesMessage message = null;
+		FacesMessage message;
 
 		try {
 			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
 					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
 				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
 				familiasEJBBean.update(f);
@@ -194,8 +199,9 @@ public class FamiliasBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la familia.", null);
 			System.out.println("No se pudo modificar la familia en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		
 	}
 
 	/***********************************************************************************************************************************/
@@ -206,6 +212,7 @@ public class FamiliasBean {
 			if (perfilLogeado == null) {
 				System.out.println("Usuario no esta logueado correctamente");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -219,6 +226,7 @@ public class FamiliasBean {
 		perfilLogeado = null;
 		System.out.println("Usuario se deslogueo");
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "Login?faces-redirect=true";
 	}
 

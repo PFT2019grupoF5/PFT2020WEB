@@ -130,11 +130,12 @@ public class CiudadesBean {
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Ciudad c = (Ciudad) event.getObject();
-	    FacesMessage message = null;
+	    FacesMessage message;
 	   try {
 		   if(c == null) {
 			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
 			   System.out.println("Ciudad no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
 		   }else {
 			   this.update(c.getId(), c.getNombre());
 			   System.out.println("Pasa datos al update desde rowEdit");
@@ -142,9 +143,10 @@ public class CiudadesBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la ciudad", null);
 			System.out.println("No se pudo modificar la ciudad en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}
-	   FacesContext.getCurrentInstance().addMessage(null, message);
+	   
 	}
 	
 	
@@ -177,7 +179,11 @@ public class CiudadesBean {
 	}
 	
 	public List<Ciudad> obtenerTodasCiudades() throws ServiciosException {
-		return ciudadesList =ciudadesEJBBean.getAllCiudades();
+		try {
+			return ciudadesList =ciudadesEJBBean.getAllCiudades();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	/***********************************************************************************************************************************/
@@ -187,6 +193,7 @@ public class CiudadesBean {
 			if (perfilLogeado == null) {
 				System.out.println("Usuario no esta logueado correctamente");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -200,6 +207,7 @@ public class CiudadesBean {
 		perfilLogeado = null;
 		System.out.println("Usuario se deslogueo");
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "Login?faces-redirect=true";
 	}
 
@@ -207,7 +215,7 @@ public class CiudadesBean {
 	
 	@PostConstruct
 	public void segm() {
-		FacesMessage message = null;
+		
 		try {
 			// rowEdit
 			if (ciudadesList==null) {
@@ -215,10 +223,11 @@ public class CiudadesBean {
 				System.out.println("Se carga la lista de ciudades");
 			}	
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de ciudades", null);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de ciudades", null);
 			System.out.println("No se pudo cargar la lista de ciudades");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		
 	}
 	
 	

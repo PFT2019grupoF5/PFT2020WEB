@@ -64,18 +64,16 @@ public class MovimientosBean {
 
 	public String add() {
 		String retPage = "altaMovimientoPage";
-		FacesMessage message;
+		FacesMessage message = null;
 		
 		try {
-			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0 || descripcion == null) {
+			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || idProducto == 0 || idAlmacenamiento == 0 || descripcion.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
-			} else if (descripcion.length() > 250) {
+			} else if (descripcion.trim().length() > 250) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Descripcion no puede ser mayor a 250 caracteres", null);
 				System.out.println("Campo Descripcion no puede ser mayor a 250 caracteres");
 			} else {
-
-				if (get() == null) {
 					
 					Movimiento m = new Movimiento();
 					Producto productoEnBD = productosEJBBean.getProducto(idProducto);
@@ -83,59 +81,60 @@ public class MovimientosBean {
 					
 					m.setFecha(fecha);
 					m.setCantidad(cantidad);
-					m.setDescripcion(descripcion);
+					m.setDescripcion(descripcion.trim());
 					m.setCosto(costo);
 					m.setTipoMov(tipoMov);
 					m.setProducto(productoEnBD);
 					m.setAlmacenamiento(almacenamientoEnBD);
-					
+					System.out.println("Prepara datos para la comprobacion");
 
 					if (tipoMov.toString().equals("P")) {
-					
-						// Significa que Registro una PERDIDA de un producto en un almacenamiento
+
 						double stockTotalDelProducto = productoEnBD.getStkTotal();
+						System.out.println("Se fija un valor para comprobar cantidades");
 						
 						if (stockTotalDelProducto < cantidad) {
-							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.", null);
+							message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.", null);
 							System.out.println("Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.");
 						} else {
-							
-							// descuenta stock del producto
 							productoEnBD.setStkTotal(stockTotalDelProducto - cantidad);
-							// controla si es necesario iniciar pedido de reposicion
+							System.out.println("Descuenta stock del producto");
 							if (productoEnBD.getStkTotal() <= productoEnBD.getStkMin()) {
-								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Stock por debajo del mínimo requerido para este producto, por favor gestione un Pedido de reposición.", null);
+								message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Stock por debajo del mínimo requerido para este producto, por favor gestione un Pedido de reposición.", null);
 								System.out.println("Stock por debajo del mínimo requerido para este producto, por favor gestione un Pedido de reposición");
+							}else {
+				                // disponibiliza espacio en el almacenamiento correspondiente a la perdida ocasionada	
+								almacenamientoEnBD.setVolumen( (int) (almacenamientoEnBD.getVolumen() + cantidad*productoEnBD.getVolumen()) );
+								productosEJBBean.update(productoEnBD);
+								almacenamientosEJBBean.update(almacenamientoEnBD);
+								
+								movimientosEJBBean.add(m);
+								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Movimiento se creo correctamente" , null);
+								System.out.println("El Movimiento se creo correctamente" + "\n" + fecha + "\n" + cantidad + "\n" + descripcion + "\n" + costo + "\n" + tipoMov + "\n" + idProducto + "\n" + idAlmacenamiento);
+								FacesContext.getCurrentInstance().addMessage(null, message);
+								return retPage;
 							}
-			                // disponibiliza espacio en el almacenamiento correspondiente a la perdida ocasionada	
-							almacenamientoEnBD.setVolumen( (int) (almacenamientoEnBD.getVolumen() + cantidad*productoEnBD.getVolumen()) );
-							// actualiza BD
-							productosEJBBean.update(productoEnBD);
-							almacenamientosEJBBean.update(almacenamientoEnBD);
-							
-							movimientosEJBBean.add(m);
-							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Movimiento se creo correctamente" , null);
-							System.out.println("El Movimiento se creo correctamente" + "\n" + fecha + "\n" + cantidad + "\n" + descripcion + "\n" + costo + "\n" + tipoMov + "\n" + idProducto + "\n" + idAlmacenamiento);
-						}	
-						}else {
-						movimientosEJBBean.add(m);
-						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El tipo de movimiento debe ser P", null);
-						System.out.println("El tipo de movimiento debe ser P");
+						}
+						}else if(!tipoMov.toString().equals("P")){
+							double stockTotalDelProducto = productoEnBD.getStkTotal();
+							if (stockTotalDelProducto < cantidad) {
+								message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Stock insuficiente de Producto para registrar un movimiento, por favor revise sus datos.", null);
+								System.out.println("Stock insuficiente de Producto para registrar un movimiento, por favor revise sus datos.");
+							}else {
+								movimientosEJBBean.add(m);
+								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El tipo de movimiento se registro", null);
+								System.out.println("El Movimiento se creo correctamente" + "\n" + fecha + "\n" + cantidad + "\n" + descripcion + "\n" + costo + "\n" + tipoMov + "\n" + idProducto + "\n" + idAlmacenamiento);
+								FacesContext.getCurrentInstance().addMessage(null, message);
+								return retPage;
+								}
 					}
-					
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Movimiento ya existe", null);
-					System.out.println("El Movimiento ya existe");
 				}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar movimiento", null);
 			System.out.println("No se ejecuto correctamente movimientosEJBBean.add");
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public String update(Long id, Date fecha, int cantidad, String descripcion, double costo, tipoMovimiento tipoMov,
@@ -145,39 +144,39 @@ public class MovimientosBean {
 		try {
 
 			if (fecha == null || cantidad <= 0 || costo <= 0 || tipoMov == null || producto == null
-					|| almacenamiento == null || descripcion == null) {
+					|| almacenamiento == null || descripcion.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
-			} else if (descripcion.length() > 250) {
+			} else if (descripcion.trim().length() > 250) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Descripcion no puede ser mayor a 250 caracteres", null);
 				System.out.println("Campo Descripcion no puede ser mayor a 250 caracteres");
+			} else if (tipoMov.toString().equals("P")) {
+				// Si es PERDIDA no se permite MODIFICACION
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No es posible modificar un movimiento tipo Perdida", null);
+				System.out.println("No es posible modificar un movimiento tipo Perdida");
 			} else {
+				Movimiento m = new Movimiento();
+				m.setId(id);
+				m.setFecha(fecha);
+				m.setCantidad(cantidad);
+				m.setDescripcion(descripcion.trim());
+				m.setCosto(costo);
+				m.setTipoMov(tipoMov);
+				m.setProducto(productosEJBBean.getProducto(idProducto));
+				m.setAlmacenamiento(almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento));
+				movimientosEJBBean.update(m);
 				
-				if (!tipoMov.toString().equals("P")) {
-					// Si es PERDIDA no se permite MODIFICACION
-					Movimiento m = new Movimiento();
-					m.setId(id);
-					m.setFecha(fecha);
-					m.setCantidad(cantidad);
-					m.setDescripcion(descripcion);
-					m.setCosto(costo);
-					m.setTipoMov(tipoMov);
-					m.setProducto(productosEJBBean.getProducto(idProducto));
-					m.setAlmacenamiento(almacenamientosEJBBean.getAlmacenamiento(idAlmacenamiento));
-					movimientosEJBBean.update(m);
-					
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento Modificado exitosamente!", null);
-					System.out.println("Movimiento Modificado exitosamente!");
-				}
-					
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento Modificado exitosamente!", null);
+				System.out.println("Movimiento Modificado exitosamente!");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Asegurese que no es de tipo Perdida", null);
 			System.out.println("No se ejecuto correctamente movimientosEJBBean.update");
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public String delete(Movimiento movimiento) {
@@ -189,19 +188,11 @@ public class MovimientosBean {
 				System.out.println("Seleccione Un Movimiento a borrar!");
 			} else {
 
-				if (movimiento.getTipoMov().toString().equals("P")) {
-
 					Producto productoEnBD = productosEJBBean.getProducto(movimiento.getProducto().getId());
 					Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(movimiento.getAlmacenamiento().getId());
 
-					// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
-					double stockTotalDelProducto = productoEnBD.getStkTotal();
-
-					if (stockTotalDelProducto < cantidad) {
-						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.", null);
-						System.out.println("Stock insuficiente de Producto para registrar la Pérdida, por favor revise sus datos.");
-					} else {
-						
+						// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
+						double stockTotalDelProducto = productoEnBD.getStkTotal();
                         //repone stock del producto
 						productoEnBD.setStkTotal(stockTotalDelProducto + cantidad);
                         // vuelve a ocupar espacio en el almacenamiento
@@ -211,29 +202,22 @@ public class MovimientosBean {
 						almacenamientosEJBBean.update(almacenamientoEnBD);
 						
 						movimientosEJBBean.delete(movimiento.getId());
+						movimientosList.remove(movimiento); 
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
 						System.out.println("Movimiento borrado exitosamente!");
-						
-					}	
-			}else {
-				movimientosEJBBean.delete(movimiento.getId());
-				movimientosList.remove(movimiento); //se elimina el producto de la lista para que se muestre actualizado en la página
-
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó el Movimiento.", null);
-				System.out.println("Se eliminó el Movimiento.");
+						FacesContext.getCurrentInstance().addMessage(null, message);
+						return retPage;
 			}
-		}
-		
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Asegurese que no es de tipo Perdida", null);
 			System.out.println("No se elimino el movimiento");
 			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
+	
 	public Movimiento get() {
 		try {
 			return movimientosEJBBean.getId(id);
@@ -260,7 +244,11 @@ public class MovimientosBean {
 	}
 	
 	public List<Movimiento> obtenerTodosMovimientos() throws ServiciosException {
-		return movimientosList = movimientosEJBBean.getAllMovimientos();
+		try {
+			return movimientosList = movimientosEJBBean.getAllMovimientos();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
@@ -269,9 +257,10 @@ public class MovimientosBean {
 	    FacesMessage message;
 	    
 	   try {
-			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null || m.getDescripcion() == null) {
+			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().trim().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null || m.getDescripcion().trim().isEmpty()) {
 				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
-				 System.out.println("Es necesario ingresar todos los datos requeridos");
+				 System.out.println("Es necesario ingresar todos los datos requeridos row edit");
+				 FacesContext.getCurrentInstance().addMessage(null,  message);
 			} else {
 					
 				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
@@ -280,17 +269,13 @@ public class MovimientosBean {
 				
 				m.setProducto(productosEJBBean.getId(prodId));
 				m.setAlmacenamiento(almacenamientosEJBBean.getId(almaId));
-				
 				movimientosEJBBean.update(m);
-				 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento modificado exitosamente!", null);
-				 System.out.println("Movimiento modificado exitosamente!");
+				System.out.println("Modificacion de movimiento pasa por rowedit");
 			}
-			FacesContext.getCurrentInstance().addMessage(null,  message);
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar el movimiento ", null);
-			System.out.println("No se pudo modificar el movimiento");
-			
-
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador.No se pudo modificar el movimiento ", null);
+			System.out.println("No se pudo modificar el movimiento en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
@@ -307,19 +292,24 @@ public class MovimientosBean {
 			if (movimientosList==null) {
 				mov = new Movimiento();
 				movimientosList = obtenerTodosMovimientos();
+				System.out.println("Se crea la lista de tipos de movimiento");
 			}
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo crear la lista de tipos de movimiento", null);
 			System.out.println("No se pudo crear la lista de tipos de movimiento");
-			
+			FacesContext.getCurrentInstance().addMessage(null,  message);
 		}
 	}
 
 	/***********************************************************************************************************************************/
 
 	public String chequearPerfil() {
+		
 		try {
 			if (perfilLogeado == null) {
+				System.out.println("Usuario no esta logueado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null,  message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -331,6 +321,9 @@ public class MovimientosBean {
 
 	public String logout() {
 		perfilLogeado = null;
+		System.out.println("Usuario se deslogueo");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null,  message);
 		return "Login?faces-redirect=true";
 	}
 

@@ -33,7 +33,7 @@
 						closable="true" />
 
 					<p:column colspan="1">  
-						<h:outputText value="Fecha Inicio:" /> 
+						<h:outputText value="Fecha Inicial:" style="font-size:12px;"/> 
 						<p:calendar id="fini" value="#{renglonReporte.fechaIni}"
        					pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
        					locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Inicial">
@@ -43,7 +43,7 @@
 					</p:column>
 
 					<p:column colspan="1">  
-						<h:outputText value="Fecha Final:" />
+						<h:outputText value="Fecha Final:" style="font-size:12px;"/>
 			       		<p:calendar id="ffin" value="#{renglonReporte.fechaFin}" 
 			       		pattern="yyyy-MM-dd" mask="?9999-99-99" placeholder="____-__-__"
 			       		locale="es_ES" required="true" requiredMessage=" Debe ingresar una Fecha Final">

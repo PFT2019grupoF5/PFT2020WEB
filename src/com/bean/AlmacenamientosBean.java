@@ -198,7 +198,7 @@ public class AlmacenamientosBean {
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
-	    FacesMessage message = null;
+	    FacesMessage message;
 	    try {
 		
 			Long locId = a.getEntidadLoc().getId();
@@ -210,15 +210,16 @@ public class AlmacenamientosBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el almacenamiento", null);
 			System.out.println("No se pudo modificar el almacenamiento en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-	   FacesContext.getCurrentInstance().addMessage(null, message);
+	   
 	}
 
 	
 	
 	@PostConstruct
 	public void cargoLista() {
-		FacesMessage message = null;
+		FacesMessage message;
 		try {
 			// Carga la lista de Almacenamientos
 			almacenamientosList = this.getAll();
@@ -227,8 +228,9 @@ public class AlmacenamientosBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo cargar la lista de almacenamientos", null);
 			System.out.println("No se pudo cargar la lista de almacenamientos");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		
 	}
 
 	/***********************************************************************************************************************************/
@@ -239,6 +241,7 @@ public class AlmacenamientosBean {
 			if (perfilLogeado == null) {
 				System.out.println("Usuario no esta logueado correctamente");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null, message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -252,6 +255,7 @@ public class AlmacenamientosBean {
 		perfilLogeado = null;
 		System.out.println("Usuario se deslogueo");
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "Login?faces-redirect=true";
 	}
 
