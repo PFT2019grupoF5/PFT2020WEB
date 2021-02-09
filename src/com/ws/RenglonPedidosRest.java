@@ -79,7 +79,8 @@ public class RenglonPedidosRest {
     @Produces(MediaType.APPLICATION_JSON)
       public RenglonPedido updateRenglonPedido(@PathParam("id") Long id, RenglonPedido renglonPedido) throws ServiciosException{
         try{
-            renglonPedidosBeans.update(renglonPedido);
+        	renglonPedido.setId(id);
+        	renglonPedidosBeans.update(renglonPedido);
             return renglonPedido;
         }catch(ServiciosException e){
             e.printStackTrace();

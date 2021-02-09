@@ -67,6 +67,7 @@ public class EntidadLocRest {
     @Produces(MediaType.APPLICATION_JSON)
       public EntidadLoc updateEntidadLoc(@PathParam("id") Long id, EntidadLoc entidadLoc) throws ServiciosException{
         try{
+        	entidadLoc.setId(id);
             entidadesLocBeans.update(entidadLoc);
             return entidadLoc;
         }catch(ServiciosException e){

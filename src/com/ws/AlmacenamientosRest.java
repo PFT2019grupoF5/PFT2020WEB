@@ -63,9 +63,9 @@ public class AlmacenamientosRest {
 	@PUT
 	@Path("/update/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Almacenamiento updateAlmacenamiento(@PathParam("id") Long id, Almacenamiento almacenamiento)
-			throws ServiciosException {
+	public Almacenamiento updateAlmacenamiento(@PathParam("id") Long id, Almacenamiento almacenamiento) throws ServiciosException {
 		try {
+			almacenamiento.setId(id);
 			almacenamientosBeans.update(almacenamiento);
 			return almacenamiento;
 		} catch (ServiciosException e) {
