@@ -59,52 +59,47 @@ public class UsuariosBean {
 		FacesMessage message;
 		String retPage = "altaUsuarioPage";
 		try {
-			if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
+			if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || tipoPerfil == null || contrasena.trim().isEmpty() || nomAcceso.trim().isEmpty() || correo.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
-			} else if (nombre.length() > 50 || apellido.length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido.  Por favor revise sus datos" , null);
+			} else if (nombre.trim().length() > 50 || apellido.trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido (50).  Por favor revise sus datos" , null);
 				System.out.println("Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
-			} else if (contrasena.length() < 8 || contrasena.length() > 16) {
+			} else if (contrasena.trim().length() < 8 || contrasena.trim().length() > 16) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La contraseña debe tener por lo menos 8 dígitos y no superar los 16.  Por favor revise el dato ingresado" , null);
 				System.out.println("La contraseña debe tener por lo menos 8 dígitos y no superar los 16.  Por favor revise el dato ingresado");
-			} else if (nomAcceso.length() > 30) {
+			} else if (nomAcceso.trim().length() > 30) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo nomAcceso no puede ser mayor a 30 caracteres" , null);
 				System.out.println("Campo nomAcceso no puede ser mayor a 30 caracteres");
-			} else if (correo.length() > 50) {
+			} else if (correo.trim().length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo no puede ser mayor a 50 caracteres" , null);
 				System.out.println("Campo Correo no puede ser mayor a 50 caracteres");
 			} else if (!correo.contains("@")) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo debe ser del formato : nombre @ dominio" , null);
 				System.out.println("Campo Correo debe ser del formato : nombre @ dominio");
+			} else if (getNomAcceso(nomAcceso.trim()) != null) {
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario ya existente, por favor revise sus datos." , null);
+					System.out.println("Usuario ya existente, por favor revise sus datos.");
 			} else {
-				if (getNomAcceso(nomAcceso) == null) {
 					Usuario u = new Usuario();
-					u.setNombre(nombre);
-					u.setApellido(apellido);
-					u.setNomAcceso(nomAcceso);
-					u.setContrasena(DigestUtils.md5Hex(contrasena));
-					u.setCorreo(correo);
+					u.setNombre(nombre.trim());
+					u.setApellido(apellido.trim());
+					u.setNomAcceso(nomAcceso.trim());
+					u.setContrasena(DigestUtils.md5Hex(contrasena.trim()));
+					u.setCorreo(correo.trim());
 					u.setTipoPerfil(tipoPerfil);
 					usuariosEJBBean.add(u);
-					
-					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario ingresado exitosamente!" , null);
 					System.out.println("Usuario ingresado exitosamente!"  + "\n" + nombre + "\n" + apellido + "\n" + nomAcceso + "\n" + correo + "\n" + tipoPerfil);
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario ya existente, por favor revise sus datos." , null);
-					System.out.println("Usuario ya existente, por favor revise sus datos.");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 				}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al ejecutar agregar usuario", null);
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.add");
-			
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	
@@ -112,47 +107,44 @@ public class UsuariosBean {
 		FacesMessage message;
 		String retPage = "modificarUsuarioPage";
 		try {
-				if (nombre.isEmpty() || apellido.isEmpty() || tipoPerfil == null || contrasena.length() == 0 || nomAcceso.isEmpty() || correo.isEmpty()) {
+				if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || tipoPerfil == null || contrasena.trim().isEmpty() || nomAcceso.trim().isEmpty() || correo.trim().isEmpty()) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
 					System.out.println("Es necesario ingresar todos los datos requeridos");
-				} else if (nombre.length() > 50 || apellido.length() > 50) {
+				} else if (nombre.trim().length() > 50 || apellido.trim().length() > 50) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido.  Por favor revise sus datos" , null);
 					System.out.println("Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
-				} else if (nomAcceso.length() > 30) {
+				} else if (nomAcceso.trim().length() > 30) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo nomAcceso no puede ser mayor a 30 caracteres" , null);
 					System.out.println("Campo nomAcceso no puede ser mayor a 30 caracteres");
-				} else if (correo.length() > 50) {
+				} else if (correo.trim().length() > 50) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo no puede ser mayor a 50 caracteres" , null);
 					System.out.println("Campo Correo no puede ser mayor a 50 caracteres");
 				} else if (!correo.contains("@")) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo debe ser del formato : nombre @ dominio" , null);
 					System.out.println("Campo Correo debe ser del formato : nombre @ dominio");
-			} else {
-				if (getNomAcceso(nomAcceso) != null) {
+				} else if (getNomAcceso(nomAcceso.trim()) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario no existe" , null);
+				System.out.println("Usuario no existe" + nomAcceso);
+				} else {
 					Usuario u = new Usuario();
-					u.setNombre(nombre);
-					u.setApellido(apellido);
-					u.setNomAcceso(nomAcceso);
-					u.setCorreo(correo);
+					u.setNombre(nombre.trim());
+					u.setApellido(apellido.trim());
+					u.setNomAcceso(nomAcceso.trim());
+					u.setCorreo(correo.trim());
 					u.setTipoPerfil(tipoPerfil);
 					usuariosEJBBean.update(u);
 					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
 					System.out.println("Usuario modificado exitosamente!");
-				} else {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario no existe" , null);
-					System.out.println("Usuario no existe");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return retPage;
 				}
-			}
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				return retPage;
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al modificar usuario." , null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar usuario." , null);
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.update");
-			
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 	
 	
@@ -161,28 +153,23 @@ public class UsuariosBean {
 		String retPage = "bajaUsuarioPage";
 		try {
 			if (usuario == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione un Usuario a borrar!" , null);
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione un Usuario a borrar!" , null);
 				System.out.println("Seleccione un Usuario a borrar!");
-			/*} else if (!confirmarBorrado) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione la casilla de confirmación!" , null);
-				System.out.println("Seleccione la casilla de confirmación!");
-			*/
 			} else {
 				usuariosEJBBean.delete(usuario.getId());
 				usuariosList.remove(usuario);
 				
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado exitosamente!", null);
 				System.out.println("Usuario borrado exitosamente!");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return retPage;
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al borrar el usuario" , null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al borrar el usuario" , null);
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.delete");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			
 		}
-		return retPage;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		return null;
 	}
 
 	public Usuario get() {
@@ -211,7 +198,11 @@ public class UsuariosBean {
 	}
 	
 	public List<Usuario> getAllUsuarios() throws ServiciosException{
+		try {
 			return usuariosList = usuariosEJBBean.getAllUsuarios();
+		}catch (Exception e) {
+			return null;
+		}
 		
 	}
 
@@ -235,12 +226,11 @@ public class UsuariosBean {
 			if(usuariosList == null) {
 				usu = new Usuario();
 			usuariosList = getAllUsuarios();
-
+			System.out.println("Se creo la lista de tipos de perfil");
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se creo la lista de tipos de perfil" , null));
 			System.out.println("No se creo la lista de tipos de perfil");
-			
 		}
 	}
 
@@ -248,25 +238,17 @@ public class UsuariosBean {
 	
 	public void onRowEdit(RowEditEvent event) {
 	    Usuario u = (Usuario) event.getObject();
-	   
-	    FacesMessage message;
-	    
 	   try {
 			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
 				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
-					
 				usuariosEJBBean.update(u);
-			    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!" , null);
-			    System.out.println("Usuario modificado exitosamente!");
+			    System.out.println("Modificacion de usuario pasa por row edit");
 			}
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
-			
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. Error al modificar usuario." , null);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar usuario." , null));
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.update");
-			
 		}
 	}
 
@@ -275,7 +257,6 @@ public class UsuariosBean {
 	/***********************************************************************************************************************************/
 
 	public String login() {
-		FacesMessage message = null;
 		try {
 			Usuario loginUser = usuariosEJBBean.getNA(nomAcceso);
 
@@ -283,31 +264,24 @@ public class UsuariosBean {
 			System.out.println(ValidarContrasena(nomAcceso, contrasena));
 			System.out.println("nomAcceso:  " + nomAcceso);
 			
-			if (nomAcceso != null && loginUser != null && contrasena != null
-					&& ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nomAcceso);
-				FacesContext.getCurrentInstance().addMessage(null, message);
+			if (nomAcceso != null && loginUser != null && contrasena != null && ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido: " + nomAcceso, null));
+				
 				perfilLogeado = loginUser.getTipoPerfil();
-				System.out.println("El usuario ingreso" + loginUser);
+				System.out.println("El usuario ingreso " + loginUser);
 				return "Home";
 			} else {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en Inicio de Sesión",
-						loginUser != null ? "Credenciales Inválidas"
-								: "No existe un Usuario que con coincida con los datos ingresados");
-				System.out.println("Error en Inicio de Sesión" + loginUser + "Credenciales Inválidas" + "No existe un Usuario que con coincida con los datos ingresados");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Credenciales Inválidas " + "No existe un Usuario que coincida con los datos ingresados" , null));
+				System.out.println("Error en Inicio de Sesión" + loginUser + "Credenciales Inválidas" + "No existe un Usuario que coincida con los datos ingresados");
 				return "Login";
 			}
 		} catch (ServiciosException e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en Inicio de Sesión", e.getMessage());
-			System.out.println("Error en Inicio de Sesión");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error en Inicio de Sesión", null));
+			System.out.println("Error en Inicio de Sesión. No funciono el login");
+			
 			return "Login";
 		}
-
 	}
-
-	
 	public String cancelLogin() {
 		return "Login?faces-redirect=true";
 	}
@@ -316,11 +290,14 @@ public class UsuariosBean {
 	
 	/***********************************************************************************************************************************/
 
-
-
+	
 	public String chequearPerfil() {
+		
 		try {
 			if (perfilLogeado == null) {
+				System.out.println("Usuario no esta logueado correctamente");
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no esta logueado correctamente", null);
+				FacesContext.getCurrentInstance().addMessage(null,  message);
 				return "Login?faces-redirect=true";
 			} else {
 				return null;
@@ -363,6 +340,9 @@ public class UsuariosBean {
 
 	public String logout() {
 		perfilLogeado = null;
+		System.out.println("Usuario se deslogueo");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deslogueado!", null);
+		FacesContext.getCurrentInstance().addMessage(null,  message);
 		return "Login?faces-redirect=true";
 	}
 	

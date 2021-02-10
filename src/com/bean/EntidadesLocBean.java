@@ -140,7 +140,7 @@ public class EntidadesLocBean {
 				e.setCiudad(ciudadEJBBean.getCiudad(ciudadIdNuevo));
 				entidadLocEJBBean.update(e);
 	
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente!" + nombre, null);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! " + nombre, null);
 				System.out.println("Local ingresado exitosamente!" + "\n" + nombre + "\n" + codigo + "\n" + direccion + "\n" + tipoLoc + "\n" + ciudadIdNuevo);
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				return retPage;

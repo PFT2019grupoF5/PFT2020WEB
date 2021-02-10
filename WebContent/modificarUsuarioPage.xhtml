@@ -33,7 +33,6 @@
 <h:form id="form">
 	
 <p:growl id="msgs" globalOnly="false"/>
- 
 		<p:panel>
 			<h3 align="center">Modificar Usuarios</h3>
 		</p:panel>
@@ -43,8 +42,7 @@
 
 
 
-		<p:ajax event="rowEdit" listener="#{usuario.onRowEdit}" update=":form:msgs"
-			 />
+		<p:ajax event="rowEdit" listener="#{usuario.onRowEdit}" update=":form:msgs"/>
 
 		<p:column headerText="Id">
 				<f:facet name="output">

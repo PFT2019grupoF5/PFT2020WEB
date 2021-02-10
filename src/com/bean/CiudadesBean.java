@@ -71,7 +71,7 @@ public class CiudadesBean {
 		String retPage = "modificarCiudadPage";
 		
 		try {
-			if (nombre.isEmpty() || nombre.length() > 50 || nombre.trim().isEmpty()) {
+			if (nombre.trim().length() > 50 || nombre.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios", null);
 				System.out.println("Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
 			}else if (get2(nombre.trim()) != null) { 
@@ -93,7 +93,7 @@ public class CiudadesBean {
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la ciudad ", null);
-			System.out.println("No se pudo modificar la ciudad: ");
+			System.out.println("No se se ejecuto correctamente ciudadEJBBean.update ");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		return null;
@@ -109,7 +109,7 @@ public class CiudadesBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione una Ciudad a borrar!", null);
 				System.out.println("Seleccione una Ciudad a borrar!");
 			} else if (entidadLocEJBBean.getLocalesxCiu(ciudad.getId()) > 0) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad", null);
+					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad: " + ciudad.getNombre(), null);
 					System.out.println("No se puede eliminar la Ciudad porque tiene Locales asociados. Elimine primero los Locales que tienen la Ciudad");
 			} else {
 					ciudadesEJBBean.delete(ciudad.getId());
