@@ -11,13 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
 import org.primefaces.event.RowEditEvent;
-
-import com.entities.Familia;
 import com.entities.Pedido;
-import com.entities.Producto;
-import com.entities.RenglonReporte;
 import com.entities.Usuario;
 import com.enumerated.estadoPedido;
 import com.enumerated.tipoPerfil;
@@ -288,14 +283,15 @@ public class PedidosBean {
 			pe.setUsuario(usuariosEJBBean.getId(usuId));
 
 			pedidosEJBBean.update(pe);
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
 			System.out.println("Se envia modificacion de pedido de row edit");
 			
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar un pedido", null);
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.update en rowedit");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
-		
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/

@@ -185,8 +185,6 @@ public class RenglonesPedidoBean {
 	public void onRowEdit(RowEditEvent event) {
 	    RenglonPedido rp = (RenglonPedido) event.getObject();
 	   
-	    FacesMessage message;
-	    
 	   try {
 			if (rp.getRencant() < 0 || rp.getRennro() <0 || rp.getPedido() == null || rp.getProducto() == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
@@ -199,6 +197,7 @@ public class RenglonesPedidoBean {
 				rp.setPedido(pedidosEJBBean.getId(pedId));
 				
 				renglonesPedidoEJBBean.update(rp);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null));
 			    System.out.println("Renglon de Pedido modificado exitosamente!");  
 			}
 		} catch (Exception e) {

@@ -75,8 +75,8 @@ public class CiudadesBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios", null);
 				System.out.println("Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
 			}else if (get2(nombre.trim()) != null) { 
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una ciudad con el nombre " + nombre, null);
-				System.out.println("Ya existe una ciudad con el nombre " + nombre);
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una ciudad con el nombre ", null);
+				System.out.println("Ya existe una ciudad con el nombre ");
 			}else if (ciudadesEJBBean.getId(id) == null){
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: Ciudad no existe", null);
 				System.out.println("Se intento modificar una ciudad que no existe:");
@@ -144,9 +144,7 @@ public class CiudadesBean {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la ciudad", null);
 			System.out.println("No se pudo modificar la ciudad en row edit");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			
 		}
-	   
 	}
 	
 	

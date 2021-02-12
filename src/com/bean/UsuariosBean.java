@@ -17,6 +17,8 @@ import com.entities.Familia;
 import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
+import com.services.PedidoBeanRemote;
+import com.services.ProductoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
 
@@ -54,6 +56,12 @@ public class UsuariosBean {
 	
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
+	
+	@EJB
+	private ProductoBeanRemote productosEJBBean;
+
+	@EJB
+	private PedidoBeanRemote pedidosEJBBean;
 
 	public String add() {
 		FacesMessage message;
@@ -155,6 +163,12 @@ public class UsuariosBean {
 			if (usuario == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione un Usuario a borrar!" , null);
 				System.out.println("Seleccione un Usuario a borrar!");
+			} else if (productosEJBBean.getProductosxUsu(usuario.getId()) > 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar el usuario porque tiene productos asociados. Elimine primero los productos que tiene el usuario", null);
+				System.out.println("No se puede eliminar el usuario porque tiene productos asociados. Elimine primero los productos que tiene asociado el usuario " + usuario.getNomAcceso());
+			} else if (pedidosEJBBean.getPedidosxUsu(usuario.getId()) > 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar el usuario porque tiene Pedidos asociados. Elimine primero los Pedidos que tiene el usuario", null);
+				System.out.println("No se puede eliminar el usuario porque tiene Pedidos asociados. Elimine primero los Pedidos que tiene asociado el usuario " + usuario.getNomAcceso());
 			} else {
 				usuariosEJBBean.delete(usuario.getId());
 				usuariosList.remove(usuario);
@@ -244,6 +258,7 @@ public class UsuariosBean {
 				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
 				usuariosEJBBean.update(u);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null));
 			    System.out.println("Modificacion de usuario pasa por row edit");
 			}
 		} catch (Exception e) {
@@ -252,7 +267,19 @@ public class UsuariosBean {
 		}
 	}
 
-	
+	public void onRowDelete(RowEditEvent event) {
+		Usuario u = (Usuario) event.getObject();
+
+		FacesMessage message;
+
+		try {
+			this.delete(u);
+		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Contacte al administrador. Error al eliminar usuario.", null);
+			System.out.println("No se ejecuto correctamente onRowDelete");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
 
 	/***********************************************************************************************************************************/
 

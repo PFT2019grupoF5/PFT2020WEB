@@ -116,17 +116,12 @@ public class MovimientosBean {
 							}
 						}
 						}else if(!tipoMov.toString().equals("P")){
-							double stockTotalDelProducto = productoEnBD.getStkTotal();
-							if (stockTotalDelProducto < cantidad) {
-								message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Stock insuficiente de Producto para registrar un movimiento, por favor revise sus datos.", null);
-								System.out.println("Stock insuficiente de Producto para registrar un movimiento, por favor revise sus datos.");
-							}else {
-								movimientosEJBBean.add(m);
-								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El tipo de movimiento se registro", null);
-								System.out.println("El Movimiento se creo correctamente" + "\n" + fecha + "\n" + cantidad + "\n" + descripcion + "\n" + costo + "\n" + tipoMov + "\n" + idProducto + "\n" + idAlmacenamiento);
-								FacesContext.getCurrentInstance().addMessage(null, message);
-								return retPage;
-								}
+							movimientosEJBBean.add(m);
+							message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El tipo de movimiento se registro", null);
+							System.out.println("El Movimiento se creo correctamente" + "\n" + fecha + "\n" + cantidad + "\n" + descripcion + "\n" + costo + "\n" + tipoMov + "\n" + idProducto + "\n" + idAlmacenamiento);
+							FacesContext.getCurrentInstance().addMessage(null, message);
+							return retPage;
+						
 					}
 				}
 		} catch (Exception e) {
@@ -186,30 +181,42 @@ public class MovimientosBean {
 			if (movimiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione Un Movimiento a borrar!", null);
 				System.out.println("Seleccione Un Movimiento a borrar!");
+				
 			} else {
-
-					Producto productoEnBD = productosEJBBean.getProducto(movimiento.getProducto().getId());
-					Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(movimiento.getAlmacenamiento().getId());
-
-						// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
-						double stockTotalDelProducto = productoEnBD.getStkTotal();
-                        //repone stock del producto
-						productoEnBD.setStkTotal(stockTotalDelProducto + cantidad);
-                        // vuelve a ocupar espacio en el almacenamiento
-						almacenamientoEnBD.setVolumen( (int) (almacenamientoEnBD.getVolumen() - cantidad*productoEnBD.getVolumen()) );
-						// actualiza BD
-						productosEJBBean.update(productoEnBD);
-						almacenamientosEJBBean.update(almacenamientoEnBD);
-						
-						movimientosEJBBean.delete(movimiento.getId());
-						movimientosList.remove(movimiento); 
-						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
-						System.out.println("Movimiento borrado exitosamente!");
-						FacesContext.getCurrentInstance().addMessage(null, message);
-						return retPage;
+					// if (tipoMov.toString().equals("P")) {
+						Producto productoEnBD = productosEJBBean.getProducto(movimiento.getProducto().getId());
+						Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(movimiento.getAlmacenamiento().getId());
+			
+							// Significa que ELIMINO un registro de una PERDIDA previamente ingresada de un producto en un almacenamiento
+							double stockTotalDelProducto = productoEnBD.getStkTotal();
+							
+	                        //repone stock del producto
+							productoEnBD.setStkTotal(stockTotalDelProducto + cantidad);
+	                        // vuelve a ocupar espacio en el almacenamiento
+							almacenamientoEnBD.setVolumen( (int) (almacenamientoEnBD.getVolumen() - cantidad*productoEnBD.getVolumen()) );
+							// actualiza BD
+							productosEJBBean.update(productoEnBD);
+							almacenamientosEJBBean.update(almacenamientoEnBD);
+							
+								movimientosEJBBean.delete(movimiento.getId());
+								movimientosList.remove(movimiento); 
+								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
+								System.out.println("Movimiento borrado exitosamente!");
+								FacesContext.getCurrentInstance().addMessage(null, message);
+								return retPage;
+//					
+//					} else {
+//						movimientosEJBBean.delete(movimiento.getId());
+//						movimientosList.remove(movimiento); 
+//						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
+//						System.out.println("Movimiento borrado exitosamente!");
+//						FacesContext.getCurrentInstance().addMessage(null, message);
+//						return retPage;
+//					}
 			}
+			
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Asegurese que no es de tipo Perdida", null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo borrar", null);
 			System.out.println("No se elimino el movimiento");
 			
 		}
@@ -260,7 +267,7 @@ public class MovimientosBean {
 			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().trim().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null || m.getDescripcion().trim().isEmpty()) {
 				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				 System.out.println("Es necesario ingresar todos los datos requeridos row edit");
-				 FacesContext.getCurrentInstance().addMessage(null,  message);
+				 //FacesContext.getCurrentInstance().addMessage(null,  message);
 			} else {
 					
 				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
@@ -271,12 +278,14 @@ public class MovimientosBean {
 				m.setAlmacenamiento(almacenamientosEJBBean.getId(almaId));
 				movimientosEJBBean.update(m);
 				System.out.println("Modificacion de movimiento pasa por rowedit");
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento Modificado exitosamente!", null);
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador.No se pudo modificar el movimiento ", null);
 			System.out.println("No se pudo modificar el movimiento en row edit");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
+	   FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 

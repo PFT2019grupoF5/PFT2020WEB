@@ -8,16 +8,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import org.primefaces.event.RowEditEvent;
-
 import com.entities.Familia;
-import com.entities.Producto;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.FamiliaBeanRemote;
 import com.services.ProductoBeanRemote;
-import com.sun.media.jfxmedia.logging.Logger;
+
 
 @ManagedBean(name = "familia")
 @ViewScoped
@@ -121,9 +118,9 @@ public class FamiliasBean {
 			if (familia == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione una familia a borrar!", null);
 				System.out.println("Seleccione una familia a borrar!");
-				
-			// falta un control si hay productos con familias asociadas
-				
+			} else if (productosEJBBean.getProductosxFam(familia.getId()) > 0){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar la familia porque tiene productos asociados. Elimine primero los productos que tiene la familia", null);
+				System.out.println("No se puede eliminar la familia porque tiene productos asociados. Elimine primero los productos que tiene la familia " + familia.getNombre());
 			} else {
 				familiasEJBBean.delete(familia.getId());
 				familiasList.remove(familia);
@@ -190,18 +187,18 @@ public class FamiliasBean {
 			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
 					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente", null);
-				FacesContext.getCurrentInstance().addMessage(null, message);
 				System.out.println("Debe ingresar todos los datos correctamente");
 			} else {
 				familiasEJBBean.update(f);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
 				System.out.println("Modificacion de familia pasa por row edit");
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la familia.", null);
 			System.out.println("No se pudo modificar la familia en row edit");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
-		
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/

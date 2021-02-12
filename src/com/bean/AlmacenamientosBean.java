@@ -206,14 +206,14 @@ public class AlmacenamientosBean {
 			
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
 			almacenamientosEJBBean.update(a);
-
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente" , null);
 		    System.out.println("Modificacion de Almacenamiento pasa por row edit");
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el almacenamiento", null);
 			System.out.println("No se pudo modificar el almacenamiento en row edit");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
-	   
+	    FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	

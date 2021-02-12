@@ -10,9 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
 import org.primefaces.event.RowEditEvent;
-
 import com.services.FamiliaBeanRemote;
 import com.services.MovimientoBeanRemote;
 import com.services.UsuarioBeanRemote;
@@ -23,6 +21,7 @@ import com.enumerated.Segmentacion;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
 import com.services.ProductoBeanRemote;
+import com.services.RenglonPedidoBeanRemote;
 
 @ManagedBean(name = "producto")
 @ViewScoped
@@ -73,6 +72,9 @@ public class ProductosBean {
 	@EJB
 	private MovimientoBeanRemote movimientosEJBBean;
 
+	@EJB
+	private RenglonPedidoBeanRemote renglonesPedidosEJBBean;
+	
 	public String add() {
 		FacesMessage message;
 		String retPage = "altaProductoPage";
@@ -212,6 +214,10 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder" , null);
 						System.out.println("El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder");
+			} else if (renglonesPedidosEJBBean.getRenglonxPedido(producto.getId()) > 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"El Producto no se puede eliminar porque existen registros de este Producto en Renglones Pedido. Elimíne previamente los Renglones para proceder" , null);
+					System.out.println("El Producto no se puede eliminar porque existen registros de este Producto en Renglones Pedido. Elimíne previamente los Renglones para proceder");
 			} else {
 				productosEJBBean.delete(producto.getId());
 				productosList.remove(producto);
@@ -271,15 +277,15 @@ public class ProductosBean {
 			if (p.getNombre().isEmpty() || p.getLote().isEmpty() || p.getPrecio() == 0 || p.getFelab() == null || p.getFven() == null || p.getPeso() == 0 || p.getVolumen() == 0 || p.getEstiba() == 0 || p.getStkMin() == 0 || p.getStkTotal() == 0 || p.getSegmentac() == null || p.getUsuario() == null || p.getFamilia() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				//FacesContext.getCurrentInstance().addMessage(null, message);
 			} else if (p.getNombre().trim().length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados superan el largo permitido. Por favor revise sus datos" , null);
 				System.out.println("Los datos ingresados superan el largo permitido. Por favor revise sus datos");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				//FacesContext.getCurrentInstance().addMessage(null, message);
 			} else if (p.getFelab().compareTo(p.getFven())>0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de fabricación no puede ser posterior a la de vencimiento" , null);
 				System.out.println("La fecha de fabricación no puede ser posterior a la de vencimiento");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				//FacesContext.getCurrentInstance().addMessage(null, message);
 			} else {
 					
 				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
@@ -288,14 +294,15 @@ public class ProductosBean {
 				p.setFamilia(familiasEJBBean.getId(famId));
 				p.setUsuario(usuariosEJBBean.getId(usuId));
 				productosEJBBean.update(p);
-			    
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
 			    System.out.println("Modificacion de producto paso por row edit");
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El producto no se pudo modificar" , null);
 			System.out.println("No se ejecuto correctamente productosEJBBean.update");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
+	   FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	

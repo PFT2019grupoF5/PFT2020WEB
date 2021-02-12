@@ -139,8 +139,11 @@ public class EntidadesLocBean {
 				e.setTipoloc(tipoLoc);
 				e.setCiudad(ciudadEJBBean.getCiudad(ciudadIdNuevo));
 				entidadLocEJBBean.update(e);
+				
+				//probar si la linea abajo, actualiza la pagina update, si lo hace ponerla en todos los else if
+				entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 	
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! " + nombre, null);
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! ", null);
 				System.out.println("Local ingresado exitosamente!" + "\n" + nombre + "\n" + codigo + "\n" + direccion + "\n" + tipoLoc + "\n" + ciudadIdNuevo);
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				return retPage;
@@ -226,7 +229,11 @@ public class EntidadesLocBean {
 	}
 	
 	public List<EntidadLoc> obtenerTodosEntidadLoc() throws ServiciosException{
+		try {
 			return entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	
@@ -237,18 +244,20 @@ public class EntidadesLocBean {
 		   if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos - row edit");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				//FacesContext.getCurrentInstance().addMessage(null, message);
 		   }else {
 			   Long entLocId = el.getCiudad().getId();
 			   el.setCiudad(ciudadEJBBean.getId(entLocId));
 			   entidadLocEJBBean.update(el);
 			   System.out.println("Modificacion de Local pasa por row edit");
+			   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! " + nombre, null);
 		   }
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el local", null);
 			System.out.println("No se pudo modificar el local en row edit");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+	   FacesContext.getCurrentInstance().addMessage(null, message);
 	   
 	}
 	
