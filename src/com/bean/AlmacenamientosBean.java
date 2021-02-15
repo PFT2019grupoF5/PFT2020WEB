@@ -119,6 +119,7 @@ public class AlmacenamientosBean {
 					a.setCostoop(costoop);
 					a.setCapestiba(capestiba);
 					a.setCappeso(cappeso);
+					
 					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(entidadLocIdNuevo));
 					almacenamientosEJBBean.update(a);
 					
@@ -200,20 +201,31 @@ public class AlmacenamientosBean {
 	public void onRowEdit(RowEditEvent event) {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
 	    FacesMessage message;
+	    
 	    try {
-		
+	    	if(a == null) {
+	    		message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+	    		System.out.println("Almacenamiento no puede estar vacio!");
+	    		FacesContext.getCurrentInstance().addMessage(null, message);
+	    	} else {
+	    		this.update(a.getId(), a.getVolumen(), a.getNombre(), a.getCostoop(), a.getCapestiba(), a.getCappeso(), a.getEntidadLoc().getId());
+			   System.out.println("Pasa datos al update desde rowEdit de AlmacenamientosBean");
+	    	}
+	    	/*
 			Long locId = a.getEntidadLoc().getId();
 			
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
 			almacenamientosEJBBean.update(a);
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente" , null);
 		    System.out.println("Modificacion de Almacenamiento pasa por row edit");
+			*/
+		
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el almacenamiento", null);
-			System.out.println("No se pudo modificar el almacenamiento en row edit");
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el Almacenamiento", null);
+			System.out.println("No se pudo modificar el Almacenamiento en row edit de AlmacenamientosBean");
+		    FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}
-	    FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	

@@ -142,6 +142,7 @@ public class ProductosBean {
 		FacesMessage message;
 		String retPage = "modificarProductoPage";
 		try {
+					
 			if (nombre.trim().isEmpty() || nombre.trim().length() > 50) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios", null);
 				System.out.println("Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios");
@@ -170,29 +171,30 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Producto no existe", null);
 				System.out.println("Producto no existe");
 			} else {
-					Producto p = new Producto();
-		   			p = productosEJBBean.getId(id);
-		   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
-		   			//p.setNombre(nombre);
-		   			p.setLote(lote);
-		   			p.setPrecio(precio);
-		   			p.setFelab(felab);
-		   			p.setFven(fven);
-		   			p.setPeso(peso);
-		   			p.setVolumen(volumen);
-		   			p.setEstiba(estiba);
-		   			p.setStkMin(stkMin);
-		   			p.setStkTotal(stkTotal);
-		   			p.setSegmentac(segmentac);
-		   			p.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
-		   			p.setFamilia(familiasEJBBean.getFamilia(familiaIdNuevo));
-					productosEJBBean.update(p);
-					
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
-					System.out.println("Producto modificado exitosamente!");
-					FacesContext.getCurrentInstance().addMessage(null, message);
-					return retPage;
-				}
+	
+				Producto p = new Producto();
+	   			p = productosEJBBean.getId(id);
+	   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
+	   			//p.setNombre(nombre);
+	   			p.setLote(lote);
+	   			p.setPrecio(precio);
+	   			p.setFelab(felab);
+	   			p.setFven(fven);
+	   			p.setPeso(peso);
+	   			p.setVolumen(volumen);
+	   			p.setEstiba(estiba);
+	   			p.setStkMin(stkMin);
+	   			p.setStkTotal(stkTotal);
+	   			p.setSegmentac(segmentac);
+	   			p.setUsuario(usuariosEJBBean.getUsuario(usuarioIdNuevo));
+	   			p.setFamilia(familiasEJBBean.getFamilia(familiaIdNuevo));
+				productosEJBBean.update(p);
+				
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
+				System.out.println("Producto modificado exitosamente!");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
+			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El producto no se pudo modificar" , null);
 			System.out.println("No se ejecuto correctamente productosEJBBean.update");
@@ -268,12 +270,30 @@ public class ProductosBean {
 
 	}
 
+	public List<Producto> obtenerProductosConMinimo() throws ServiciosException {
+		try {
+			return productosList = productosEJBBean.getProductosConMinimo();
+		}catch (Exception e) {
+			return null;
+		}
+	}
+
+	
 	public void onRowEdit(RowEditEvent event) {
 	    Producto p = (Producto) event.getObject();
 	   
 	    FacesMessage message;
 	    
 	   try {
+		   if(p == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Producto no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(p.getId(), p.getNombre(), p.getLote(), p.getPrecio(), p.getFelab(), p.getFven(), p.getPeso(), p.getVolumen(), p.getEstiba(), p.getStkMin(), p.getStkTotal(), p.getSegmentac(), p.getUsuario().getId(), p.getFamilia().getId());
+			   System.out.println("Pasa datos al update desde rowEdit de ProductosBean");
+		   
+/*		   
 			if (p.getNombre().isEmpty() || p.getLote().isEmpty() || p.getPrecio() == 0 || p.getFelab() == null || p.getFven() == null || p.getPeso() == 0 || p.getVolumen() == 0 || p.getEstiba() == 0 || p.getStkMin() == 0 || p.getStkTotal() == 0 || p.getSegmentac() == null || p.getUsuario() == null || p.getFamilia() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
@@ -296,13 +316,13 @@ public class ProductosBean {
 				productosEJBBean.update(p);
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
 			    System.out.println("Modificacion de producto paso por row edit");
+*/	
 			}
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El producto no se pudo modificar" , null);
-			System.out.println("No se ejecuto correctamente productosEJBBean.update");
-			
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El Producto no se pudo modificar" , null);
+			System.out.println("No se pudo modificar el Producto en row edit de ProductosBean");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-	   FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	

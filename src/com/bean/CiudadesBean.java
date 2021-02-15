@@ -138,11 +138,11 @@ public class CiudadesBean {
 			   FacesContext.getCurrentInstance().addMessage(null, message);
 		   }else {
 			   this.update(c.getId(), c.getNombre());
-			   System.out.println("Pasa datos al update desde rowEdit");
+			   System.out.println("Pasa datos al update desde rowEdit de CiudadesBean");
 		   }
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la ciudad", null);
-			System.out.println("No se pudo modificar la ciudad en row edit");
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la Ciudad", null);
+			System.out.println("No se pudo modificar la Ciudad en row edit de CiudadesBean");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}

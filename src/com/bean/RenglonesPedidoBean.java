@@ -87,12 +87,10 @@ public class RenglonesPedidoBean {
 		FacesMessage message;
 		String retPage = "modificarRenglonPedidoPage";
 		try {
-			if (rennro <= 0 || rencant <= 0 || producto.getId() <= 0 || pedido.getId() <= 0) {
+			
+			if (rennro < 0 || rencant < 0 || producto.getId() <= 0 || pedido.getId() <= 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
-			} else if (!confirmarModificar) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione la casilla de confirmación!", null);
-				System.out.println("Seleccione la casilla de confirmación!");
 			} else if (getId(id) == null) {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "RengloPedido no existe", null);
 					System.out.println("RengloPedido no existe");
@@ -184,8 +182,18 @@ public class RenglonesPedidoBean {
 	
 	public void onRowEdit(RowEditEvent event) {
 	    RenglonPedido rp = (RenglonPedido) event.getObject();
-	   
+	    FacesMessage message;
+
 	   try {
+		   if(rp == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Renglones de Pedidos no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(rp.getId(), rp.getRennro(), rp.getRencant(), rp.getProducto().getId(), rp.getPedido().getId());
+			   System.out.println("Pasa datos al update desde rowEdit de RenglonesPedidoBean");
+		   
+/*
 			if (rp.getRencant() < 0 || rp.getRennro() <0 || rp.getPedido() == null || rp.getProducto() == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
 				System.out.println("Debe ingresar todos los datos correctamente");
@@ -199,11 +207,12 @@ public class RenglonesPedidoBean {
 				renglonesPedidoEJBBean.update(rp);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null));
 			    System.out.println("Renglon de Pedido modificado exitosamente!");  
+*/	
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El renglon de pedidos no se pudo modificar" , null));
-			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.update");
-			
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Renglón del Pedido", null);
+			System.out.println("No se pudo modificar el Renglón en row edit de RenglonesPedidoBean");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 

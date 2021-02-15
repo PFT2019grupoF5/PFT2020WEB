@@ -115,38 +115,39 @@ public class UsuariosBean {
 		FacesMessage message;
 		String retPage = "modificarUsuarioPage";
 		try {
-				if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || tipoPerfil == null || contrasena.trim().isEmpty() || nomAcceso.trim().isEmpty() || correo.trim().isEmpty()) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
-					System.out.println("Es necesario ingresar todos los datos requeridos");
-				} else if (nombre.trim().length() > 50 || apellido.trim().length() > 50) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido.  Por favor revise sus datos" , null);
-					System.out.println("Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
-				} else if (nomAcceso.trim().length() > 30) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo nomAcceso no puede ser mayor a 30 caracteres" , null);
-					System.out.println("Campo nomAcceso no puede ser mayor a 30 caracteres");
-				} else if (correo.trim().length() > 50) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo no puede ser mayor a 50 caracteres" , null);
-					System.out.println("Campo Correo no puede ser mayor a 50 caracteres");
-				} else if (!correo.contains("@")) {
-					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo debe ser del formato : nombre @ dominio" , null);
-					System.out.println("Campo Correo debe ser del formato : nombre @ dominio");
-				} else if (getNomAcceso(nomAcceso.trim()) == null) {
+		
+			if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || tipoPerfil == null || contrasena.trim().isEmpty() || nomAcceso.trim().isEmpty() || correo.trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
+			} else if (nombre.trim().length() > 50 || apellido.trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido.  Por favor revise sus datos" , null);
+				System.out.println("Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
+			} else if (nomAcceso.trim().length() > 30) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo nomAcceso no puede ser mayor a 30 caracteres" , null);
+				System.out.println("Campo nomAcceso no puede ser mayor a 30 caracteres");
+			} else if (correo.trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo no puede ser mayor a 50 caracteres" , null);
+				System.out.println("Campo Correo no puede ser mayor a 50 caracteres");
+			} else if (!correo.contains("@")) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo debe ser del formato : nombre @ dominio" , null);
+				System.out.println("Campo Correo debe ser del formato : nombre @ dominio");
+			} else if (getNomAcceso(nomAcceso.trim()) == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario no existe" , null);
 				System.out.println("Usuario no existe" + nomAcceso);
-				} else {
-					Usuario u = new Usuario();
-					u.setNombre(nombre.trim());
-					u.setApellido(apellido.trim());
-					u.setNomAcceso(nomAcceso.trim());
-					u.setCorreo(correo.trim());
-					u.setTipoPerfil(tipoPerfil);
-					usuariosEJBBean.update(u);
-					
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
-					System.out.println("Usuario modificado exitosamente!");
-					FacesContext.getCurrentInstance().addMessage(null, message);
-					return retPage;
-				}
+			} else {
+				Usuario u = new Usuario();
+				u.setNombre(nombre.trim());
+				u.setApellido(apellido.trim());
+				u.setNomAcceso(nomAcceso.trim());
+				u.setCorreo(correo.trim());
+				u.setTipoPerfil(tipoPerfil);
+				usuariosEJBBean.update(u);
+				
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
+				System.out.println("Usuario modificado exitosamente!");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
+			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar usuario." , null);
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.update");
@@ -251,8 +252,19 @@ public class UsuariosBean {
 	
 	
 	public void onRowEdit(RowEditEvent event) {
-	    Usuario u = (Usuario) event.getObject();
+	   Usuario u = (Usuario) event.getObject();
+	   FacesMessage message;
+	   
 	   try {
+		   if(u == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Usuiario no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(u.getId(), u.getNombre(), u.getApellido(), u.getNomAcceso(), u.getContrasena(), u.getCorreo(), u.getTipoPerfil());
+			   System.out.println("Pasa datos al update desde rowEdit de UsuariosBean");
+
+/*		   
 			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
 				System.out.println("Debe ingresar todos los datos correctamente");
@@ -261,9 +273,12 @@ public class UsuariosBean {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null));
 			    System.out.println("Modificacion de usuario pasa por row edit");
 			}
+*/
+		   }
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar usuario." , null));
-			System.out.println("No se ejecuto correctamente usuariosEJBBean.update");
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Renglón del Pedido", null);
+			System.out.println("No se pudo modificar el Usuario en row edit de UsuariosBean");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
@@ -288,6 +303,7 @@ public class UsuariosBean {
 			Usuario loginUser = usuariosEJBBean.getNA(nomAcceso);
 
 			System.out.println(loginUser);
+			System.out.println(DigestUtils.md5Hex(contrasena));
 			System.out.println(ValidarContrasena(nomAcceso, contrasena));
 			System.out.println("nomAcceso:  " + nomAcceso);
 			

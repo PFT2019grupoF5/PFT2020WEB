@@ -277,6 +277,16 @@ public class PedidosBean {
 		FacesMessage message;
 
 		try {
+		   if(pe == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Pedido no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(pe.getId(), pe.getPedfecestim(), pe.getFecha(), pe.getPedreccodigo(), pe.getPedrecfecha(), pe.getPedreccomentario(), pe.getPedestado(), pe.getUsuario().getId());
+			   System.out.println("Pasa datos al update desde rowEdit de PedidosBean");
+		   }
+			
+/*			
 			// Traigo clase usuario completa por el ID que se seleccionó en el desplegable
 			Long usuId = pe.getUsuario().getId();
 
@@ -285,13 +295,12 @@ public class PedidosBean {
 			pedidosEJBBean.update(pe);
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
 			System.out.println("Se envia modificacion de pedido de row edit");
-			
+*/			
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. Error al modificar un pedido", null);
-			System.out.println("No se ejecuto correctamente pedidosEJBBean.update en rowedit");
-			
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Pedido", null);
+			System.out.println("No se pudo modificar el Pedido en row edit de PedidosBean");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/

@@ -184,6 +184,16 @@ public class FamiliasBean {
 		FacesMessage message;
 
 		try {
+		   if(f == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Familia no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(f.getId(), f.getNombre(), f.getDescrip(), f.getIncompat());
+			   System.out.println("Pasa datos al update desde rowEdit de Familias Bean");
+			
+			
+/*			
 			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
 					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente", null);
@@ -192,13 +202,14 @@ public class FamiliasBean {
 				familiasEJBBean.update(f);
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
 				System.out.println("Modificacion de familia pasa por row edit");
+*/	
+			
 			}
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la familia.", null);
-			System.out.println("No se pudo modificar la familia en row edit");
-			
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la Familia.", null);
+			System.out.println("No se pudo modificar la Familia en row edit");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	/***********************************************************************************************************************************/

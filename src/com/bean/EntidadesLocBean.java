@@ -106,10 +106,10 @@ public class EntidadesLocBean {
 		String retPage="modificarEntidadLocPage";
 		
 		try {
+			  
 			if (codigo <=0 ) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Código no puede ser menor a 0", null);
 				System.out.println("Campo Código no puede ser menor a 0");
-				
 			} else if (nombre.trim().length() > 50 || nombre.trim().isEmpty()) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
 				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
@@ -241,7 +241,16 @@ public class EntidadesLocBean {
 	    EntidadLoc el = (EntidadLoc) event.getObject();
 	    FacesMessage message;
 	   try {
-		   if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
+		   if(el == null) {
+			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
+			   System.out.println("Local no puede estar vacio!");
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+		   }else {
+			   this.update(el.getId(), el.getCodigo(), el.getNombre(), el.getDireccion(), el.getTipoloc(), el.getCiudad().getId());
+			   System.out.println("Pasa datos al update desde rowEdit de EntidadesLocBean");
+
+		   
+		   /*if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos - row edit");
 				//FacesContext.getCurrentInstance().addMessage(null, message);
@@ -251,14 +260,14 @@ public class EntidadesLocBean {
 			   entidadLocEJBBean.update(el);
 			   System.out.println("Modificacion de Local pasa por row edit");
 			   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! " + nombre, null);
+		   */
 		   }
+		   
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el local", null);
-			System.out.println("No se pudo modificar el local en row edit");
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Local", null);
+			System.out.println("No se pudo modificar el Local en row edit de EntidadesLocBean");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-	   FacesContext.getCurrentInstance().addMessage(null, message);
-	   
 	}
 	
 	
