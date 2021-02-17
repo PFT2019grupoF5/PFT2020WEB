@@ -33,16 +33,17 @@ public class EntidadesLocBean {
 	private tipoLoc tipoLoc;
 	private Ciudad ciudad;
 	
-	private EntidadLoc selectedEntidadLoc;
 	private static tipoPerfil perfilLogeado;
 	private List<SelectItem> tiposDeLocal;
 	
 	private Long idCiudad;
+	
+	@SuppressWarnings("unused")
 	private EntidadLoc entLoc;
 	private List <EntidadLoc> entidadLocList;
 	
 	
-	private boolean confirmarBorrado = false;
+	
 	
 	@EJB
 	private EntidadLocBeanRemote entidadLocEJBBean;
@@ -156,7 +157,7 @@ public class EntidadesLocBean {
 		return null;
 	}
 
-	public String delete(EntidadLoc entidadLoc) {
+	public String delete(EntidadLoc entidadLoc) throws ServiciosException {
 		FacesMessage message;
 		String retPage="bajaEntidadLocPage";
 		
@@ -171,7 +172,7 @@ public class EntidadesLocBean {
 			} else {
 				entidadLocEJBBean.delete(entidadLoc.getId());
 				entidadLocList.remove(entidadLoc); 
-				
+				entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, 	"Local borrado exitosamente!", null);
 				System.out.println("Local borrado exitosamente!");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -180,9 +181,11 @@ public class EntidadesLocBean {
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, 	"Contacte al administrador. Asegurese que el local no tenga movimientos asociados", null);
 			System.out.println("No se ejecuto correctamente entidadLocEJBBean.delete");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
 		}
-		return null;
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+		return retPage;
 	}
 
 	public EntidadLoc get() {
@@ -237,37 +240,52 @@ public class EntidadesLocBean {
 	}
 
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    EntidadLoc el = (EntidadLoc) event.getObject();
 	    FacesMessage message;
+	    String retPage="modificarEntidadLocPage";
 	   try {
-		   if(el == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Local no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(el.getId(), el.getCodigo(), el.getNombre(), el.getDireccion(), el.getTipoloc(), el.getCiudad().getId());
-			   System.out.println("Pasa datos al update desde rowEdit de EntidadesLocBean");
-
-		   
-		   /*if(el.getCodigo() == 0 || el.getDireccion().isEmpty() || el.getNombre().isEmpty() || el.getTipoloc() == null || el.getCiudad() == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
-				System.out.println("Es necesario ingresar todos los datos requeridos - row edit");
-				//FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
+		   if (el.getCodigo() <=0 ) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Código no puede ser menor a 0", null);
+				System.out.println("Campo Código no puede ser menor a 0");
+			} else if (el.getNombre().trim().length() > 50 || el.getNombre().trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 50 caracteres");
+			} else if (el.getDireccion().trim().isEmpty() || el.getDireccion().trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,  "Campo Dirección no puede ser vacío o mayor a 50 caracteres", null);
+				System.out.println("Campo Dirección no puede ser vacío o mayor a 50 caracteres");
+			} else if (el.getTipoloc() != com.enumerated.tipoLoc.LOCAL && el.getTipoloc() != com.enumerated.tipoLoc.OTRO && el.getTipoloc() != com.enumerated.tipoLoc.PUNTODEVENTA && el.getTipoloc() != com.enumerated.tipoLoc.REGIONAL) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo tipoLoc no puede ser vacío", null);
+				System.out.println("Campo tipoLoc no puede ser vacío");
+			} else if (el.getCiudad() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo ciudad no puede ser vacío", null);
+				System.out.println("Campo ciudad no puede ser vacío");
+			} else if (getCodigo(el.getCodigo()) != null && el.getCodigo() != entidadLocEJBBean.getId(el.getId()).getCodigo()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un local con ese codigo", null);
+				System.out.println("Ya existe un local con ese codigo");
+			} else if (getNombre(el.getNombre().trim()) != null && !(el.getNombre().equals(entidadLocEJBBean.getId(el.getId()).getNombre())) ) { 
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
+				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro." + "\n" + el.getNombre() + "\n" +  entidadLocEJBBean.getId(el.getId()).getNombre());
+			} else if (getId(el.getId()) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Local no existe", null);
+				System.out.println("Local no existe");
+		   } else {
 			   Long entLocId = el.getCiudad().getId();
 			   el.setCiudad(ciudadEJBBean.getId(entLocId));
 			   entidadLocEJBBean.update(el);
+			   entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 			   System.out.println("Modificacion de Local pasa por row edit");
-			   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! " + nombre, null);
-		   */
+			   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! ", null);
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+			   return retPage;
 		   }
-		   
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Local", null);
-			System.out.println("No se pudo modificar el Local en row edit de EntidadesLocBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el local en row edit", null);
+			System.out.println("No se pudo modificar el local en row edit");
 		}
+	   FacesContext.getCurrentInstance().addMessage(null, message);
+	   entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+	   return retPage;
 	}
 	
 	

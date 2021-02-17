@@ -38,6 +38,7 @@ public class AlmacenamientosBean {
 	private List<Almacenamiento> almacenamientosList;
 	private boolean operacionOK;
 	
+	@SuppressWarnings("unused")
 	private EntidadLoc idLoc;
 	
 	@EJB
@@ -137,7 +138,7 @@ public class AlmacenamientosBean {
 	}
 	
 	
-	public String delete(Almacenamiento almacenamiento) {
+	public String delete(Almacenamiento almacenamiento) throws ServiciosException {
 		FacesMessage message ;
 		String retPage = "bajaAlmacenamientoPage";
 		
@@ -151,7 +152,7 @@ public class AlmacenamientosBean {
 				}else{
 					almacenamientosEJBBean.delete(almacenamiento.getId());
 					almacenamientosList.remove(almacenamiento); 
-					
+					almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento borrado exitosamente!", null);
 					System.out.println("Almacenamiento borrado exitosamente!");
 					FacesContext.getCurrentInstance().addMessage(null, message);
@@ -162,7 +163,8 @@ public class AlmacenamientosBean {
 			System.out.println("No se puede eliminar la Familia. Asegurese que no tenga Productos asociados");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
+		return retPage;
 	}
 
 	public Almacenamiento get() {
@@ -198,34 +200,43 @@ public class AlmacenamientosBean {
 	}
 	
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    Almacenamiento a = (Almacenamiento) event.getObject();
 	    FacesMessage message;
-	    
+	    String retPage="modificarAlmacenamientoPage";
 	    try {
-	    	if(a == null) {
-	    		message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-	    		System.out.println("Almacenamiento no puede estar vacio!");
-	    		FacesContext.getCurrentInstance().addMessage(null, message);
-	    	} else {
-	    		this.update(a.getId(), a.getVolumen(), a.getNombre(), a.getCostoop(), a.getCapestiba(), a.getCappeso(), a.getEntidadLoc().getId());
-			   System.out.println("Pasa datos al update desde rowEdit de AlmacenamientosBean");
-	    	}
-	    	/*
+	    	if (a.getVolumen() <= 0 || a.getCostoop() <= 0 || a.getCapestiba() <= 0 || a.getCappeso() <= 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.", null);
+				System.out.println("Los campos numéricos deben ser mayores a 0. Por favor, revise sus datos.");
+			} else if (a.getNombre().trim().length() > 250 || a.getNombre().trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios", null);
+				System.out.println("Campo Nombre no puede ser vacío o mayor a 250 caracteres o contener solo espacios");
+			} else if (a.getEntidadLoc() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Local no puede ser vacío", null);
+				System.out.println("Campo Local no puede ser vacío");
+			} else if (getNombre(a.getNombre().trim()) != null && !(a.getNombre().equals(almacenamientosEJBBean.getId(a.getId()).getNombre()))) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un Local con ese nombre. Por favor ingrese otro.", null);
+				System.out.println("Ya existe un Local con ese nombre. Por favor ingrese otro.");
+			} else if (getId(a.getId()) == null ) {
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Almacenamiento no existe",	null);
+				System.out.println("Almacenamiento no existe" );
+			} else {
 			Long locId = a.getEntidadLoc().getId();
-			
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
 			almacenamientosEJBBean.update(a);
+			almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente" , null);
 		    System.out.println("Modificacion de Almacenamiento pasa por row edit");
-			*/
-		
+		    FacesContext.getCurrentInstance().addMessage(null, message);
+			return retPage;
+			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Contacte al administrador. No se pudo modificar el Almacenamiento", null);
 			System.out.println("No se pudo modificar el Almacenamiento en row edit de AlmacenamientosBean");
-		    FacesContext.getCurrentInstance().addMessage(null, message);
-			
 		}
+	    FacesContext.getCurrentInstance().addMessage(null, message);
+		almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
+		return retPage;
 	}
 
 	

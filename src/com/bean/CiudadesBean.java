@@ -100,7 +100,7 @@ public class CiudadesBean {
 	}
 
 	
-	public String delete(Ciudad ciudad) {
+	public String delete(Ciudad ciudad) throws ServiciosException {
 		FacesMessage message;
 		String retPage = "bajaCiudadPage";
 		
@@ -114,7 +114,7 @@ public class CiudadesBean {
 			} else {
 					ciudadesEJBBean.delete(ciudad.getId());
 					ciudadesList.remove(ciudad); 
-					
+					ciudadesList = ciudadesEJBBean.getAllCiudades();
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad borrada exitosamente!",  null);
 					System.out.println("Ciudad borrada exitosamente!");
 					FacesContext.getCurrentInstance().addMessage(null, message);
@@ -125,30 +125,51 @@ public class CiudadesBean {
 			System.out.println("No se puede eliminar la Ciudad. Asegurese que no tenga Locales asociados");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
+		ciudadesList = ciudadesEJBBean.getAllCiudades();
 		return null;
 	}
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    Ciudad c = (Ciudad) event.getObject();
 	    FacesMessage message;
-	   try {
-		   if(c == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Ciudad no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(c.getId(), c.getNombre());
-			   System.out.println("Pasa datos al update desde rowEdit de CiudadesBean");
+	    String retPage = "modificarCiudadPage";
+	    try {
+		   if (c.getNombre().trim().length() > 50 || c.getNombre().trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios", null);
+				System.out.println("Campo Nombre no puede ser vacío, ser mayor a 50 caracteres o contener solo espacios");
+			}else if (get2(c.getNombre().trim()) != null && !(c.getNombre().equals(ciudadesEJBBean.getId(c.getId()).getNombre()))) { 
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una ciudad con el nombre ", null);
+				System.out.println("Ya existe una ciudad con el nombre ");
+			}else if (getId(c.getId()) == null){
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: Ciudad no existe", null);
+				System.out.println("Se intento modificar una ciudad que no existe:");
+			}else{ 
+			ciudadesEJBBean.update(c);
+			ciudadesList = ciudadesEJBBean.getAllCiudades();
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);
+			System.out.println("Pasa datos al update desde rowEdit de CiudadesBean");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return retPage;
 		   }
-		} catch (Exception e) {
+	    } catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la Ciudad", null);
 			System.out.println("No se pudo modificar la Ciudad en row edit de CiudadesBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+	    }
+	   FacesContext.getCurrentInstance().addMessage(null, message);
+	   ciudadesList = ciudadesEJBBean.getAllCiudades();
+	   return retPage;
 	}
 	
 	
 	public Ciudad get() {
+		try {
+			return ciudadesEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Ciudad getId(Long id) {
 		try {
 			return ciudadesEJBBean.getId(id);
 		} catch (Exception e) {

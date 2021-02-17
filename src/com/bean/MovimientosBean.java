@@ -41,15 +41,13 @@ public class MovimientosBean {
 
 	private static tipoPerfil perfilLogeado;
 
-	private Movimiento selectedMovimiento;
 	private List<SelectItem> tiposDeMov;
 
 	private Long idProducto;
 	private Long idAlmacenamiento;
 
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
-	
+
+	@SuppressWarnings("unused")
 	private Movimiento mov;
 	private List<Movimiento> movimientosList;
 
@@ -178,14 +176,13 @@ public class MovimientosBean {
 		return null;
 	}
 
-	public String delete(Movimiento movimiento) {
+	public String delete(Movimiento movimiento) throws ServiciosException {
 		FacesMessage message = null ;
 		String retPage = "bajaMovimientoPage";
 		try {
 			if (movimiento == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione Un Movimiento a borrar!", null);
 				System.out.println("Seleccione Un Movimiento a borrar!");
-				
 			} else {
 					
 					//Si es una PERDIDA, se deben actualizar stocks y espacios de almacenamiento
@@ -208,6 +205,7 @@ public class MovimientosBean {
 							
 								movimientosEJBBean.delete(movimiento.getId());
 								movimientosList.remove(movimiento); 
+								movimientosList = movimientosEJBBean.getAllMovimientos();
 								message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
 								System.out.println("Movimiento borrado exitosamente!");
 								FacesContext.getCurrentInstance().addMessage(null, message);
@@ -217,6 +215,7 @@ public class MovimientosBean {
 						// Si es una C-Compra o un M-Movimiento se puede borrar y no hay que actualizar nada
 						movimientosEJBBean.delete(movimiento.getId());
 						movimientosList.remove(movimiento); 
+						movimientosList = movimientosEJBBean.getAllMovimientos();
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento borrado exitosamente!", null);
 						System.out.println("Movimiento borrado exitosamente!");
 						FacesContext.getCurrentInstance().addMessage(null, message);
@@ -230,11 +229,20 @@ public class MovimientosBean {
 			
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		movimientosList = movimientosEJBBean.getAllMovimientos();
+		return retPage;
 	}
 
 	
 	public Movimiento get() {
+		try {
+			return movimientosEJBBean.getId(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Movimiento getId(Long id) {
 		try {
 			return movimientosEJBBean.getId(id);
 		} catch (Exception e) {
@@ -267,44 +275,45 @@ public class MovimientosBean {
 		}
 	}
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    Movimiento m = (Movimiento) event.getObject();
-	    
 	    FacesMessage message;
-	    
-	   try {
-		   if(m == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Movimiento no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(m.getId(), m.getFecha(), m.getCantidad(), m.getDescripcion(), m.getCosto(), m.getTipoMov(), m.getProducto(), m.getAlmacenamiento());
-			   System.out.println("Pasa datos al update desde rowEdit de Movimientos");
-		   }
-		   
-		   /*
-			if (m.getFecha() == null || m.getCantidad() == 0 || m.getDescripcion().trim().isEmpty() || m.getCosto() == 0 || m.getTipoMov() == null || m.getProducto() == null || m.getAlmacenamiento() == null || m.getDescripcion().trim().isEmpty()) {
-				 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
-				 System.out.println("Es necesario ingresar todos los datos requeridos row edit");
-				 //FacesContext.getCurrentInstance().addMessage(null,  message);
+	    String retPage = "modificarMovimientoPage";
+	    try {
+	    	if (m.getFecha() == null || m.getCantidad() <= 0 || m.getCosto() <= 0 || m.getTipoMov() == null || m.getProducto() == null
+					|| m.getAlmacenamiento() == null || m.getDescripcion().trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
+			} else if (m.getDescripcion().trim().length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Descripcion no puede ser mayor a 250 caracteres", null);
+				System.out.println("Campo Descripcion no puede ser mayor a 250 caracteres");
+			} else if (m.getTipoMov().toString().equals("P")) {
+				// Si es PERDIDA no se permite MODIFICACION
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No es posible modificar un movimiento tipo Perdida", null);
+				System.out.println("No es posible modificar un movimiento tipo Perdida");
+			}else if (getId(m.getId()) == null){
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar. Movimiento no existe", null);
+				System.out.println("Se intento modificar una movimiento que no existe:");
 			} else {
-					
-				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
 				Long prodId = m.getProducto().getId();
 				Long almaId = m.getAlmacenamiento().getId();
 				
 				m.setProducto(productosEJBBean.getId(prodId));
 				m.setAlmacenamiento(almacenamientosEJBBean.getId(almaId));
 				movimientosEJBBean.update(m);
+				movimientosList = movimientosEJBBean.getAllMovimientos();
 				System.out.println("Modificacion de movimiento pasa por rowedit");
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento Modificado exitosamente!", null);
-			}*/
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
+			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Movimiento", null);
 			System.out.println("No se pudo modificar el Movimiento en row edit de MovimientosBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			
 		}
+	    FacesContext.getCurrentInstance().addMessage(null, message);
+	    movimientosList = movimientosEJBBean.getAllMovimientos();
+	    return retPage;
 	}
 
 

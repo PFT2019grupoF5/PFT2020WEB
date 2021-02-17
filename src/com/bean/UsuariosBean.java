@@ -12,8 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.event.RowEditEvent;
-
-import com.entities.Familia;
 import com.entities.Usuario;
 import com.enumerated.tipoPerfil;
 import com.exception.ServiciosException;
@@ -49,8 +47,8 @@ public class UsuariosBean {
 	private Usuario selectedUsuario;
 	
 	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
-	
+
+	@SuppressWarnings("unused")
 	private Usuario usu;
 
 	
@@ -157,7 +155,7 @@ public class UsuariosBean {
 	}
 	
 	
-	public String delete(Usuario usuario) {
+	public String delete(Usuario usuario) throws ServiciosException {
 		FacesMessage message;
 		String retPage = "bajaUsuarioPage";
 		try {
@@ -173,7 +171,7 @@ public class UsuariosBean {
 			} else {
 				usuariosEJBBean.delete(usuario.getId());
 				usuariosList.remove(usuario);
-				
+				usuariosList = usuariosEJBBean.getAllUsuarios();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado exitosamente!", null);
 				System.out.println("Usuario borrado exitosamente!");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -184,12 +182,21 @@ public class UsuariosBean {
 			System.out.println("No se ejecuto correctamente usuariosEJBBean.delete");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		usuariosList = usuariosEJBBean.getAllUsuarios();
+		return retPage;
 	}
 
 	public Usuario get() {
 		try {
 			return usuariosEJBBean.getNA(nomAcceso);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Usuario getId(Long id) {
+		try {
+			return usuariosEJBBean.getId(id);
 		} catch (Exception e) {
 			return null;
 		}
@@ -251,35 +258,47 @@ public class UsuariosBean {
 
 	
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	   Usuario u = (Usuario) event.getObject();
 	   FacesMessage message;
-	   
-	   try {
-		   if(u == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Usuiario no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
+	   String retPage = "modificarUsuarioPage";
+		try {
+			if (u.getNombre().trim().isEmpty() || u.getApellido().trim().isEmpty() || u.getTipoPerfil() == null || u.getContrasena().trim().isEmpty() || u.getNomAcceso().trim().isEmpty() || u.getCorreo().trim().isEmpty()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
+			} else if (u.getNombre().trim().length() > 50 || u.getApellido().trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados, superan el largo permitido.  Por favor revise sus datos" , null);
+				System.out.println("Los datos ingresados, superan el largo permitido.  Por favor revise sus datos");
+			} else if (u.getNomAcceso().trim().length() > 30) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo nomAcceso no puede ser mayor a 30 caracteres" , null);
+				System.out.println("Campo nomAcceso no puede ser mayor a 30 caracteres");
+			} else if (u.getCorreo().trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo no puede ser mayor a 50 caracteres" , null);
+				System.out.println("Campo Correo no puede ser mayor a 50 caracteres");
+			} else if (!u.getCorreo().contains("@")) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo Correo debe ser del formato : nombre @ dominio" , null);
+				System.out.println("Campo Correo debe ser del formato : nombre @ dominio");
+			} else if (getId(u.getId()) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no existe" , null);
+				System.out.println("Usuario no existe");
+			} else if (getNomAcceso(u.getNomAcceso().trim()) != null && !(u.getNombre().equals(usuariosEJBBean.getId(u.getId()).getNomAcceso()))) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un usuario con ese nombre" , null);
+				System.out.println("Ya existe un usuario con ese nombre");
 		   }else {
-			   this.update(u.getId(), u.getNombre(), u.getApellido(), u.getNomAcceso(), u.getContrasena(), u.getCorreo(), u.getTipoPerfil());
-			   System.out.println("Pasa datos al update desde rowEdit de UsuariosBean");
-
-/*		   
-			if (u.getNombre().isEmpty() || u.getNombre().length() > 50 || u.getApellido().isEmpty() || u.getApellido().length() > 50 || u.getNomAcceso().isEmpty() || u.getNomAcceso().length() > 50 || u.getCorreo().isEmpty() || u.getCorreo().length() > 50 || u.getTipoPerfil() == null) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
-				System.out.println("Debe ingresar todos los datos correctamente");
-			} else {
 				usuariosEJBBean.update(u);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null));
+				usuariosList = usuariosEJBBean.getAllUsuarios();
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
 			    System.out.println("Modificacion de usuario pasa por row edit");
+			    FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
 			}
-*/
-		   }
 		} catch (Exception e) {
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Renglón del Pedido", null);
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Usuario", null);
 			System.out.println("No se pudo modificar el Usuario en row edit de UsuariosBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		usuariosList = usuariosEJBBean.getAllUsuarios();
+		return retPage;
 	}
 
 	public void onRowDelete(RowEditEvent event) {

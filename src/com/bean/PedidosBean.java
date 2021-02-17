@@ -36,20 +36,17 @@ public class PedidosBean {
 
 	private static tipoPerfil perfilLogeado;
 
-	private Pedido selectedPedido;
 	private List<SelectItem> estadoDelPedido;
 
 	private Long idUsuario;
-	private Usuario idUsu;
 
 	// edit
+	@SuppressWarnings("unused")
 	private Pedido ped;
 	private List<Pedido> pedidosList;
 
 	private List<Pedido> listaPedidoReporteFechas;
 
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
 
 	private Date fechaIni;
 	private Date fechaFin;
@@ -140,9 +137,8 @@ public class PedidosBean {
 		return null;
 	}
 
-	public String delete(Pedido pedido) {
+	public String delete(Pedido pedido) throws ServiciosException {
 		FacesMessage message;
-		
 		String retPage = "bajaPedidoPage";
 		try {
 			if (pedido == null) {
@@ -154,7 +150,7 @@ public class PedidosBean {
 			} else {
 					pedidosEJBBean.delete(pedido.getId());
 					pedidosList.remove(pedido);
-					
+					pedidosList = pedidosEJBBean.getAllPedidos();
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido borrado exitosamente!" , null);
 					System.out.println("Pedido borrado exitosamente!");
 					FacesContext.getCurrentInstance().addMessage(null, message);
@@ -165,7 +161,8 @@ public class PedidosBean {
 			System.out.println("No se ejecuto correctamente pedidosEJBBean.delete");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		pedidosList = pedidosEJBBean.getAllPedidos();
+		return retPage;
 	}
 
 	public Pedido get() {
@@ -271,36 +268,41 @@ public class PedidosBean {
 		
 	}
 
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 		Pedido pe = (Pedido) event.getObject();
-
 		FacesMessage message;
-
+		String retPage = "modificarPedidoPage";
 		try {
-		   if(pe == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Pedido no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(pe.getId(), pe.getPedfecestim(), pe.getFecha(), pe.getPedreccodigo(), pe.getPedrecfecha(), pe.getPedreccomentario(), pe.getPedestado(), pe.getUsuario().getId());
-			   System.out.println("Pasa datos al update desde rowEdit de PedidosBean");
-		   }
-			
-/*			
-			// Traigo clase usuario completa por el ID que se seleccionó en el desplegable
-			Long usuId = pe.getUsuario().getId();
-
-			pe.setUsuario(usuariosEJBBean.getId(usuId));
-
-			pedidosEJBBean.update(pe);
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
-			System.out.println("Se envia modificacion de pedido de row edit");
-*/			
+			if (pe.getPedfecestim() == null || pe.getFecha() == null || pe.getPedreccodigo() <= 0 || pe.getPedreccomentario().trim().isEmpty() || pe.getPedestado() == null || pe.getUsuario() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos" , null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
+			}else if(pe.getPedreccomentario().trim().length() > 250) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El comentario no puede ser mayor a 250 caracteres", null);
+				System.out.println("El comentario no puede ser mayor a 250 caracteres");
+			} else if (estadoPedido.E.equals(pe.getPedestado())) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado" , null);
+				System.out.println("El Pedido solo puede ser modificado mientras se encuentra en estado de Listo o Gestionado");
+				//faltaria una division, para que permita modificar a tipo E y no desde tipo E (solo modificar el estado en el segundo caso, desde E a otro tipo)??
+			} else if (getId(pe.getId()) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido no existe" , null);
+				System.out.println("Pedido no existe");
+			}else {
+				Long usuId = pe.getUsuario().getId();
+				pe.setUsuario(usuariosEJBBean.getId(usuId));
+				pedidosEJBBean.update(pe);
+				pedidosList = pedidosEJBBean.getAllPedidos();
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
+				System.out.println("Se envia modificacion de pedido de row edit");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return retPage;
+			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Pedido", null);
 			System.out.println("No se pudo modificar el Pedido en row edit de PedidosBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		pedidosList = pedidosEJBBean.getAllPedidos();
+		return retPage;
 	}
 
 	/***********************************************************************************************************************************/

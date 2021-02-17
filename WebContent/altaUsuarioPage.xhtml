@@ -100,7 +100,8 @@
 							<h:outputText value="Correo:" />
 							<p:inputText id="correo"
 								value="#{usuario.correo}" required="true" requiredMessage=" Debe ingresar un Correo" validatorMessage=" El formato de correo es texto@texto.texto">
-								<f:validateRegex pattern="[\w\.-]*[a-zA-ZÀ-ž0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/></p:inputText>
+								<f:validateRegex pattern="[\w\.-]*[a-zA-ZÀ-ž0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+								<f:validateLength maximum = "50" /></p:inputText>
 								<h:message for="correo" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>

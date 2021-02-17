@@ -29,10 +29,7 @@ public class FamiliasBean {
 	private static tipoPerfil perfilLogeado;
 
 	private List<Familia> familiasList;
-	private Familia selectedFamilia;
 
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
 
 	@EJB
 	private FamiliaBeanRemote familiasEJBBean;
@@ -124,7 +121,7 @@ public class FamiliasBean {
 			} else {
 				familiasEJBBean.delete(familia.getId());
 				familiasList.remove(familia);
-
+				familiasList = familiasEJBBean.getAllFamilias();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Familia borrada exitosamente!", null);
 				System.out.println("Familia borrada exitosamente!");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -135,7 +132,8 @@ public class FamiliasBean {
 			System.out.println("No se puede eliminar la Familia. Asegurese que no tenga Productos asociados");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		familiasList = familiasEJBBean.getAllFamilias();
+		return retPage;
 	}
 
 	public Familia get() {
@@ -178,38 +176,35 @@ public class FamiliasBean {
 		}
 	}
 
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 		Familia f = (Familia) event.getObject();
-
 		FacesMessage message;
-
+		String retPage = "modificarFamiliaPage";
 		try {
-		   if(f == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Familia no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(f.getId(), f.getNombre(), f.getDescrip(), f.getIncompat());
-			   System.out.println("Pasa datos al update desde rowEdit de Familias Bean");
-			
-			
-/*			
-			if (f.getNombre().isEmpty() || f.getNombre().length() > 50 || f.getDescrip().isEmpty()
-					|| f.getDescrip().length() > 100 || f.getIncompat().isEmpty() || f.getIncompat().length() > 60) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente", null);
-				System.out.println("Debe ingresar todos los datos correctamente");
-			} else {
-				familiasEJBBean.update(f);
-				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
-				System.out.println("Modificacion de familia pasa por row edit");
-*/	
-			
-			}
-		} catch (Exception e) {
+			if (f.getNombre().trim().isEmpty() || f.getNombre().trim().length() > 50 || f.getDescrip().trim().isEmpty() || f.getDescrip().trim().length() > 100	|| f.getIncompat().trim().isEmpty() || f.getIncompat().trim().length() > 60) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe llenar todos los datos!", null);
+				System.out.println("Debe llenar todos los datos!");
+			}else if (getNombre(f.getNombre().trim()) != null && !(f.getNombre().equals(familiasEJBBean.getId(f.getId()).getNombre()))) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe una Familia con ese nombre", null);
+				System.out.println("Ya existe una Familia con ese nombre: " + nombre);
+			}else if (getId(f.getId()) == null){
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar. Familia no existe", null);
+				System.out.println("Se intento modificar una familia que no existe:");
+			}else {
+			   	familiasEJBBean.update(f);
+			   	familiasList = familiasEJBBean.getAllFamilias();
+			   	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
+			   	System.out.println("Pasa datos al update desde rowEdit de Familias Bean");
+			   	FacesContext.getCurrentInstance().addMessage(null, message);
+			   	return retPage;
+				}
+			} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar la Familia.", null);
 			System.out.println("No se pudo modificar la Familia en row edit");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		familiasList = familiasEJBBean.getAllFamilias();
+		return retPage;
 	}
 
 	/***********************************************************************************************************************************/
@@ -250,6 +245,7 @@ public class FamiliasBean {
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo obtener las familias", null);
 			System.out.println("No se pudo obtener las familias");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		
 	}

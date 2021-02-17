@@ -10,8 +10,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
-
-import com.entities.Movimiento;
 import com.entities.Pedido;
 import com.entities.Producto;
 import com.entities.RenglonPedido;
@@ -35,15 +33,12 @@ public class RenglonesPedidoBean {
 
 	private static tipoPerfil perfilLogeado;
 
-	private Movimiento selectedRenglonPedido;
 
 	private Long idProducto;
 	private Long idPedido;
 
 
 	private List<RenglonPedido> listaRenglonPedido;
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
 
 	@EJB
 	private RenglonPedidoBeanRemote renglonesPedidoEJBBean;
@@ -115,7 +110,7 @@ public class RenglonesPedidoBean {
 		return null;
 	}
 
-	public String delete(RenglonPedido renglonPedido) {
+	public String delete(RenglonPedido renglonPedido) throws ServiciosException {
 		FacesMessage message;
 		String retPage = "bajaRenglonPedidoPage";
 		try {
@@ -125,7 +120,7 @@ public class RenglonesPedidoBean {
 			} else {
 				renglonesPedidoEJBBean.delete(renglonPedido.getId());
 				listaRenglonPedido.remove(renglonPedido);
-				
+				listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon borrado exitosamente!", null);
 				System.out.println("Renglon borrado exitosamente!");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -136,6 +131,7 @@ public class RenglonesPedidoBean {
 			System.out.println("No se ejecuto correctamente renglonesPedidoEJBBean.delete");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
+		listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
 		return retPage;
 	}
 
@@ -180,40 +176,36 @@ public class RenglonesPedidoBean {
 	}
 	
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    RenglonPedido rp = (RenglonPedido) event.getObject();
 	    FacesMessage message;
-
-	   try {
-		   if(rp == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Renglones de Pedidos no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(rp.getId(), rp.getRennro(), rp.getRencant(), rp.getProducto().getId(), rp.getPedido().getId());
-			   System.out.println("Pasa datos al update desde rowEdit de RenglonesPedidoBean");
-		   
-/*
-			if (rp.getRencant() < 0 || rp.getRennro() <0 || rp.getPedido() == null || rp.getProducto() == null) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe ingresar todos los datos correctamente" , null));
-				System.out.println("Debe ingresar todos los datos correctamente");
-				
+	    String retPage = "modificarRenglonPedidoPage";
+	    try {
+		   if (rp.getRennro() <= 0 || rp.getRencant() <= 0 || rp.getProducto() == null || rp.getPedido() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
+				System.out.println("Es necesario ingresar todos los datos requeridos");
+			} else if (getId(rp.getId()) == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "RengloPedido no existe", null);
+				System.out.println("RengloPedido no existe");
 			} else {	
 				Long proId = rp.getProducto().getId();
 				Long pedId = rp.getPedido().getId();
 				rp.setProducto(productoEJBBean.getId(proId));
 				rp.setPedido(pedidosEJBBean.getId(pedId));
-				
 				renglonesPedidoEJBBean.update(rp);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null));
+				listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
+				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null);
 			    System.out.println("Renglon de Pedido modificado exitosamente!");  
-*/	
+			    FacesContext.getCurrentInstance().addMessage(null, message);
+			    return retPage;
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo modificar el Renglón del Pedido", null);
 			System.out.println("No se pudo modificar el Renglón en row edit de RenglonesPedidoBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+	    FacesContext.getCurrentInstance().addMessage(null, message);
+	    listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
+	    return retPage;
 	}
 
 	/***********************************************************************************************************************************/

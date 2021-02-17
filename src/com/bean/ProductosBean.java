@@ -46,14 +46,12 @@ public class ProductosBean {
 	private static tipoPerfil perfilLogeado;
 	private List<SelectItem> segmentaciones;
 
-	private Producto selectedProducto;
 
-	private boolean confirmarBorrado = false;
-	private boolean confirmarModificar = false;
 
 	// Para buscar Familia y Usuario en el add y en edit
 	private Long idUsuario;
 	private Long idFamilia;
+	@SuppressWarnings("unused")
 	private Usuario idUsu;
 
 	// edit
@@ -205,7 +203,7 @@ public class ProductosBean {
 
 
 	
-	public String delete(Producto producto) {
+	public String delete(Producto producto) throws ServiciosException {
 		FacesMessage message; 
 		String retPage = "bajaProductoPage";
 		try {
@@ -223,7 +221,7 @@ public class ProductosBean {
 			} else {
 				productosEJBBean.delete(producto.getId());
 				productosList.remove(producto);
-
+				productosList = productosEJBBean.getAllProductos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Producto borrado exitosamente!" , null);
 				System.out.println("Producto borrado exitosamente!");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -234,7 +232,8 @@ public class ProductosBean {
 			System.out.println("No se ejecuto correctamente productosEJBBean.delete");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		return null;
+		productosList = productosEJBBean.getAllProductos();
+		return retPage;
 	}
 
 	public Producto get() {
@@ -279,50 +278,62 @@ public class ProductosBean {
 	}
 
 	
-	public void onRowEdit(RowEditEvent event) {
+	public String onRowEdit(RowEditEvent event) throws ServiciosException {
 	    Producto p = (Producto) event.getObject();
-	   
 	    FacesMessage message;
-	    
-	   try {
-		   if(p == null) {
-			   message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: Esta pasando datos vacios", null);
-			   System.out.println("Producto no puede estar vacio!");
-			   FacesContext.getCurrentInstance().addMessage(null, message);
-		   }else {
-			   this.update(p.getId(), p.getNombre(), p.getLote(), p.getPrecio(), p.getFelab(), p.getFven(), p.getPeso(), p.getVolumen(), p.getEstiba(), p.getStkMin(), p.getStkTotal(), p.getSegmentac(), p.getUsuario().getId(), p.getFamilia().getId());
-			   System.out.println("Pasa datos al update desde rowEdit de ProductosBean");
-		   
-/*		   
-			if (p.getNombre().isEmpty() || p.getLote().isEmpty() || p.getPrecio() == 0 || p.getFelab() == null || p.getFven() == null || p.getPeso() == 0 || p.getVolumen() == 0 || p.getEstiba() == 0 || p.getStkMin() == 0 || p.getStkTotal() == 0 || p.getSegmentac() == null || p.getUsuario() == null || p.getFamilia() == null) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
-				System.out.println("Es necesario ingresar todos los datos requeridos");
-				//FacesContext.getCurrentInstance().addMessage(null, message);
-			} else if (p.getNombre().trim().length() > 50) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los datos ingresados superan el largo permitido. Por favor revise sus datos" , null);
-				System.out.println("Los datos ingresados superan el largo permitido. Por favor revise sus datos");
-				//FacesContext.getCurrentInstance().addMessage(null, message);
-			} else if (p.getFelab().compareTo(p.getFven())>0) {
+	    String retPage = "modificarProductoPage";
+		try {
+			if (p.getNombre().trim().isEmpty() || p.getNombre().trim().length() > 50) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios", null);
+				System.out.println("Revise el campo nombre, no puede ser vacío, contener más de 50 caracteres o solo espacios");
+			}else if (p.getPrecio() <= 0 || p.getPeso() <= 0 || p.getVolumen() <= 0 || p.getEstiba() <= 0 || p.getStkMin() <= 0 || p.getStkTotal() <= 0) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos numéricos no pueden ser inferior a 0 y son obligatorios" , null);
+				System.out.println("Los campos numéricos no pueden ser inferior a 0 y son obligatorios");
+			}else if (p.getLote().trim().isEmpty() || p.getSegmentac() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Los campos Lote y Segmentación son obligatorios" , null);
+				System.out.println("Los campos Lote y Segmentación son obligatorios");
+			}else if (p.getLote().trim().length()>10) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El campo Lote no puede sobrepasar los 10 caracteres" , null);
+				System.out.println("El campo Lote no puede sobrepasar los 10 caracteres");
+			}else if (p.getUsuario() == null || p.getFamilia() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los campos Usuario y Familia son obligatorios" , null);
+				System.out.println("Los campos Usuario y Familia son obligatorios");
+			}else if (p.getFelab() == null || p.getFven() == null) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de fabricación y vencimiento se deben ingresar en formato dd/mm/aa" , null);
+				System.out.println("La fecha de fabricación y vencimiento se deben ingresar en formato dd/mm/aa");
+			}else if (p.getFelab().compareTo(p.getFven()) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de fabricación no puede ser posterior a la de vencimiento" , null);
 				System.out.println("La fecha de fabricación no puede ser posterior a la de vencimiento");
-				//FacesContext.getCurrentInstance().addMessage(null, message);
+			}else if (p.getStkMin() > p.getStkTotal()) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El stock minimo no puede ser mayor al total" , null);
+				System.out.println("El stock minimo no puede ser mayor al total");
+			}else if (getNombre(p.getNombre().trim()) != null && !(p.getNombre().equals(productosEJBBean.getId(p.getId()).getNombre()))) {
+				// El nombre igual no se puede cambiar, pero se hace comprobacion igualmente, mejor que sobre y no que falte
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un producto con ese nombre", null);
+				System.out.println("Ya existe un producto con ese nombre");
+			}else if (p.getId() == null){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe ese producto", null);
+				System.out.println("Producto no existe");
 			} else {
-					
 				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
 				Long usuId = p.getUsuario().getId();
 				Long famId = p.getFamilia().getId();
 				p.setFamilia(familiasEJBBean.getId(famId));
 				p.setUsuario(usuariosEJBBean.getId(usuId));
 				productosEJBBean.update(p);
+				productosList = productosEJBBean.getAllProductos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
 			    System.out.println("Modificacion de producto paso por row edit");
-*/	
+			    FacesContext.getCurrentInstance().addMessage(null, message);
+			    return retPage;
 			}
 		} catch (Exception e) {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. El Producto no se pudo modificar" , null);
 			System.out.println("No se pudo modificar el Producto en row edit de ProductosBean");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		productosList = productosEJBBean.getAllProductos();
+		return retPage;
 	}
 
 	
