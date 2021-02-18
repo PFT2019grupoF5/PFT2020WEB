@@ -56,6 +56,9 @@ public class RenglonesPedidoBean {
 			if (rennro <= 0 || rencant <= 0 || idProducto == null || idPedido == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Es necesario ingresar todos los datos requeridos", null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
+			} else if (getRen(rennro) != null){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe ese numero de renglon", null);
+				System.out.println("Ya existe ese numero de renglon");
 			} else {
 					RenglonPedido r = new RenglonPedido();
 					r.setRennro(rennro);
@@ -150,6 +153,14 @@ public class RenglonesPedidoBean {
 			return null;
 		}
 	}
+	public RenglonPedido getRen(int rennro) {
+		try {
+			return renglonesPedidoEJBBean.getRen(rennro);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 
 	public List<RenglonPedido> getAll() {
 		try {
@@ -184,6 +195,9 @@ public class RenglonesPedidoBean {
 		   if (rp.getRennro() <= 0 || rp.getRencant() <= 0 || rp.getProducto() == null || rp.getPedido() == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Es necesario ingresar todos los datos requeridos" , null);
 				System.out.println("Es necesario ingresar todos los datos requeridos");
+		   } else if (getRen(rp.getRennro()) != null){
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe ese numero de renglon", null);
+				System.out.println("Ya existe ese numero de renglon");
 			} else if (getId(rp.getId()) == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "RengloPedido no existe", null);
 				System.out.println("RengloPedido no existe");

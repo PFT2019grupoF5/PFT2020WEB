@@ -85,7 +85,7 @@
 							<h:outputText value="Contraseña:" />
 							<p:password id="contrasena"
 								value="#{usuario.contrasena}" required="true" requiredMessage=" Debe ingresar una Contraseña" validatorMessage=" La contraseña requiere 1 de numero/letra mayuscula/letra minuscula y entre 8 y 16 caracteres, sin espacios">
-								<f:validateRegex pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}"/></p:password>
+								<f:validateRegex pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$"/></p:password>
 								<h:message for="contrasena" style="color:red" />
 							<p:spacer width="5px"></p:spacer>
 						</p:column>

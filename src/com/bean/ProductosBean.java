@@ -214,7 +214,7 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder" , null);
 						System.out.println("El Producto no se puede eliminar porque existe un registro de Perdida de este Producto en Movimientos. Elimínelo previamente de Movimientos para proceder");
-			} else if (renglonesPedidosEJBBean.getRenglonxPedido(producto.getId()) > 0) {
+			} else if (renglonesPedidosEJBBean.getRenglonxProducto(producto.getId()) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"El Producto no se puede eliminar porque existen registros de este Producto en Renglones Pedido. Elimíne previamente los Renglones para proceder" , null);
 					System.out.println("El Producto no se puede eliminar porque existen registros de este Producto en Renglones Pedido. Elimíne previamente los Renglones para proceder");
