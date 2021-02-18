@@ -16,10 +16,6 @@
     <f:viewAction action="#{usuario.chequearPerfil()}" />
 </f:metadata>
 
-		<p:panel>
-			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
-		</p:panel>
-
 
 	<h:body>
 			<div style="clear: both">
@@ -27,6 +23,14 @@
 			<p:spacer width="10px"></p:spacer>
 
 		</div>
+
+		<p:panel>
+			<h3 align="center">Reporte de Pedidos entre Fechas</h3>
+			<p>Fecha/Hora: <span id="datetime"></span></p><script>var dt = new Date();
+			document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
+		</p:panel>
+		
+
 		<h:form id="form">
 
 		
