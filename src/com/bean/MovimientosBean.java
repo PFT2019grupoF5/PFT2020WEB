@@ -40,13 +40,10 @@ public class MovimientosBean {
 	private Almacenamiento almacenamiento;
 
 	private static tipoPerfil perfilLogeado;
-
 	private List<SelectItem> tiposDeMov;
 
 	private Long idProducto;
 	private Long idAlmacenamiento;
-
-
 	@SuppressWarnings("unused")
 	private Movimiento mov;
 	private List<Movimiento> movimientosList;
@@ -177,7 +174,7 @@ public class MovimientosBean {
 	}
 
 	public String delete(Movimiento movimiento) throws ServiciosException {
-		FacesMessage message = null ;
+		FacesMessage message;
 		String retPage = "bajaMovimientoPage";
 		try {
 			if (movimiento == null) {
@@ -186,7 +183,8 @@ public class MovimientosBean {
 			} else {
 					
 					//Si es una PERDIDA, se deben actualizar stocks y espacios de almacenamiento
-					if (tipoMov.toString().equals("P")) {
+					if (movimiento.getTipoMov().toString().equals("P")) {
+
 						Producto productoEnBD = productosEJBBean.getProducto(movimiento.getProducto().getId());
 						Almacenamiento almacenamientoEnBD = almacenamientosEJBBean.getAlmacenamiento(movimiento.getAlmacenamiento().getId());
 			
@@ -220,10 +218,13 @@ public class MovimientosBean {
 						System.out.println("Movimiento borrado exitosamente!");
 						FacesContext.getCurrentInstance().addMessage(null, message);
 						return retPage;
+						
 					}
+					
 			}
 			
 		} catch (Exception e) {
+
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se pudo borrar", null);
 			System.out.println("No se elimino el movimiento");
 			
