@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.RowEditEvent;
@@ -22,7 +23,8 @@ import com.services.RenglonPedidoBeanRemote;
 import com.services.UsuarioBeanRemote;
 
 @ManagedBean(name = "pedido")
-@SessionScoped
+@ViewScoped
+
 public class PedidosBean {
 
 	private Long id;
@@ -35,9 +37,9 @@ public class PedidosBean {
 	private Usuario usuario;
 
 	private static tipoPerfil perfilLogeado;
-
 	private List<SelectItem> estadoDelPedido;
 
+	// Para buscar Usuario en el add y en edit
 	private Long idUsuario;
 
 	// edit
@@ -46,7 +48,6 @@ public class PedidosBean {
 	private List<Pedido> pedidosList;
 
 	private List<Pedido> listaPedidoReporteFechas;
-
 
 	private Date fechaIni;
 	private Date fechaFin;
