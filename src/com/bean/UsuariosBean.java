@@ -327,7 +327,7 @@ public class UsuariosBean {
 			System.out.println("nomAcceso:  " + nomAcceso);
 			
 			if (nomAcceso != null && loginUser != null && contrasena != null && ValidarContrasena(nomAcceso, DigestUtils.md5Hex(contrasena))) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido: " + nomAcceso, null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido: " + nomAcceso + "\n" + loginUser.getTipoPerfil().toString() , null));
 				
 				perfilLogeado = loginUser.getTipoPerfil();
 				System.out.println("El usuario ingreso " + loginUser);
