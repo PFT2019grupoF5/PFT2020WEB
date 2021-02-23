@@ -24,6 +24,7 @@ import com.services.UsuarioBeanRemote;
 @ViewScoped
 public class UsuariosBean {
 	
+	
 	private Long id;
 	private String nombre;
 	private String apellido;
