@@ -98,9 +98,9 @@ public class ProductosBean {
 			} else if (felab.compareTo(fven) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de fabricación no puede ser posterior a la de vencimiento" , null);
 				System.out.println("La fecha de fabricación no puede ser posterior a la de vencimiento");
-			} else if (stkMin > stkTotal) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El stock minimo no puede ser mayor al total" , null);
-				System.out.println("El stock minimo no puede ser mayor al total");
+			//} else if (stkMin > stkTotal) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El stock minimo no puede ser mayor al total" , null);
+			//	System.out.println("El stock minimo no puede ser mayor al total");
 			} else if (getNombre(nombre.trim()) != null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Producto ya existe. Por favor revise sus datos." , null);
 				System.out.println("El producto ya existe");	
@@ -304,9 +304,9 @@ public class ProductosBean {
 			}else if (p.getFelab().compareTo(p.getFven()) > 0) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de fabricación no puede ser posterior a la de vencimiento" , null);
 				System.out.println("La fecha de fabricación no puede ser posterior a la de vencimiento");
-			}else if (p.getStkMin() > p.getStkTotal()) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El stock minimo no puede ser mayor al total" , null);
-				System.out.println("El stock minimo no puede ser mayor al total");
+			//}else if (p.getStkMin() > p.getStkTotal()) {
+			//	message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El stock minimo no puede ser mayor al total" , null);
+			//	System.out.println("El stock minimo no puede ser mayor al total");
 			}else if (getNombre(p.getNombre().trim()) != null && !(p.getNombre().equals(productosEJBBean.getId(p.getId()).getNombre()))) {
 				// El nombre igual no se puede cambiar, pero se hace comprobacion igualmente, mejor que sobre y no que falte
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un producto con ese nombre", null);
