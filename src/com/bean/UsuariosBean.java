@@ -23,7 +23,6 @@ import com.services.UsuarioBeanRemote;
 @ManagedBean(name = "usuario")
 @ViewScoped
 public class UsuariosBean {
-
 	
 	private Long id;
 	private String nombre;
