@@ -227,7 +227,7 @@ public class AlmacenamientosBean {
 			a.setEntidadLoc(entidadLocEJBBean.getId(locId));
 			a.setNombre(a.getNombre().trim());			
 			almacenamientosEJBBean.update(a);
-			almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
+			//almacenamientosList = almacenamientosEJBBean.getAllAlmacenamientos();
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento modificado exitosamente" , null);
 		    System.out.println("Modificacion de Almacenamiento pasa por row edit");
 		    FacesContext.getCurrentInstance().addMessage(null, message);

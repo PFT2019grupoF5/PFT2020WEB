@@ -293,7 +293,7 @@ public class PedidosBean {
 				pe.setUsuario(usuariosEJBBean.getId(usuId));
 				pe.setPedreccomentario(pe.getPedreccomentario().trim());
 				pedidosEJBBean.update(pe);
-				pedidosList = pedidosEJBBean.getAllPedidos();
+				//pedidosList = pedidosEJBBean.getAllPedidos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);
 				System.out.println("Se envia modificacion de pedido de row edit");
 				FacesContext.getCurrentInstance().addMessage(null, message);

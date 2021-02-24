@@ -172,7 +172,7 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Producto no existe", null);
 				System.out.println("Producto no existe");
 			} else {
-	
+				
 				Producto p = new Producto();
 	   			//comente esto 20210224 p = productosEJBBean.getId(id);
 	   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
@@ -324,7 +324,7 @@ public class ProductosBean {
 				p.setUsuario(usuariosEJBBean.getId(usuaId));
 				p.setFamilia(familiasEJBBean.getId(famiId));
 				productosEJBBean.update(p);
-				productosList = productosEJBBean.getAllProductos();
+				//productosList = productosEJBBean.getAllProductos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
 			    System.out.println("Modificacion de producto paso por row edit");
 			    FacesContext.getCurrentInstance().addMessage(null, message);

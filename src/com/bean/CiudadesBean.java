@@ -146,7 +146,7 @@ public class CiudadesBean {
 			}else{ 
 			c.setNombre(c.getNombre().trim());
 			ciudadesEJBBean.update(c);
-			ciudadesList = ciudadesEJBBean.getAllCiudades();
+			//ciudadesList = ciudadesEJBBean.getAllCiudades();
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);
 			System.out.println("Pasa datos al update desde rowEdit de CiudadesBean");
 			FacesContext.getCurrentInstance().addMessage(null, message);

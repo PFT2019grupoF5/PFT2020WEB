@@ -277,7 +277,7 @@ public class EntidadesLocBean {
 			   el.setNombre(el.getNombre().trim());
 			   el.setDireccion(el.getDireccion().trim());
 			   entidadLocEJBBean.update(el);
-			   entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
+			   //entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 			   System.out.println("Modificacion de Local pasa por row edit");
 			   message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local modificado exitosamente! ", null);
 			   FacesContext.getCurrentInstance().addMessage(null, message);

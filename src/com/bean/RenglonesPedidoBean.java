@@ -210,7 +210,7 @@ public class RenglonesPedidoBean {
 				rp.setProducto(productoEJBBean.getId(proId));
 				rp.setPedido(pedidosEJBBean.getId(pedId));
 				renglonesPedidoEJBBean.update(rp);
-				listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
+				//listaRenglonPedido = renglonesPedidoEJBBean.getAllRenglonesPedido();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Renglon Modificado exitosamente!", null);
 			    System.out.println("Renglon de Pedido modificado exitosamente!");  
 			    FacesContext.getCurrentInstance().addMessage(null, message);

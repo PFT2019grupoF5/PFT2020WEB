@@ -304,7 +304,7 @@ public class MovimientosBean {
 				
 				m.setDescripcion(m.getDescripcion().trim());
 				movimientosEJBBean.update(m);
-				movimientosList = movimientosEJBBean.getAllMovimientos();
+				//movimientosList = movimientosEJBBean.getAllMovimientos();
 				System.out.println("Modificacion de movimiento pasa por rowedit");
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Movimiento Modificado exitosamente!", null);
 				FacesContext.getCurrentInstance().addMessage(null, message);

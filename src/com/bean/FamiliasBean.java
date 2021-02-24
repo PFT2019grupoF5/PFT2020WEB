@@ -195,7 +195,7 @@ public class FamiliasBean {
 				f.setDescrip(f.getDescrip().trim());
 				f.setIncompat(f.getIncompat().trim());
 			   	familiasEJBBean.update(f);
-			   	familiasList = familiasEJBBean.getAllFamilias();
+			   	//familiasList = familiasEJBBean.getAllFamilias();
 			   	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);
 			   	System.out.println("Pasa datos al update desde rowEdit de Familias Bean");
 			   	FacesContext.getCurrentInstance().addMessage(null, message);

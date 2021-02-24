@@ -292,7 +292,7 @@ public class UsuariosBean {
 				u.setCorreo(u.getCorreo().trim());
 				u.setContrasena(u.getContrasena().trim());
 			    usuariosEJBBean.update(u);
-				usuariosList = usuariosEJBBean.getAllUsuarios();
+				//usuariosList = usuariosEJBBean.getAllUsuarios();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
 			    System.out.println("Modificacion de usuario pasa por row edit");
 			    FacesContext.getCurrentInstance().addMessage(null, message);
