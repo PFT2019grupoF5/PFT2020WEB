@@ -134,6 +134,7 @@ public class UsuariosBean {
 				System.out.println("Usuario no existe" + nomAcceso);
 			} else {
 				Usuario u = new Usuario();
+				u.setId(id);
 				u.setNombre(nombre.trim());
 				u.setApellido(apellido.trim());
 				u.setNomAcceso(nomAcceso.trim());
@@ -281,11 +282,12 @@ public class UsuariosBean {
 			} else if (getId(u.getId()) == null) {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no existe" , null);
 				System.out.println("Usuario no existe");
-			} else if (getNomAcceso(u.getNomAcceso().trim()) != null && !(u.getNombre().equals(usuariosEJBBean.getId(u.getId()).getNomAcceso()))) {
-				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un usuario con ese nombre" , null);
+			} else if (getNomAcceso(u.getNomAcceso().trim()) != null && !(u.getNomAcceso().equals(usuariosEJBBean.getId(u.getId()).getNomAcceso()))) {
+				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ya existe un usuario con ese nombre de acceso" , null);
 				System.out.println("Ya existe un usuario con ese nombre");
 		   }else {
-				usuariosEJBBean.update(u);
+				u.setNombre(u.getNombre().trim());
+			    usuariosEJBBean.update(u);
 				usuariosList = usuariosEJBBean.getAllUsuarios();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
 			    System.out.println("Modificacion de usuario pasa por row edit");
