@@ -291,6 +291,7 @@ public class PedidosBean {
 			}else {
 				Long usuId = pe.getUsuario().getId();
 				pe.setUsuario(usuariosEJBBean.getId(usuId));
+				pe.setPedreccomentario(pe.getPedreccomentario().trim());
 				pedidosEJBBean.update(pe);
 				pedidosList = pedidosEJBBean.getAllPedidos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido Modificado exitosamente!" , null);

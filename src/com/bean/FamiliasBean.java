@@ -191,6 +191,9 @@ public class FamiliasBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar. Familia no existe", null);
 				System.out.println("Se intento modificar una familia que no existe:");
 			}else {
+				f.setNombre(f.getNombre().trim());
+				f.setDescrip(f.getDescrip().trim());
+				f.setIncompat(f.getIncompat().trim());
 			   	familiasEJBBean.update(f);
 			   	familiasList = familiasEJBBean.getAllFamilias();
 			   	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico correctamente la familia", null);

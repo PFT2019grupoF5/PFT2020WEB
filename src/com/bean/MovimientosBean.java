@@ -301,6 +301,8 @@ public class MovimientosBean {
 				
 				m.setProducto(productosEJBBean.getId(prodId));
 				m.setAlmacenamiento(almacenamientosEJBBean.getId(almaId));
+				
+				m.setDescripcion(m.getDescripcion().trim());
 				movimientosEJBBean.update(m);
 				movimientosList = movimientosEJBBean.getAllMovimientos();
 				System.out.println("Modificacion de movimiento pasa por rowedit");

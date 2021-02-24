@@ -144,6 +144,7 @@ public class CiudadesBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al Modificar: Ciudad no existe", null);
 				System.out.println("Se intento modificar una ciudad que no existe:");
 			}else{ 
+			c.setNombre(c.getNombre().trim());
 			ciudadesEJBBean.update(c);
 			ciudadesList = ciudadesEJBBean.getAllCiudades();
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ciudad modificada exitosamente!", null);

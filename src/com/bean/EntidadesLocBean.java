@@ -274,6 +274,8 @@ public class EntidadesLocBean {
 		   } else {
 			   Long entLocId = el.getCiudad().getId();
 			   el.setCiudad(ciudadEJBBean.getId(entLocId));
+			   el.setNombre(el.getNombre().trim());
+			   el.setDireccion(el.getDireccion().trim());
 			   entidadLocEJBBean.update(el);
 			   entidadLocList = entidadLocEJBBean.getAllEntidadesLoc();
 			   System.out.println("Modificacion de Local pasa por row edit");

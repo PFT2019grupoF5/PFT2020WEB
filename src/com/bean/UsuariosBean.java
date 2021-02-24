@@ -287,6 +287,10 @@ public class UsuariosBean {
 				System.out.println("Ya existe un usuario con ese nombre");
 		   }else {
 				u.setNombre(u.getNombre().trim());
+				u.setApellido(u.getApellido().trim());
+				u.setNomAcceso(u.getNomAcceso().trim());
+				u.setCorreo(u.getCorreo().trim());
+				u.setContrasena(u.getContrasena().trim());
 			    usuariosEJBBean.update(u);
 				usuariosList = usuariosEJBBean.getAllUsuarios();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado exitosamente!", null);
