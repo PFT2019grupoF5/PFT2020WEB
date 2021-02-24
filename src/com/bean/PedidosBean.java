@@ -72,13 +72,15 @@ public class PedidosBean {
 				System.out.println("El comentario no puede ser mayor a 250 caracteres");
 			} else {
 					Pedido pe = new Pedido();
+					Usuario usuarioEnBD = usuariosEJBBean.getUsuario(idUsuario);
+					
 					pe.setPedfecestim(pedfecestim);
 					pe.setFecha(fecha);
 					pe.setPedreccodigo(pedreccodigo);
 					pe.setPedrecfecha(pedrecfecha);
 					pe.setPedreccomentario(pedreccomentario.trim());
 					pe.setPedestado(pedestado);
-					pe.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
+					pe.setUsuario(usuarioEnBD);
 					pedidosEJBBean.add(pe);
 
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Pedido se creo correctamente" , null);

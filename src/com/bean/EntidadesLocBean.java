@@ -82,11 +82,13 @@ public class EntidadesLocBean {
 				System.out.println("Ya existe un local con el nombre: " + nombre);
 			} else {
 					EntidadLoc e = new EntidadLoc();
+					Ciudad ciudadEnBD = ciudadEJBBean.getCiudad(idCiudad);
+					
 					e.setCodigo(codigo);
 					e.setNombre(nombre.trim());
 					e.setDireccion(direccion.trim());
 					e.setTipoloc(tipoLoc);
-					e.setCiudad(ciudadEJBBean.getCiudad(idCiudad));
+					e.setCiudad(ciudadEnBD);
 					entidadLocEJBBean.add(e);
 					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Local ingresado exitosamente! " + nombre, null);

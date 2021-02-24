@@ -70,12 +70,14 @@ public class AlmacenamientosBean {
 				System.out.println("Ya existe un almacenamiento con el nombre: " + nombre);
 			} else {
 					Almacenamiento a = new Almacenamiento();
+					EntidadLoc entidadLocEnBd = entidadLocEJBBean.getEntidadLoc(idEntidadLoc); 
+							
 					a.setVolumen(volumen);
 					a.setNombre(nombre.trim());
 					a.setCostoop(costoop);
 					a.setCapestiba(capestiba);
 					a.setCappeso(cappeso);
-					a.setEntidadLoc(entidadLocEJBBean.getEntidadLoc(idEntidadLoc));
+					a.setEntidadLoc(entidadLocEnBd);
 					almacenamientosEJBBean.add(a);
 
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Almacenamiento ingresado exitosamente! " + nombre, null);

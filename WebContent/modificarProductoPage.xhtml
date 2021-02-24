@@ -41,7 +41,7 @@
 		editable="true" >
  
 		<p:ajax event="rowEdit" listener="#{producto.onRowEdit}"   update=":form:msgs" 
-						immediate="true" />
+						 />
 		
 		<p:column headerText="Id">
 			<f:facet name="output">
@@ -201,12 +201,8 @@
 
 		<p:column headerText="Usuario">
 			<p:selectOneMenu  id="usuario" value="#{produc.usuario.id}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage=" Debe seleccionar un Usuario">
-				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"   />
- 				<f:selectItems var="u" 
- 					value="#{usuario.usuariosList}" 
- 					itemLabel="#{u.nombre}" 
- 					itemValue="#{u.id}" />
-				
+				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
+ 				<f:selectItems var="u" value="#{usuario.usuariosList}" itemLabel="#{u.nombre}" itemValue="${u.id}" />
 			</p:selectOneMenu>
 			<h:message for="usuario" style="color:white" />
         </p:column>
@@ -214,11 +210,7 @@
 		<p:column headerText="Familia">
 			<p:selectOneMenu  id="familia" value="#{produc.familia.id}" filter="true" filterMatchMode="startsWith"  required="true" requiredMessage=" Debe seleccionar una Familia">
 				<f:selectItem itemLabel="Seleccione..."  itemValue="" noSelectionOption="true"/>
- 				<f:selectItems value="#{familia.familiasList}" 
- 					var="f" 
- 					itemLabel="#{f.nombre}" 
- 					itemValue="#{f.id}" />
- 				
+ 				<f:selectItems var="f" value="#{familia.familiasList}" itemLabel="#{f.nombre}" itemValue="${f.id}" />
  			</p:selectOneMenu>
  			<h:message for="familia" style="color:white" />	
         </p:column> 

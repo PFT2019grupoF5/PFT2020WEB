@@ -25,9 +25,8 @@ import com.services.RenglonPedidoBeanRemote;
 
 @ManagedBean(name = "producto")
 @ViewScoped
-
-
 public class ProductosBean {
+	
 	private Long id;
 	private String nombre;
 	private String lote;
@@ -105,7 +104,11 @@ public class ProductosBean {
 				message = new FacesMessage(FacesMessage.SEVERITY_WARN, "El Producto ya existe. Por favor revise sus datos." , null);
 				System.out.println("El producto ya existe");	
 			} else {
+				
 					Producto p = new Producto();
+					Usuario usuarioEnBD = usuariosEJBBean.getUsuario(idUsuario);
+					Familia familiaEnBd = familiasEJBBean.getFamilia(idFamilia); 
+					
 		   			p.setNombre(nombre.trim());
 		   			p.setLote(lote.trim());
 		   			p.setPrecio(precio);
@@ -117,8 +120,8 @@ public class ProductosBean {
 		   			p.setStkMin(stkMin);
 		   			p.setStkTotal(stkTotal);
 		   			p.setSegmentac(segmentac);
-		   			p.setUsuario(usuariosEJBBean.getUsuario(idUsuario));
-		   			p.setFamilia(familiasEJBBean.getFamilia(idFamilia));
+		   			p.setUsuario(usuarioEnBD);
+		   			p.setFamilia(familiaEnBd);
 					productosEJBBean.add(p);
 					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Producto ingresado exitosamente! " + nombre, null);
@@ -171,7 +174,7 @@ public class ProductosBean {
 			} else {
 	
 				Producto p = new Producto();
-	   			p = productosEJBBean.getId(id);
+	   			//comente esto 20210224 p = productosEJBBean.getId(id);
 	   			//Por requerimiento RF002 en Modificacion No se permitira cambiar el nombre
 	   			//p.setNombre(nombre);
 	   			p.setLote(lote);
@@ -316,10 +319,10 @@ public class ProductosBean {
 				System.out.println("Producto no existe");
 			} else {
 				//Traigo clases usuario y familia completas por el ID que se seleccionó en el desplegable
-				Long usuId = p.getUsuario().getId();
-				Long famId = p.getFamilia().getId();
-				p.setFamilia(familiasEJBBean.getId(famId));
-				p.setUsuario(usuariosEJBBean.getId(usuId));
+				Long usuaId = p.getUsuario().getId();
+				Long famiId = p.getFamilia().getId();
+				p.setUsuario(usuariosEJBBean.getId(usuaId));
+				p.setFamilia(familiasEJBBean.getId(famiId));
 				productosEJBBean.update(p);
 				productosList = productosEJBBean.getAllProductos();
 				message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto modificado exitosamente!", null);
@@ -352,7 +355,7 @@ public class ProductosBean {
 				productosList = obtenerTodosProductos();
 				System.out.println("Se creo la lista para la segmentacion");
 			}	
-			idUsu = usuariosEJBBean.getId(id);
+
 			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al administrador. No se creo la lista de segmentacion" , null));

@@ -61,10 +61,13 @@ public class RenglonesPedidoBean {
 				System.out.println("Ya existe ese numero de renglon");
 			} else {
 					RenglonPedido r = new RenglonPedido();
+					Producto productoEnBD = productoEJBBean.getProducto(idProducto);
+					Pedido pedidoEnBD = pedidosEJBBean.getPedido(idPedido); 
+							
 					r.setRennro(rennro);
 					r.setRencant(rencant);
-					r.setProducto(productoEJBBean.getProducto(idProducto));
-					r.setPedido(pedidosEJBBean.getPedido(idPedido));
+					r.setProducto(productoEnBD);
+					r.setPedido(pedidoEnBD);
 					renglonesPedidoEJBBean.add(r);
 					
 					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El Renglón se creo correctamente", null);
